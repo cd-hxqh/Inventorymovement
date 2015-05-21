@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">库存管理</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="content_hint">Content</string>
+    <string name="drawer_hint">Drawer</string>
+    <string name="rounded">See Rounded</string>
+    <string name="squared">See Squared</string>
+</resources>

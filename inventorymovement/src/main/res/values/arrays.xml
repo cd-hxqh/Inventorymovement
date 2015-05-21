@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="item_text">
+        <item name="item_0">主项目</item>
+        <item name="item_1">入库管理</item>
+        <item name="item_2">出库管理</item>
+        <item name="item_3">库存盘点</item>
+        <item name="item_4">库存转移</item>
+        <item name="item_5">条码打印</item>
+        <item name="item_6">库存使用情况</item>
+        <item name="item_7">物质编码申请</item>
+        <item name="item_8">设置</item>
+        <item name="item_9">退出</item>
+    </string-array>
+
+</resources>
