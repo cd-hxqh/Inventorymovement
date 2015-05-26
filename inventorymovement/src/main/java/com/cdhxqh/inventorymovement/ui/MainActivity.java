@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.cdhxqh.inventorymovement;
+package com.cdhxqh.inventorymovement.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,9 +28,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cdhxqh.inventorymovement.ui.adapter.DrawerAdapter;
+import com.cdhxqh.inventorymovement.ui.fragment.ContentFragment;
+import com.cdhxqh.inventorymovement.ui.wight.DrawerArrowDrawable;
+import com.cdhxqh.inventorymovement.R;
+
 import static android.view.Gravity.START;
 
-public class DrawerArrowSample extends Activity implements OnItemClickListener {
+public class MainActivity extends BaseActivity implements OnItemClickListener {
     private static final String TAG = "DrawerArrowSample";
     private DrawerArrowDrawable drawerArrowDrawable;
     private float offset;
@@ -48,7 +51,7 @@ public class DrawerArrowSample extends Activity implements OnItemClickListener {
     private String mTitle;
 
     private ListView mDrawerList;
-    private ArrayAdapter<String> adapter;
+    private DrawerAdapter adapter;
     private String[] arrays;
 
     @Override
@@ -58,7 +61,6 @@ public class DrawerArrowSample extends Activity implements OnItemClickListener {
         initView();
         setEvent();
         mTitle = (String) getTitle();
-        Log.i(TAG,"mTitle="+mTitle);
     }
 
     private void initView() {
@@ -130,9 +132,7 @@ public class DrawerArrowSample extends Activity implements OnItemClickListener {
             }
         });
 
-        arrays = getResources().getStringArray(R.array.item_text);
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item_text,
-                arrays);
+        adapter = new DrawerAdapter(this);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(this);
 
@@ -141,10 +141,10 @@ public class DrawerArrowSample extends Activity implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                             long arg3) {
-        titleTextView.setText(arrays[position]);
+        titleTextView.setText(adapter.getTitle(position));
         Fragment contentFragment = new ContentFragment();
         Bundle args = new Bundle();
-        args.putString("text", arrays[position]);
+        args.putString("text", adapter.getTitle(position));
         contentFragment.setArguments(args);
 
         FragmentManager fm = getFragmentManager();

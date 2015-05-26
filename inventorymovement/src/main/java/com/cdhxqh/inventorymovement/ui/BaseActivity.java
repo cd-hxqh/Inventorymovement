@@ -12,7 +12,8 @@ public class BaseActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        //添加Activity到堆栈
+        AppManager.getAppManager().addActivity(this);
     }
 
 
@@ -36,5 +37,12 @@ public class BaseActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //结束Activity&从堆栈中移除
+        AppManager.getAppManager().finishActivity(this);
     }
 }

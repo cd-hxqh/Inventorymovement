@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,8 +14,37 @@ public class LoadActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
+        new Thread() {
+
+
+            @Override
+            public void run() {
+                super.run();
+                try
+                {
+                    sleep(3000);//挂起3秒
+                    jumpLoginActivity();
+                }
+                catch (InterruptedException e)
+                {
+                    return;
+                }
+
+
+            }
+
+
+        }.start();
     }
 
+    /**
+     * 跳转至登录界面*
+     */
+    private void jumpLoginActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, LoginActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

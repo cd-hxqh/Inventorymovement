@@ -1,4 +1,4 @@
-package com.cdhxqh.inventorymovement;
+package com.cdhxqh.inventorymovement.ui.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.cdhxqh.inventorymovement.R;
 
 public class ContentFragment extends Fragment {
     private TextView textView;
