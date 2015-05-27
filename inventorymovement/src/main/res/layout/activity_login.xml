@@ -31,77 +31,57 @@
     </LinearLayout>
 
 
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
-    <ScrollView
-        android:id="@+id/login_form"
-
+    <LinearLayout
+        android:id="@+id/email_login_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
+        <EditText
+            android:id="@+id/login_username_edit"
+            android:layout_width="@dimen/dimen_280"
+            android:layout_height="@dimen/dimen_50"
+            android:drawableLeft="@drawable/ic_user"
+            android:background="@drawable/textfield_default"
+            android:hint="@string/prompt_user"
+            android:singleLine="true"
+            android:textColor="#222222" />
+
+        <EditText
+            android:id="@+id/login_password_edit"
+            android:layout_width="@dimen/dimen_280"
+            android:layout_height="@dimen/dimen_50"
+            android:drawableLeft="@drawable/ic_password"
+            android:background="@drawable/textfield_default"
+            android:hint="@string/prompt_password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="#222222"
+            />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="95dp"
+            android:checked="false"
+            android:text="@string/rember_password" />
+
+        <Button
+            android:id="@+id/login_login_btn"
+            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_20"
-
-            android:orientation="vertical">
-
-            <AutoCompleteTextView
-                android:id="@+id/user_id"
-                android:layout_width="@dimen/dimen_280"
-                android:layout_height="@dimen/dimen_60"
-                android:layout_marginLeft="@dimen/dimen_60"
-                android:background="@drawable/textfield_default"
-                android:drawableLeft="@drawable/ic_user"
-                android:hint="@string/prompt_user"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="@dimen/dimen_280"
-                android:layout_height="@dimen/dimen_60"
-                android:layout_marginLeft="@dimen/dimen_60"
-                android:layout_marginTop="@dimen/dimen_20"
-                android:background="@drawable/textfield_default"
-                android:drawableLeft="@drawable/ic_password"
-                android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_60"
-                android:checked="false"
-                android:text="@string/rember_password" />
-
-            <Button
-                android:id="@+id/sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/sign_button"
-                android:textStyle="bold" />
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginRight="@dimen/dimen_20"
+            android:layout_marginTop="16dp"
+            android:text="@string/sign_button"
+            android:textStyle="bold" />
 
 
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 
 </LinearLayout>

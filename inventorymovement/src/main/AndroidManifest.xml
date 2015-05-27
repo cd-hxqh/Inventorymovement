@@ -14,13 +14,17 @@
         android:theme="@style/SampleTheme" >
         <activity
             android:name=".ui.MainActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".ui.BaseActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_base" />
         <activity
             android:name=".ui.LoadActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +34,10 @@
         </activity>
         <activity
             android:name=".ui.LoginActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:screenOrientation="portrait"
+             >
         </activity>
     </application>
 
