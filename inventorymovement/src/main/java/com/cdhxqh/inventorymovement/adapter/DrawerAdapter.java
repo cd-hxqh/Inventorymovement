@@ -1,4 +1,4 @@
-package com.cdhxqh.inventorymovement.ui.adapter;
+package com.cdhxqh.inventorymovement.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

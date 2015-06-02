@@ -1,9 +1,10 @@
-package com.cdhxqh.inventorymovement.ui;
-
+package com.cdhxqh.inventorymovement;
 
 
 import android.app.Activity;
+
 import java.util.Stack;
+
 import android.app.ActivityManager;
 import android.content.Context;
 
@@ -80,7 +81,7 @@ public class AppManager {
     /**
      * 结束所有Activity
      */
-    public void finishAllActivity() {
+    public static void finishAllActivity() {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i)) {
                 activityStack.get(i).finish();
@@ -92,12 +93,12 @@ public class AppManager {
     /**
      * 退出应用程序
      */
-    public void AppExit(Context context) {
+    public static void AppExit(Context context) {
         try {
             finishAllActivity();
             ActivityManager activityMgr = (ActivityManager) context
                     .getSystemService(Context.ACTIVITY_SERVICE);
-			/*
+            /*
 			 * 2.2以后使用killBackgroundProcesses <uses-permission
 			 * android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
 			 */

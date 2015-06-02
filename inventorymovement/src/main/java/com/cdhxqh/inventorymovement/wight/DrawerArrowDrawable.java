@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.cdhxqh.inventorymovement.ui.wight;
+package com.cdhxqh.inventorymovement.wight;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -77,7 +77,7 @@ public class DrawerArrowDrawable extends Drawable {
     }
   }
 
-  /** Draws a line between two {@link com.learn.inventorymovement.DrawerArrowDrawable.JoinedPath}s at distance {@code parameter} along each path. */
+  /** Draws a line between two {@link com.learn.inventorymovement.wight.DrawerArrowDrawable.JoinedPath}s at distance {@code parameter} along each path. */
   private class BridgingLine {
 
     private final JoinedPath pathA;

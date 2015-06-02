@@ -23,15 +23,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.cdhxqh.inventorymovement.ui.adapter.DrawerAdapter;
-import com.cdhxqh.inventorymovement.ui.fragment.ContentFragment;
-import com.cdhxqh.inventorymovement.ui.wight.DrawerArrowDrawable;
+import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.adapter.DrawerAdapter;
+import com.cdhxqh.inventorymovement.fragment.ContentFragment;
+import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
 import static android.view.Gravity.START;
 
@@ -43,7 +44,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     private DrawerLayout drawer;
     private ImageView imageView;
-    /**标题TextView**/
+    /**
+     * 标题TextView*
+     */
     private TextView titleTextView;
     private Resources resources;
     private TextView styleButton;
@@ -141,19 +144,47 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                             long arg3) {
-        titleTextView.setText(adapter.getTitle(position));
-        Fragment contentFragment = new ContentFragment();
-        Bundle args = new Bundle();
-        args.putString("text", adapter.getTitle(position));
-        contentFragment.setArguments(args);
+        switch (position) {
 
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, contentFragment)
-                .commit();
+            case 9: //退出登陆
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    AppManager.AppExit(MainActivity.this);
+                }
+                break;
+            default:
+                titleTextView.setText(adapter.getTitle(position));
+                Fragment contentFragment = new ContentFragment();
+                Bundle args = new Bundle();
+                args.putString("text", adapter.getTitle(position));
+                contentFragment.setArguments(args);
 
-        drawer.closeDrawer(mDrawerList);
+                FragmentManager fm = getFragmentManager();
+                fm.beginTransaction().replace(R.id.content_frame, contentFragment)
+                        .commit();
+
+                drawer.closeDrawer(mDrawerList);
+                break;
+        }
+
 
     }
 
+
+    private long exitTime = 0;
+
+    @Override
+    public void onBackPressed() {
+
+
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            AppManager.AppExit(MainActivity.this);
+        }
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.cdhxqh.inventorymovement.ui.fragment;
+package com.cdhxqh.inventorymovement.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

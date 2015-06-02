@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
+import com.cdhxqh.inventorymovement.api.ImManager;
+import com.cdhxqh.inventorymovement.utils.MessageUtils;
 
 /**
  * Created by yugy on 14-2-26.
@@ -34,6 +37,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mUsername = (EditText) findViewById(R.id.login_username_edit);
         mPassword = (EditText) findViewById(R.id.login_password_edit);
         mLogin = (Button) findViewById(R.id.login_login_btn);
+        mUsername.setText("maxadmin");
+        mPassword.setText("maxmax");
+
     }
 
     @Override
@@ -47,90 +53,57 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     mPassword.setError(getString(R.string.login_error_empty_passwd));
                     mPassword.requestFocus();
                 } else {
-//                    login();
-                    Intent intent=new Intent();
-                    intent.setClass(this,MainActivity.class);
-                    startActivity(intent);
+                    login();
+//                    Intent intent=new Intent();
+//                    intent.setClass(this,MainActivity.class);
+//                    startActivity(intent);
                 }
                 break;
 
         }
     }
 
-//    private void login() {
-//        mProgressDialog = ProgressDialog.show(LoginActivity.this, null,
-//                getString(R.string.login_loging), true, true);
-//
-//        V2EXManager.loginWithUsername(this,
-//                mUsername.getText().toString(),
-//                mPassword.getText().toString(),
-//                new HttpRequestHandler<Integer>() {
-//                    @Override
-//                    public void onSuccess(Integer data) {
+    /**登陆**/
+    private void login() {
+        mProgressDialog = ProgressDialog.show(LoginActivity.this, null,
+                getString(R.string.login_loging), true, true);
+
+        ImManager.loginWithUsername(LoginActivity.this,
+                mUsername.getText().toString(),
+                mPassword.getText().toString(),
+                new HttpRequestHandler<Integer>() {
+                    @Override
+                    public void onSuccess(Integer data) {
+
 //                        getProfile();
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(Integer data, int totalPages, int currentPage) {
+                        MessageUtils.showMiddleToast(LoginActivity.this, "登陆成功");
+                        mProgressDialog.dismiss();
+                        startIntent();
+
+                    }
+
+                    @Override
+                    public void onSuccess(Integer data, int totalPages, int currentPage) {
 //                        getProfile();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String error) {
-//                        MessageUtils.showErrorMessage(LoginActivity.this, error);
-//                        mProgressDialog.dismiss();
-//                    }
-//                });
-//    }
-//
-//    private HttpRequestHandler<ArrayList<MemberModel>> profileHandler =
-//            new HttpRequestHandler<ArrayList<MemberModel>>() {
-//                @Override
-//                public void onSuccess(ArrayList<MemberModel> data) {
-//                    mProgressDialog.dismiss();
-//                    if (data.size() == 0) {
-//                        onFailure("");
-//                        return;
-//                    }
-//                    mProfile = data.get(0);
-//                    AccountUtils.writeLoginMember(LoginActivity.this, mProfile);
-//                    mProgressDialog.dismiss();
-//                    Intent intent = new Intent();
-//                    intent.putExtra("profile", (Parcelable) mProfile);
-//                    setResult(RESULT_OK, intent);
-//                    finish();
-//                }
-//
-//                @Override
-//                public void onSuccess(ArrayList<MemberModel> data, int totalPages, int currentPage) {
-//                }
-//
-//                @Override
-//                public void onFailure(String error) {
-//                    mProgressDialog.dismiss();
-//                    MessageUtils.showErrorMessage(LoginActivity.this, error);
-//                }
-//            };
-//
-//    private void getProfile() {
-//        mProgressDialog.setMessage(getString(R.string.login_obtain_profile));
-//        V2EXManager.getProfile(this, profileHandler);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                Intent upIntent = NavUtils.getParentActivityIntent(this);
-//                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-//                    TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
-//                } else {
-//                    upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    NavUtils.navigateUpTo(this, upIntent);
-//                }
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
+                        MessageUtils.showMiddleToast(LoginActivity.this, "登陆成功");
+
+                        startIntent();
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        MessageUtils.showErrorMessage(LoginActivity.this, error);
+                        mProgressDialog.dismiss();
+                    }
+                });
+    }
+
+
+        private void startIntent(){
+            Intent inetnt=new Intent();
+            inetnt.setClass(this,MainActivity.class);
+            startActivity(inetnt);
+        }
+
+
 }
