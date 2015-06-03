@@ -15,8 +15,10 @@
  */
 package com.cdhxqh.inventorymovement.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +34,7 @@ import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.DrawerAdapter;
 import com.cdhxqh.inventorymovement.fragment.ContentFragment;
+import com.cdhxqh.inventorymovement.fragment.ItemFragment;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
 import static android.view.Gravity.START;
@@ -57,6 +60,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private DrawerAdapter adapter;
     private String[] arrays;
 
+
+    private Fragment newItemFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         initView();
         setEvent();
         mTitle = (String) getTitle();
+        defaultShowItem();
     }
 
     private void initView() {
@@ -141,10 +148,26 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     }
 
+    int mSelectPos = 0;
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                             long arg3) {
+        mSelectPos = position;
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
         switch (position) {
+            case 0://主项目
+                if (newItemFragment == null) {
+                    newItemFragment = new ItemFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newItemFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newItemFragment).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
 
             case 9: //退出登陆
                 if ((System.currentTimeMillis() - exitTime) > 2000) {
@@ -161,8 +184,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 args.putString("text", adapter.getTitle(position));
                 contentFragment.setArguments(args);
 
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, contentFragment)
+                fragmentTransaction.replace(R.id.content_frame, contentFragment)
                         .commit();
 
                 drawer.closeDrawer(mDrawerList);
@@ -171,6 +193,24 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
 
     }
+
+    /**默认显示主项目的**/
+    private void defaultShowItem(){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        if (newItemFragment == null) {
+            newItemFragment = new ItemFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("text", adapter.getTitle(0));
+            newItemFragment.setArguments(bundle);
+        }
+        fragmentTransaction.replace(R.id.content_frame, newItemFragment).commit();
+        drawer.closeDrawer(mDrawerList);
+    }
+
+
+
+
 
 
     private long exitTime = 0;

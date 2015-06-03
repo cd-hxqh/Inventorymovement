@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
+import com.umeng.update.UmengUpdateAgent;
 
 /**
  * Created by yugy on 14-2-26.
@@ -28,6 +31,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        UmengUpdateAgent.setDefault();
+        UmengUpdateAgent.update(this);
         initView();
 
         mLogin.setOnClickListener(this);
@@ -63,7 +68,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    /**登陆**/
+    /**
+     * 登陆*
+     */
     private void login() {
         mProgressDialog = ProgressDialog.show(LoginActivity.this, null,
                 getString(R.string.login_loging), true, true);
@@ -99,11 +106,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-        private void startIntent(){
-            Intent inetnt=new Intent();
-            inetnt.setClass(this,MainActivity.class);
-            startActivity(inetnt);
-        }
+    private void startIntent() {
+        Intent inetnt = new Intent();
+        inetnt.setClass(this, MainActivity.class);
+        startActivity(inetnt);
+    }
 
+
+    private long exitTime = 0;
+
+    @Override
+    public void onBackPressed() {
+
+
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            AppManager.AppExit(LoginActivity.this);
+        }
+    }
 
 }

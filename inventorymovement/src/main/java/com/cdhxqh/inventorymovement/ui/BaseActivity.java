@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,7 +10,7 @@ import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
 
 public class BaseActivity extends Activity {
-
+    private ProgressDialog mProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,5 +46,32 @@ public class BaseActivity extends Activity {
         super.onDestroy();
         //结束Activity&从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
+    }
+
+    public void showProgressBar(boolean show) {
+        showProgressBar(show, "");
+    }
+
+    public void showProgressBar(boolean show, String message) {
+        initProgressBar();
+        if (show) {
+            mProgressDialog.setMessage(message);
+            mProgressDialog.show();
+        } else {
+            mProgressDialog.hide();
+        }
+    }
+
+    private void initProgressBar() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+        }
+    }
+
+    public void showProgressBar(int messageId) {
+        String message = getString(messageId);
+        showProgressBar(true, message);
     }
 }
