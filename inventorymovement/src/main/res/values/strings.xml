@@ -33,7 +33,14 @@
     <!-- <string name="login_error_empty_passwd">密码不能为空</string> -->
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="umeng_example_home_btn_analytics">Analytics</string>
+
+    <!-- 主项目列表 -->
+    <string name="item_num_title">编号:</string>
+    <string name="item_desc_title">描述:</string>
+    <!-- hint -->
+    <string name="hint_item_num_title">暂无编号</string>
+    <string name="hint_item_desc_title">暂无描述</string>
+    <string name="title_activity_item_details">主项目详情</string>
 
 </resources>

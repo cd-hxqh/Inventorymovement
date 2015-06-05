@@ -1,0 +1,107 @@
+package com.cdhxqh.inventorymovement.adapter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.ui.itemui.ItemDetailsActivity;
+
+import java.util.ArrayList;
+
+/**
+ * Created by apple on 15/6/4.
+ */
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+
+    private static final String TAG="ItemAdapter";
+    Context mContext;
+    ArrayList<Item> mItems = new ArrayList<Item>();
+//    V2EXDataSource mDataSource = Application.getDataSource();
+
+    public ItemAdapter(Context context) {
+        mContext = context;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        final Item item = mItems.get(i);
+
+
+        viewHolder.itemNum.setText(item.itemnum);
+        viewHolder.itemDesc.setText(item.description);
+
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ItemDetailsActivity.class);
+
+                mContext.startActivity(intent);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mItems.size();
+    }
+
+    public void update(ArrayList<Item> data, boolean merge) {
+        if (merge && mItems.size() > 0) {
+            for (int i = 0; i < mItems.size(); i++) {
+                Log.i(TAG,"mItems="+mItems.get(i).itemid);
+                Item obj = mItems.get(i);
+                boolean exist = false;
+                for (int j = 0; j < data.size(); j++) {
+                    if (data.get(j).itemid == obj.itemid) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (exist) continue;
+                data.add(obj);
+            }
+        }
+        mItems = data;
+
+        notifyDataSetChanged();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        /**CardView**/
+        public CardView cardView;
+
+        /**
+         * 编号*
+         */
+        public TextView itemNum;
+        /**
+         * 描述*
+         */
+        public TextView itemDesc;
+
+        public ViewHolder(View view) {
+            super(view);
+            cardView=(CardView)view.findViewById(R.id.card_container);
+            itemNum = (TextView) view.findViewById(R.id.item_num_text);
+            itemDesc = (TextView) view.findViewById(R.id.item_desc_text);
+        }
+    }
+}

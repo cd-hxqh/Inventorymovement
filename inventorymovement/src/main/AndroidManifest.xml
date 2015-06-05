@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -28,7 +27,7 @@
         android:label="@string/app_name"
         android:theme="@style/SampleTheme" >
 
-        <!--umeng设置-->
+        <!-- umeng设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="556e9a8167e58e5184001342" >
@@ -38,21 +37,20 @@
             android:value="Umeng" >
         </meta-data>
 
-
         <activity
             android:name=".ui.MainActivity"
+            android:label="@string/app_name"
             android:parentActivityName=".ui.MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.BaseActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_base" />
+            android:label="@string/title_activity_base"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.LoadActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".ui.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,12 +59,10 @@
         </activity>
         <activity
             android:name=".ui.LoginActivity"
-            android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"
-             >
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" >
         </activity>
-
 
         <!-- Update Activitys Start -->
         <activity
@@ -78,6 +74,12 @@
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" >
         </service>
+
+        <activity
+            android:name=".ui.itemui.ItemDetailsActivity"
+            android:label="@string/title_activity_item_details"
+            android:parentActivityName=".ui.MainActivity">
+        </activity>
     </application>
 
 </manifest>

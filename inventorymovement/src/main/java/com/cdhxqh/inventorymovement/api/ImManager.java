@@ -2,10 +2,13 @@ package com.cdhxqh.inventorymovement.api;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.cdhxqh.inventorymovement.Application;
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.model.PersistenceHelper;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -15,6 +18,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,12 +32,27 @@ public class ImManager {
     private static final String TAG = "ImManager";
 
 
-    private static final String HTTP_API_URL = "http://192.168.1.110:8080/hhw/services/";
+    private static final String HTTP_API_URL = "http://192.168.1.125:8080/hhw/services/";
 
-    public static final String HTTP_BASE_URL = "http://192.168.1.110:8080/hhw";
-    public static final String HTTPS_BASE_URL = "https://192.168.1.110:8080/hhw";
+    public static final String HTTP_BASE_URL = "http://192.168.1.125:8080/hhw";
+    public static final String HTTPS_BASE_URL = "https://192.168.1.125:8080/hhw";
+
+
     //登陆URL
     private static final String SIGN_IN_URL = HTTP_API_URL + "user/auth";
+    //主项目URL
+    private static final String ITEM_URL = HTTP_API_URL + "cmd/getcboset";
+
+
+
+    /**主项目的表的字段**/
+    private static final String ITEM_TABLE_FILED="itemid,itemnum,description,in20,in24,orderunit,issueunit,enterby,enterdate";
+
+    //获取主项目
+    public static void getLatestItem(Context ctx, boolean refresh,
+                                       HttpRequestHandler<ArrayList<Item>> handler) {
+        getItems(ctx, ITEM_URL, refresh, handler);
+    }
 
 
     public static String getBaseUrl() {
@@ -149,4 +168,49 @@ public class ImManager {
 
         return sClient;
     }
+
+
+
+
+    /**
+     * 获取主项目列表
+     *
+     * @param ctx
+     * @param urlString URL地址
+     * @param refresh   是否从缓存中读取
+     * @param handler   结果处理
+     */
+    public static void getItems(Context ctx, String urlString, boolean refresh,
+                                 final HttpRequestHandler<ArrayList<Item>> handler) {
+        Uri uri = Uri.parse(urlString);
+        String path = uri.getLastPathSegment();
+        String param = uri.getEncodedQuery();
+        String key = path;
+        if (param != null)
+            key += param;
+
+        if (!refresh) {
+            //尝试从缓存中加载
+            ArrayList<Item> topics = PersistenceHelper.loadModelList(ctx, key);
+            if (topics != null && topics.size() > 0) {
+                SafeHandler.onSuccess(handler, topics);
+                return;
+            }
+        }
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("tableName", "Item");
+        params.put("fields", ITEM_TABLE_FILED);
+        params.put("params", "");
+        params.put("orderby", "");
+        params.put("sorttype", "");
+        params.put("haspage", "true");
+        params.put("currentpage", "1");
+        params.put("pagesize", "20");
+        params.put("useruid", "1");
+        client.post(ctx, urlString,params,
+                new WrappedJsonHttpResponseHandler<Item>(ctx, Item.class, key, handler));
+    }
+
 }
