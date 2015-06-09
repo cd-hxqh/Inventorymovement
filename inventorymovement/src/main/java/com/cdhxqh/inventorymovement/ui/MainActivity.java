@@ -35,6 +35,7 @@ import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.DrawerAdapter;
 import com.cdhxqh.inventorymovement.fragment.ContentFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemFragment;
+import com.cdhxqh.inventorymovement.fragment.PoFragment;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
 import static android.view.Gravity.START;
@@ -62,6 +63,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
 
     private Fragment newItemFragment;
+    private PoFragment newPoFragemnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +168,16 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     newItemFragment.setArguments(bundle);
                 }
                 fragmentTransaction.replace(R.id.content_frame, newItemFragment).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
+            case 1://入库管理
+                if (newPoFragemnt == null) {
+                    newPoFragemnt = new PoFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newPoFragemnt.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newPoFragemnt).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
 

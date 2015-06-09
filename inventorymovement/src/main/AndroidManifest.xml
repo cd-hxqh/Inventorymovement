@@ -78,7 +78,8 @@
         <activity
             android:name=".ui.itemui.ItemDetailsActivity"
             android:label="@string/title_activity_item_details"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

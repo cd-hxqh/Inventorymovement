@@ -9,6 +9,7 @@ import com.cdhxqh.inventorymovement.Application;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.PersistenceHelper;
+import com.cdhxqh.inventorymovement.model.Po;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -40,18 +41,31 @@ public class ImManager {
 
     //登陆URL
     private static final String SIGN_IN_URL = HTTP_API_URL + "user/auth";
-    //主项目URL
-    private static final String ITEM_URL = HTTP_API_URL + "cmd/getcboset";
+    //获取数据URL
+    private static final String BASE_URL = HTTP_API_URL + "cmd/getcboset";
 
 
 
     /**主项目的表的字段**/
     private static final String ITEM_TABLE_FILED="itemid,itemnum,description,in20,in24,orderunit,issueunit,enterby,enterdate";
 
+    /**入库管理Po表的字段**/
+    private static final String PO_TABLE_FILED="poid,ponum,description,vendordesc,pretaxtotal,status,siteid,orderdate,shiptoattn";
+
+
+
+
     //获取主项目
     public static void getLatestItem(Context ctx, boolean refresh,
                                        HttpRequestHandler<ArrayList<Item>> handler) {
-        getItems(ctx, ITEM_URL, refresh, handler);
+        getItems(ctx, BASE_URL, refresh, handler);
+    }
+
+
+    //获取入库管理
+    public static void getLatestPo(Context ctx, boolean refresh,
+                                     HttpRequestHandler<ArrayList<Po>> handler) {
+        getPos(ctx, BASE_URL, refresh, handler);
     }
 
 
@@ -211,6 +225,49 @@ public class ImManager {
         params.put("useruid", "1");
         client.post(ctx, urlString,params,
                 new WrappedJsonHttpResponseHandler<Item>(ctx, Item.class, key, handler));
+    }
+
+
+
+    /**
+     * 获取PO列表
+     *
+     * @param ctx
+     * @param urlString URL地址
+     * @param refresh   是否从缓存中读取
+     * @param handler   结果处理
+     */
+    public static void getPos(Context ctx, String urlString, boolean refresh,
+                                final HttpRequestHandler<ArrayList<Po>> handler) {
+        Uri uri = Uri.parse(urlString);
+        String path = uri.getLastPathSegment();
+        String param = uri.getEncodedQuery();
+        String key = path;
+        if (param != null)
+            key += param;
+
+//        if (!refresh) {
+//            //尝试从缓存中加载
+//            ArrayList<Po> topics = PersistenceHelper.loadModelList(ctx, key);
+//            if (topics != null && topics.size() > 0) {
+//                SafeHandler.onSuccess(handler, topics);
+//                return;
+//            }
+//        }
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("tableName", "CDHXQH_V_PO");
+        params.put("fields", PO_TABLE_FILED);
+        params.put("params", "");
+        params.put("orderby", "");
+        params.put("sorttype", "");
+        params.put("haspage", "true");
+        params.put("currentpage", "1");
+        params.put("pagesize", "20");
+        params.put("useruid", "1");
+        client.post(ctx, urlString,params,
+                new WrappedJsonHttpResponseHandler<Po>(ctx, Po.class, key, handler));
     }
 
 }

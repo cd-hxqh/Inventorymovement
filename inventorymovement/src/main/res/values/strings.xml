@@ -42,5 +42,14 @@
     <string name="hint_item_num_title">暂无编号</string>
     <string name="hint_item_desc_title">暂无描述</string>
     <string name="title_activity_item_details">主项目详情</string>
+    <string name="have_not_data">暂无数据</string>
+    <string name="item_num_text">项目编号:</string>
+    <string name="item_desc_text">描        述:</string>
+    <string name="item_in20_text">规格型号:</string>
+    <string name="item_orderunit_text">订购单位:</string>
+    <string name="item_issueunit_text">发放单位:</string>
+    <string name="item_enterby_text">录 入 人:</string>
+    <string name="ietm_enterdate_text">录入时间:</string>
+    <string name="submit_button_text">提交</string>
 
 </resources>

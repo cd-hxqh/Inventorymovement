@@ -7,4 +7,8 @@
     <dimen name="actionbar_dimen">56dp</dimen>
     <dimen name="dimen_60">60dp</dimen>
     <dimen name="dimen_280">280dp</dimen>
+    <dimen name="dimen_16">16dp</dimen>
+    <dimen name="dimen_5">5dp</dimen>
+    <dimen name="dimen_20sp">20sp</dimen>
+    <dimen name="dimen_40dp">40dip</dimen>
 </resources>

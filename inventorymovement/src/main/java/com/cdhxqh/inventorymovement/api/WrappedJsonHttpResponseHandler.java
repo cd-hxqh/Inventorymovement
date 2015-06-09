@@ -52,6 +52,7 @@ class WrappedJsonHttpResponseHandler<T extends Entity> extends JsonHttpResponseH
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+        Log.i(TAG,"response="+response);
         ArrayList<T> models = new ArrayList<T>();
         for (int i = 0; i < response.length(); i++) {
 
