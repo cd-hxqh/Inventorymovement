@@ -61,9 +61,11 @@
                 android:layout_below="@+id/item_num_text"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 android:layout_toRightOf="@+id/item_desc_title"
-
+                android:ellipsize="end"
                 android:hint="@string/hint_item_desc_title"
+                android:ems="14"
                 android:textColor="#de000000"
                 android:textSize="16sp" />
 

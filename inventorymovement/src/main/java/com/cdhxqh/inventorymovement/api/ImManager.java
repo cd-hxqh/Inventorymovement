@@ -33,46 +33,54 @@ public class ImManager {
     private static final String TAG = "ImManager";
 
 
-    private static final String HTTP_API_URL = "http://192.168.1.125:8080/hhw/services/";
+    //    private static final String HTTP_API_URL = "http://192.168.1.125:8080/hhw/services/";
+    private static final String HTTP_API_URL = "http://192.168.1.103:8080/hhw/services/";
 
-    public static final String HTTP_BASE_URL = "http://192.168.1.125:8080/hhw";
-    public static final String HTTPS_BASE_URL = "https://192.168.1.125:8080/hhw";
 
 
     //登陆URL
     private static final String SIGN_IN_URL = HTTP_API_URL + "user/auth";
+
     //获取数据URL
     private static final String BASE_URL = HTTP_API_URL + "cmd/getcboset";
 
+    //主项目详情修改
+    private static final String ITEM_UPDATE_URL = HTTP_API_URL + "item/update";
 
 
-    /**主项目的表的字段**/
-    private static final String ITEM_TABLE_FILED="itemid,itemnum,description,in20,in24,orderunit,issueunit,enterby,enterdate";
+    /**
+     * 主项目表名*
+     */
+    private static final String ITEM_TABLE_NAME = "Item";
+    /**
+     * 主项目的表的字段*
+     */
+    private static final String ITEM_TABLE_FILED = "itemid,itemnum,description,in20,in24,orderunit,issueunit,enterby,enterdate";
 
-    /**入库管理Po表的字段**/
-    private static final String PO_TABLE_FILED="poid,ponum,description,vendordesc,pretaxtotal,status,siteid,orderdate,shiptoattn";
-
-
+    /**
+     * 入库管理的PO表视图*
+     */
+    private static final String PO_TABLE_NAME = "CDHXQH_V_PO";
+    /**
+     * 入库管理Po表的字段*
+     */
+    private static final String PO_TABLE_FILED = "poid,ponum,description,vendordesc,pretaxtotal,status,siteid,orderdate,shiptoattn";
 
 
     //获取主项目
     public static void getLatestItem(Context ctx, boolean refresh,
-                                       HttpRequestHandler<ArrayList<Item>> handler) {
+                                     HttpRequestHandler<ArrayList<Item>> handler) {
         getItems(ctx, BASE_URL, refresh, handler);
     }
 
 
     //获取入库管理
     public static void getLatestPo(Context ctx, boolean refresh,
-                                     HttpRequestHandler<ArrayList<Po>> handler) {
+                                   HttpRequestHandler<ArrayList<Po>> handler) {
         getPos(ctx, BASE_URL, refresh, handler);
     }
 
 
-    public static String getBaseUrl() {
-        Log.i(TAG, "mapp=" + mApp);
-        return mApp.isHttps() ? HTTPS_BASE_URL : HTTP_BASE_URL;
-    }
 
     private static String getProblemFromHtmlResponse(Context cxt, String response) {
         Pattern errorPattern = Pattern.compile("<div class=\"problem\">(.*)</div>");
@@ -111,7 +119,7 @@ public class ImManager {
                 int code = JsonUtils.parsingAuthStr(data);
                 if (code == 1) {
                     SafeHandler.onSuccess(handler, 200);
-                } else if(code==0){
+                } else if (code == 0) {
                     SafeHandler.onFailure(handler, "用户名和密码不匹配");
                 }
             }
@@ -136,25 +144,18 @@ public class ImManager {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.i(TAG,"FstatusCode="+statusCode);
                 SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorLoginFailure));
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.i(TAG,"SstatusCode="+statusCode);
                 if (statusCode == 200) {
                     SafeHandler.onSuccess(handler, responseString);
                 }
             }
         });
-    }
-
-
-    private static String getOnceStringFromHtmlResponseObject(String content) {
-        Pattern pattern = Pattern.compile("<input type=\"hidden\" value=\"([0-9]+)\" name=\"once\" />");
-        final Matcher matcher = pattern.matcher(content);
-        if (matcher.find())
-            return matcher.group(1);
-        return null;
     }
 
 
@@ -184,8 +185,6 @@ public class ImManager {
     }
 
 
-
-
     /**
      * 获取主项目列表
      *
@@ -195,11 +194,11 @@ public class ImManager {
      * @param handler   结果处理
      */
     public static void getItems(Context ctx, String urlString, boolean refresh,
-                                 final HttpRequestHandler<ArrayList<Item>> handler) {
+                                final HttpRequestHandler<ArrayList<Item>> handler) {
         Uri uri = Uri.parse(urlString);
         String path = uri.getLastPathSegment();
         String param = uri.getEncodedQuery();
-        String key = path;
+        String key = path + ITEM_TABLE_NAME;
         if (param != null)
             key += param;
 
@@ -214,7 +213,7 @@ public class ImManager {
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("tableName", "Item");
+        params.put("tableName", ITEM_TABLE_NAME);
         params.put("fields", ITEM_TABLE_FILED);
         params.put("params", "");
         params.put("orderby", "");
@@ -223,10 +222,9 @@ public class ImManager {
         params.put("currentpage", "1");
         params.put("pagesize", "20");
         params.put("useruid", "1");
-        client.post(ctx, urlString,params,
+        client.post(ctx, urlString, params,
                 new WrappedJsonHttpResponseHandler<Item>(ctx, Item.class, key, handler));
     }
-
 
 
     /**
@@ -238,26 +236,26 @@ public class ImManager {
      * @param handler   结果处理
      */
     public static void getPos(Context ctx, String urlString, boolean refresh,
-                                final HttpRequestHandler<ArrayList<Po>> handler) {
+                              final HttpRequestHandler<ArrayList<Po>> handler) {
         Uri uri = Uri.parse(urlString);
         String path = uri.getLastPathSegment();
         String param = uri.getEncodedQuery();
-        String key = path;
+        String key = path + PO_TABLE_NAME;
         if (param != null)
             key += param;
 
-//        if (!refresh) {
-//            //尝试从缓存中加载
-//            ArrayList<Po> topics = PersistenceHelper.loadModelList(ctx, key);
-//            if (topics != null && topics.size() > 0) {
-//                SafeHandler.onSuccess(handler, topics);
-//                return;
-//            }
-//        }
+        if (!refresh) {
+            //尝试从缓存中加载
+            ArrayList<Po> topics = PersistenceHelper.loadModelList(ctx, key);
+            if (topics != null && topics.size() > 0) {
+                SafeHandler.onSuccess(handler, topics);
+                return;
+            }
+        }
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("tableName", "CDHXQH_V_PO");
+        params.put("tableName", PO_TABLE_NAME);
         params.put("fields", PO_TABLE_FILED);
         params.put("params", "");
         params.put("orderby", "");
@@ -266,8 +264,84 @@ public class ImManager {
         params.put("currentpage", "1");
         params.put("pagesize", "20");
         params.put("useruid", "1");
-        client.post(ctx, urlString,params,
+        client.post(ctx, urlString, params,
                 new WrappedJsonHttpResponseHandler<Po>(ctx, Po.class, key, handler));
     }
+
+
+    /**
+     * 主项目修改
+     *
+     * @param cxt
+     * @param itemid 项目ID
+     * @param desc   项目描述
+     * @param in20   规格型号
+     */
+    public static void updateItemInfo(final Context cxt, final String itemid, final String desc, final String in20,
+                                      final HttpRequestHandler<Integer> handler) {
+        requestOnceWithURLItem(cxt, itemid, desc, in20, new HttpRequestHandler<String>() {
+            @Override
+            public void onSuccess(String data) {
+                Log.i(TAG, "data=" + data);
+
+
+                //解析返回的Json数据
+                int code = JsonUtils.parsingUpdateString(data);
+                Log.i(TAG,"code="+code);
+                if (code == 1) {
+                    SafeHandler.onSuccess(handler, 200);
+                } else if (code == 0) {
+                    SafeHandler.onFailure(handler, "提交失败");
+                }
+            }
+
+            @Override
+            public void onSuccess(String data, int totalPages, int currentPage) {
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                SafeHandler.onFailure(handler, error);
+            }
+        });
+    }
+
+
+    /**
+     * 主项目修改
+     * @param cxt
+     * @param itemid
+     * @param desc
+     * @param in20
+     * @param handler
+     */
+    private static void requestOnceWithURLItem(final Context cxt, final String itemid, final String desc, final String in20,
+                                               final HttpRequestHandler<String> handler) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("itemid", itemid);
+        params.put("desc", desc);
+        params.put("in20", in20);
+        params.put("useruid", "1");
+        client.post(ITEM_UPDATE_URL, params, new TextHttpResponseHandler() {
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.i(TAG,"FstatusCode="+statusCode);
+                SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorCommentFailure));
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.i(TAG,"SstatusCode="+statusCode);
+                if (statusCode == 200) {
+                    SafeHandler.onSuccess(handler, responseString);
+                }
+            }
+        });
+    }
+
 
 }

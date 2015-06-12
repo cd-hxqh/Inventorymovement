@@ -2,17 +2,29 @@ package com.cdhxqh.inventorymovement.ui.itemui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
+import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
+import com.cdhxqh.inventorymovement.ui.pictureui.PictureActivity;
+import com.cdhxqh.inventorymovement.utils.InputUtils;
+import com.cdhxqh.inventorymovement.utils.MessageUtils;
+
+import java.util.ArrayList;
 
 /**
  * 主项目详情
@@ -43,6 +55,13 @@ public class ItemDetailsActivity extends BaseActivity {
 
     private TextView enterdateTextView; //录入时间
 
+    private Button submitButton; //提交按钮
+
+    private RecyclerView mRecyclerView; //图片显示按钮
+
+    private ImageView cameraImageView; //照相按钮
+
+    private ImageView fileImageView; //图片浏览按钮
 
     private Item item;
 
@@ -79,6 +98,35 @@ public class ItemDetailsActivity extends BaseActivity {
         enterbyTextView = (TextView) findViewById(R.id.item_enterby_text);
         enterdateTextView = (TextView) findViewById(R.id.item_enterdate_text);
 
+        submitButton = (Button) findViewById(R.id.submit_button_id);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.id_recyclerview_horizontal);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+        cameraImageView=(ImageView)findViewById(R.id.image_camera_id);
+        fileImageView=(ImageView)findViewById(R.id.image_create_id);
+
+
+    }
+
+
+    public void updateSendButtonStyle() {
+        if (sendButtonEnable()) {
+            submitButton.setVisibility(View.VISIBLE);
+        } else {
+            submitButton.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean sendButtonEnable() {
+        if (descTextView.getText().toString().equals(item.description) && in20TextView.getText().toString().equals(item.in20)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -101,12 +149,107 @@ public class ItemDetailsActivity extends BaseActivity {
         descTextView.setSelection(descTextView.length());
         in20TextView.setSelection(in20TextView.length());
 
+
+        submitButton.setOnClickListener(submitButtonOnClickListenr);
+
+
+        updateSendButtonStyle();
+
+        descTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateSendButtonStyle();
+            }
+        });
+
+        in20TextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateSendButtonStyle();
+            }
+        });
+
+
+        fileImageView.setOnClickListener(fileImageViewOnClickListener);
+
     }
 
     private View.OnClickListener backOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             finish();
+        }
+    };
+
+    private View.OnClickListener submitButtonOnClickListenr = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            InputUtils.popSoftkeyboard(ItemDetailsActivity.this, descTextView, false);
+
+            InputUtils.popSoftkeyboard(ItemDetailsActivity.this, in20TextView, false);
+            showProgressBar(R.string.submit_process_ing);
+
+            ImManager.updateItemInfo(ItemDetailsActivity.this, item.itemid, descTextView.getText().toString(), in20TextView.getText().toString(), new HttpRequestHandler<Integer>() {
+                @Override
+                public void onSuccess(Integer data) {
+
+                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
+                    colseProgressBar();
+
+                }
+
+                @Override
+                public void onSuccess(Integer data, int totalPages, int currentPage) {
+                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
+                    colseProgressBar();
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    MessageUtils.showErrorMessage(ItemDetailsActivity.this, error);
+                    colseProgressBar();
+                }
+            });
+
+
+        }
+    };
+
+
+    /**图片选择器**/
+    private View.OnClickListener fileImageViewOnClickListener =new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent=new Intent();
+            intent.setClass(ItemDetailsActivity.this, PictureActivity.class);
+            startActivity(intent);
+//            Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//            intent.setType("image/*");
+//            intent.putExtra("return-data", true);
+
+//            startActivityForResult(intent, 0);
         }
     };
 

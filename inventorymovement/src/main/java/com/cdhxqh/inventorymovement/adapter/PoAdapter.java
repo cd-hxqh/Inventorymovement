@@ -16,6 +16,7 @@ import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Po;
 import com.cdhxqh.inventorymovement.ui.itemui.ItemDetailsActivity;
+import com.cdhxqh.inventorymovement.ui.poui.PodetailsActivity;
 
 import java.util.ArrayList;
 
@@ -50,14 +51,11 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ItemDetailsActivity.class);
-//                Bundle bundle = new Bundle();
-////                bundle.putString("num",item.itemnum);
-////                bundle.putParcelable("item",item);
-//                bundle.putParcelable("item", item);
-//                Log.i(TAG, "itemid=" + item.itemid + ",itemnum=" + item.itemnum + ",description=" + item.description + ",in20=" + item.in20 + ",in24=" + item.in24 + ",orderunit=" + item.orderunit + ",issueunit=" + item.issueunit + ",enterby=" + item.enterby + ",enterdate=" + item.enterdate);
-//                intent.putExtras(bundle);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, PodetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("po", po);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
 

@@ -32,6 +32,7 @@ public class ItemFragment extends Fragment implements HttpRequestHandler<ArrayLi
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     SwipeRefreshLayout mSwipeLayout;
+
     ItemAdapter itemAdapter;
 
 
@@ -70,7 +71,7 @@ public class ItemFragment extends Fragment implements HttpRequestHandler<ArrayLi
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle args = getArguments();
-//        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.setRefreshing(true);
         requestItemById(false);
     }
 
@@ -97,11 +98,6 @@ public class ItemFragment extends Fragment implements HttpRequestHandler<ArrayLi
 //        mIsLoading = false;
         if (data.size() == 0) return;
 
-//        if (mNode == null)
-//            mNode = data.get(0).node;
-//
-//        if (!mAttachMain && mNodeName.isEmpty())
-//            mNodeName = data.get(0).node.name;
 
         itemAdapter.update(data, true);
     }
@@ -109,7 +105,6 @@ public class ItemFragment extends Fragment implements HttpRequestHandler<ArrayLi
     @Override
     public void onSuccess(ArrayList<Item> data, int totalPages, int currentPage) {
         Log.i(TAG,"data size="+data.size());
-//        for (int i=0;i<data.size();i++);
         onSuccess(data);
     }
 
@@ -120,24 +115,10 @@ public class ItemFragment extends Fragment implements HttpRequestHandler<ArrayLi
     }
 
     private void requestItemById(boolean refresh) {
-//        if (mNodeId == LatestTopics)
         ImManager.getLatestItem(getActivity(), refresh, this);
-//        else if (mNodeId == HotTopics)
-//            V2EXManager.getHotTopics(getActivity(), refresh, this);
-//        else if (mNodeId > 0)
-//            V2EXManager.getTopicsByNodeId(getActivity(), mNodeId, refresh, this);
     }
 
     private void requestItems(boolean refresh) {
-//        if (mIsLoading)
-//            return;
-//
-//        mIsLoading = true;
-//        if (mNodeName != null && !mNodeName.isEmpty())
-//            requestTopicsByName(refresh);
-//        else if (mTabName != null && !mTabName.isEmpty())
-//            requestTopicsByTab(refresh);
-//        else
         requestItemById(refresh);
 
     }

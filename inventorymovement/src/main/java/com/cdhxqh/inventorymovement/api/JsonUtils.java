@@ -25,7 +25,18 @@ public class JsonUtils {
             String locationsite = jsonObject.getString("locationsite");
             String locationorg = jsonObject.getString("locationorg");
             String loginid = jsonObject.getString("loginid");
-            Log.i(TAG, "isSuccess=" + isSuccess +"useruid=" + useruid+ ",location=" + location + ",locationsite=" + locationsite + ",locationorg=" + locationorg + ",loginid=" + loginid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
+
+    /**解析主项目返回的信息**/
+    static int parsingUpdateString(String data){
+        int isSuccess=0;
+        try {
+            JSONObject json=new JSONObject(data);
+            isSuccess = Integer.valueOf(json.getString("success"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

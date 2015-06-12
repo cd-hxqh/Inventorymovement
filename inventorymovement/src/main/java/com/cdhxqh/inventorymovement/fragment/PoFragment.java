@@ -83,14 +83,8 @@ public class PoFragment extends Fragment implements HttpRequestHandler<ArrayList
         Log.i(TAG,"data11="+data);
 
         mSwipeLayout.setRefreshing(false);
-//        mIsLoading = false;
         if (data.size() == 0) return;
 
-//        if (mNode == null)
-//            mNode = data.get(0).node;
-//
-//        if (!mAttachMain && mNodeName.isEmpty())
-//            mNodeName = data.get(0).node.name;
 
         poAdapter.update(data, true);
     }
@@ -98,7 +92,6 @@ public class PoFragment extends Fragment implements HttpRequestHandler<ArrayList
     @Override
     public void onSuccess(ArrayList<Po> data, int totalPages, int currentPage) {
         Log.i(TAG, "data size=" + data.size());
-//        for (int i=0;i<data.size();i++);
         onSuccess(data);
     }
 
@@ -109,24 +102,10 @@ public class PoFragment extends Fragment implements HttpRequestHandler<ArrayList
     }
 
     private void requestPoById(boolean refresh) {
-//        if (mNodeId == LatestTopics)
         ImManager.getLatestPo(getActivity(), refresh, this);
-//        else if (mNodeId == HotTopics)
-//            V2EXManager.getHotTopics(getActivity(), refresh, this);
-//        else if (mNodeId > 0)
-//            V2EXManager.getTopicsByNodeId(getActivity(), mNodeId, refresh, this);
     }
 
     private void requestPoId(boolean refresh) {
-//        if (mIsLoading)
-//            return;
-//
-//        mIsLoading = true;
-//        if (mNodeName != null && !mNodeName.isEmpty())
-//            requestTopicsByName(refresh);
-//        else if (mTabName != null && !mTabName.isEmpty())
-//            requestTopicsByTab(refresh);
-//        else
         requestPoById(refresh);
 
     }

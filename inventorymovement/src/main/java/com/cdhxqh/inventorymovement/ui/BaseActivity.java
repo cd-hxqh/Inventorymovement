@@ -74,4 +74,12 @@ public class BaseActivity extends Activity {
         String message = getString(messageId);
         showProgressBar(true, message);
     }
+
+    public void colseProgressBar() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
 }

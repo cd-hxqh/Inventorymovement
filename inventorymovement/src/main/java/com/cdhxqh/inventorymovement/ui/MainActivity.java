@@ -161,6 +161,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
         switch (position) {
             case 0://主项目
+                titleTextView.setText(adapter.getTitle(position));
                 if (newItemFragment == null) {
                     newItemFragment = new ItemFragment();
                     Bundle bundle = new Bundle();
@@ -171,6 +172,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 drawer.closeDrawer(mDrawerList);
                 break;
             case 1://入库管理
+                titleTextView.setText(adapter.getTitle(position));
                 if (newPoFragemnt == null) {
                     newPoFragemnt = new PoFragment();
                     Bundle bundle = new Bundle();

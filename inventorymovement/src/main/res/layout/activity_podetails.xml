@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cdhxqh.inventorymovement.ui.poui.PodetailsActivity">
+
+    <include
+        android:id="@+id/title_id"
+        layout="@layout/title_text"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_5"
+        >
+
+        <LinearLayout
+            android:id="@+id/linearlayout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dimen_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/po_num_text"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <TextView
+                android:id="@+id/po_num_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/have_not_data"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/dimen_20sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_1_id"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/linearlayout_1"
+            android:background="@drawable/line"></View>
+
+        <LinearLayout
+            android:id="@+id/linearlayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_1_id"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dimen_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/po_desc_text"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <TextView
+                android:id="@+id/po_desc_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/have_not_data"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/dimen_20sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_2_id"
+            android:layout_below="@+id/linearlayout_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_2_id"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dimen_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="采购状态:"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <TextView
+                android:id="@+id/po_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/have_not_data"
+                android:textColor="@color/body_text_1"
+                android:textSize="@dimen/dimen_20sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

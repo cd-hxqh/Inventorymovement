@@ -30,19 +30,16 @@
         <!-- umeng设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="556e9a8167e58e5184001342" >
-        </meta-data>
+            android:value="556e9a8167e58e5184001342" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Umeng" >
-        </meta-data>
+            android:value="Umeng" />
 
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:parentActivityName=".ui.MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.BaseActivity"
             android:label="@string/title_activity_base"
@@ -61,25 +58,30 @@
             android:name=".ui.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".ui.MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
 
         <!-- Update Activitys Start -->
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
             android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" >
-        </service>
+            android:process=":DownloadingService" />
 
         <activity
             android:name=".ui.itemui.ItemDetailsActivity"
             android:label="@string/title_activity_item_details"
             android:parentActivityName=".ui.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.poui.PodetailsActivity"
+            android:label="@string/material_receiving"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.pictureui.PictureActivity"
+            android:label="@string/title_activity_picture"
+            android:parentActivityName=".ui.poui.PodetailsActivity">
         </activity>
     </application>
 
