@@ -3,8 +3,11 @@ package com.cdhxqh.inventorymovement.ui;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,6 +15,7 @@ import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
+import com.cdhxqh.inventorymovement.utils.AccountUtils;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -25,7 +29,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText mPassword;
     private Button mLogin;
     private ProgressDialog mProgressDialog;
-//    private MemberModel mProfile;
+    //    private MemberModel mProfile;
+    private CheckBox checkBox; //记住密码
+
+    private boolean isRemember; //是否记住密码
+
+
+    String userName; //用户名
+    String userPassWorld; //密码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +45,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         UmengUpdateAgent.setDefault();
         UmengUpdateAgent.update(this);
         initView();
-
+        setEvent();
         mLogin.setOnClickListener(this);
     }
+
 
     private void initView() {
         mUsername = (EditText) findViewById(R.id.login_username_edit);
         mPassword = (EditText) findViewById(R.id.login_password_edit);
         mLogin = (Button) findViewById(R.id.login_login_btn);
-        mUsername.setText("maxadmin");
-        mPassword.setText("maxmax");
+        boolean isChecked = AccountUtils.getIsChecked(LoginActivity.this);
+        if (isChecked) {
+            mUsername.setText(AccountUtils.getUserName(LoginActivity.this));
+            mPassword.setText(AccountUtils.getUserPassword(LoginActivity.this));
+        }
+
+
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
 
     }
+
+    /**
+     * 设置事件监听*
+     */
+    private void setEvent() {
+        checkBox.setOnCheckedChangeListener(cheBoxOnCheckedChangListener);
+    }
+
+
+    private CompoundButton.OnCheckedChangeListener cheBoxOnCheckedChangListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            isRemember = isChecked;
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -59,9 +92,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     mPassword.requestFocus();
                 } else {
                     login();
-//                    Intent intent=new Intent();
-//                    intent.setClass(this,MainActivity.class);
-//                    startActivity(intent);
                 }
                 break;
 
@@ -82,16 +112,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onSuccess(Integer data) {
 
-//                        getProfile();
                         MessageUtils.showMiddleToast(LoginActivity.this, "登陆成功");
                         mProgressDialog.dismiss();
+                        if (isRemember) {
+                            AccountUtils.setChecked(LoginActivity.this, isRemember);
+                            //记住密码
+                            AccountUtils.setUserNameAndPassWord(LoginActivity.this, mUsername.getText().toString(), mPassword.getText().toString());
+                        }
                         startIntent();
 
                     }
 
                     @Override
                     public void onSuccess(Integer data, int totalPages, int currentPage) {
-//                        getProfile();
                         MessageUtils.showMiddleToast(LoginActivity.this, "登陆成功");
 
                         startIntent();

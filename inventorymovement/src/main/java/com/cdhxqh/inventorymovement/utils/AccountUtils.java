@@ -1,13 +1,14 @@
 package com.cdhxqh.inventorymovement.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-
+import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.MemberModel;
 import com.cdhxqh.inventorymovement.model.PersistenceHelper;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -24,7 +25,7 @@ public class AccountUtils {
     /**
      * 帐号登陆登出监听接口
      */
-    public static interface OnAccountListener{
+    public static interface OnAccountListener {
         abstract public void onLogout();
 
         abstract public void onLogin(MemberModel member);
@@ -34,22 +35,25 @@ public class AccountUtils {
 
     /**
      * 注册登录接口
+     *
      * @param listener
      */
-    public static void registerAccountListener(OnAccountListener listener){
+    public static void registerAccountListener(OnAccountListener listener) {
         listeners.add(listener);
     }
 
     /**
      * 取消登录接口的注册
+     *
      * @param listener
      */
-    public static void unregisterAccountListener(OnAccountListener listener){
+    public static void unregisterAccountListener(OnAccountListener listener) {
         listeners.remove(listener);
     }
 
     /**
      * 用户是否已经登录
+     *
      * @param cxt
      * @return
      */
@@ -59,6 +63,7 @@ public class AccountUtils {
 
     /**
      * 保存登录用户资料
+     *
      * @param cxt
      * @param profile
      */
@@ -67,7 +72,7 @@ public class AccountUtils {
 
         //通知所有页面,登录成功,更新用户信息
         Iterator<OnAccountListener> iterator = listeners.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             OnAccountListener listener = iterator.next();
             listener.onLogin(profile);
         }
@@ -75,6 +80,7 @@ public class AccountUtils {
 
     /**
      * 获取登录用户信息
+     *
      * @param cxt
      * @return
      */
@@ -84,6 +90,7 @@ public class AccountUtils {
 
     /**
      * 删除登录用户资料
+     *
      * @param cxt
      */
     public static void removeLoginMember(Context cxt) {
@@ -115,6 +122,7 @@ public class AccountUtils {
 
     /**
      * 删除节点信息
+     *
      * @param cxt
      */
     public static void removeFavNodes(Context cxt) {
@@ -124,6 +132,7 @@ public class AccountUtils {
 
     /**
      * 清除所有用户相关资料
+     *
      * @param cxt
      */
     public static void removeAll(Context cxt) {
@@ -132,68 +141,74 @@ public class AccountUtils {
 
         //通知所有页面退出登录了,清除登录痕迹
         Iterator<OnAccountListener> iterator = listeners.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             OnAccountListener listener = iterator.next();
             listener.onLogout();
         }
     }
 
-//    public static interface OnAccountFavoriteNodesListener{
-//        void onAccountFavoriteNodes(ArrayList<NodeModel> nodes);
-//    }
 
-//    /**
-//     * 刷新用户收藏节点
-//     * @param cxt
-//     * @param listener
-//     */
-//    public static void refreshFavoriteNodes(final Context cxt,
-//                                            final OnAccountFavoriteNodesListener listener){
-//        V2EXManager.getFavoriteNodes(cxt, new HttpRequestHandler<ArrayList<NodeModel>>() {
-//            @Override
-//            public void onSuccess(ArrayList<NodeModel> data) {
-//                AccountUtils.writeFavoriteNodes(cxt, data);
-//                if(listener != null)
-//                    listener.onAccountFavoriteNodes(data);
-//            }
-//
-//            @Override
-//            public void onSuccess(ArrayList<NodeModel> nodes, int totalPages, int currentPage){
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//
-//            }
-//        });
-//    }
+    /**
+     * 记录是否记住密码
+     *
+     * @param cxt
+     * @param isChecked *
+     */
 
-    public static interface OnAccountNotificationCountListener{
-        public void onAccountNotificationCount(int count);
+    public static void setChecked(Context cxt, boolean isChecked) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(cxt);
+        sharedPreferences.edit().putBoolean(cxt.getString(R.string.logined_member_ischeck), isChecked).commit();
+
     }
 
-//    /**
-//     * 刷新用户的未读提醒数量
-//     * @param cxt
-//     */
-//    public static void refreshNotificationCount(Context cxt,
-//                                            final OnAccountNotificationCountListener listener){
-//        V2EXManager.getNotificationCount(cxt, new HttpRequestHandler<Integer>() {
-//            @Override
-//            public void onSuccess(Integer count) {
-//                if(listener != null && count > 0)
-//                    listener.onAccountNotificationCount(count);
-//            }
-//
-//            @Override
-//            public void onSuccess(Integer count, int totalPages, int currentPage){
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String error) {
-//            }
-//        });
-//    }
+    ;
+
+
+    /**
+     * 读取记住状态*
+     */
+    public static boolean getIsChecked(Context cxt) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(cxt);
+        return sharedPreferences.getBoolean(cxt.getString(R.string.logined_member_ischeck), false);
+    }
+
+
+    /**
+     * 记录用户名与密码
+     *
+     * @param cxt
+     * @param userName
+     * @param password
+     */
+
+    public static void setUserNameAndPassWord(Context cxt, String userName, String password) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(cxt);
+        sharedPreferences.edit().putString(cxt.getString(R.string.logined_member_username), userName).putString(cxt.getString(R.string.logined_member_password), password).commit();
+    }
+
+
+    /**
+     * 获取记住的用户名
+     */
+
+
+    public static String getUserName(Context cxt) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(cxt);
+        return sharedPreferences.getString(cxt.getString(R.string.logined_member_username), "");
+    }
+
+    /**
+     * 获取记住的密码
+     */
+
+
+    public static String getUserPassword(Context cxt) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(cxt);
+        return sharedPreferences.getString(cxt.getString(R.string.logined_member_password), "");
+    }
+
 }

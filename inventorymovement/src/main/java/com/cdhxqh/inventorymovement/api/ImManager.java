@@ -8,8 +8,10 @@ import android.util.Log;
 import com.cdhxqh.inventorymovement.Application;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.model.MemberModel;
 import com.cdhxqh.inventorymovement.model.PersistenceHelper;
 import com.cdhxqh.inventorymovement.model.Po;
+import com.cdhxqh.inventorymovement.utils.AccountUtils;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -34,8 +36,7 @@ public class ImManager {
 
 
     //    private static final String HTTP_API_URL = "http://192.168.1.125:8080/hhw/services/";
-    private static final String HTTP_API_URL = "http://192.168.1.103:8080/hhw/services/";
-
+    private static final String HTTP_API_URL = "http://192.168.1.102:8080/hhw/services/";
 
 
     //登陆URL
@@ -81,7 +82,6 @@ public class ImManager {
     }
 
 
-
     private static String getProblemFromHtmlResponse(Context cxt, String response) {
         Pattern errorPattern = Pattern.compile("<div class=\"problem\">(.*)</div>");
         Matcher errorMatcher = errorPattern.matcher(response);
@@ -116,7 +116,7 @@ public class ImManager {
 
 
                 //解析返回的Json数据
-                int code = JsonUtils.parsingAuthStr(data);
+                int code = JsonUtils.parsingAuthStr(cxt, data);
                 if (code == 1) {
                     SafeHandler.onSuccess(handler, 200);
                 } else if (code == 0) {
@@ -144,13 +144,13 @@ public class ImManager {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.i(TAG,"FstatusCode="+statusCode);
+                Log.i(TAG, "FstatusCode=" + statusCode);
                 SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorLoginFailure));
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.i(TAG,"SstatusCode="+statusCode);
+                Log.i(TAG, "SstatusCode=" + statusCode);
                 if (statusCode == 200) {
                     SafeHandler.onSuccess(handler, responseString);
                 }
@@ -195,10 +195,12 @@ public class ImManager {
      */
     public static void getItems(Context ctx, String urlString, boolean refresh,
                                 final HttpRequestHandler<ArrayList<Item>> handler) {
+        MemberModel memberModel = AccountUtils.readLoginMember(ctx);
+        int useruid = memberModel.getUseruid();
         Uri uri = Uri.parse(urlString);
         String path = uri.getLastPathSegment();
         String param = uri.getEncodedQuery();
-        String key = path + ITEM_TABLE_NAME;
+        String key = path + useruid + ITEM_TABLE_NAME;
         if (param != null)
             key += param;
 
@@ -221,7 +223,8 @@ public class ImManager {
         params.put("haspage", "true");
         params.put("currentpage", "1");
         params.put("pagesize", "20");
-        params.put("useruid", "1");
+
+        params.put("useruid", useruid);
         client.post(ctx, urlString, params,
                 new WrappedJsonHttpResponseHandler<Item>(ctx, Item.class, key, handler));
     }
@@ -237,10 +240,12 @@ public class ImManager {
      */
     public static void getPos(Context ctx, String urlString, boolean refresh,
                               final HttpRequestHandler<ArrayList<Po>> handler) {
+        MemberModel memberModel = AccountUtils.readLoginMember(ctx);
+        int useruid = memberModel.getUseruid();
         Uri uri = Uri.parse(urlString);
         String path = uri.getLastPathSegment();
         String param = uri.getEncodedQuery();
-        String key = path + PO_TABLE_NAME;
+        String key = path + useruid + PO_TABLE_NAME;
         if (param != null)
             key += param;
 
@@ -263,7 +268,8 @@ public class ImManager {
         params.put("haspage", "true");
         params.put("currentpage", "1");
         params.put("pagesize", "20");
-        params.put("useruid", "1");
+
+        params.put("useruid", useruid);
         client.post(ctx, urlString, params,
                 new WrappedJsonHttpResponseHandler<Po>(ctx, Po.class, key, handler));
     }
@@ -287,7 +293,7 @@ public class ImManager {
 
                 //解析返回的Json数据
                 int code = JsonUtils.parsingUpdateString(data);
-                Log.i(TAG,"code="+code);
+                Log.i(TAG, "code=" + code);
                 if (code == 1) {
                     SafeHandler.onSuccess(handler, 200);
                 } else if (code == 0) {
@@ -310,6 +316,7 @@ public class ImManager {
 
     /**
      * 主项目修改
+     *
      * @param cxt
      * @param itemid
      * @param desc
@@ -329,13 +336,13 @@ public class ImManager {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.i(TAG,"FstatusCode="+statusCode);
+                Log.i(TAG, "FstatusCode=" + statusCode);
                 SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorCommentFailure));
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.i(TAG,"SstatusCode="+statusCode);
+                Log.i(TAG, "SstatusCode=" + statusCode);
                 if (statusCode == 200) {
                     SafeHandler.onSuccess(handler, responseString);
                 }

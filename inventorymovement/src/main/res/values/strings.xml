@@ -59,5 +59,8 @@
     <string name="item_picture_title">附件:</string>
     <string name="title_activity_picture">PictureActivity</string>
     <string name="choose_picture_text">选择图片</string>
+    <string name="logined_member_username">logined_member_username</string>
+    <string name="logined_member_password">logined_member_password</string>
+    <string name="logined_member_ischeck">logined_member_ischeck</string>
 
 </resources>
