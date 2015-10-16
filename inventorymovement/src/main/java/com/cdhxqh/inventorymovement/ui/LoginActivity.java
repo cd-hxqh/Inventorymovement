@@ -3,6 +3,7 @@ package com.cdhxqh.inventorymovement.ui;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     String userName; //用户名
     String userPassWorld; //密码
+    String imei; //imei
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login);
         UmengUpdateAgent.setDefault();
         UmengUpdateAgent.update(this);
+        imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
+                .getDeviceId();
         initView();
         setEvent();
         mLogin.setOnClickListener(this);
@@ -107,12 +111,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         ImManager.loginWithUsername(LoginActivity.this,
                 mUsername.getText().toString(),
-                mPassword.getText().toString(),
-                new HttpRequestHandler<Integer>() {
+                mPassword.getText().toString(),imei,
+                new HttpRequestHandler<String>() {
                     @Override
-                    public void onSuccess(Integer data) {
+                    public void onSuccess(String data) {
 
-                        MessageUtils.showMiddleToast(LoginActivity.this, "登陆成功");
+                        MessageUtils.showMiddleToast(LoginActivity.this, data);
                         mProgressDialog.dismiss();
                         if (isRemember) {
                             AccountUtils.setChecked(LoginActivity.this, isRemember);
@@ -124,8 +128,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
 
                     @Override
-                    public void onSuccess(Integer data, int totalPages, int currentPage) {
-                        MessageUtils.showMiddleToast(LoginActivity.this, "登陆成功");
+                    public void onSuccess(String data, int totalPages, int currentPage) {
+                        MessageUtils.showMiddleToast(LoginActivity.this, getString(R.string.login_successful_hint));
 
                         startIntent();
                     }

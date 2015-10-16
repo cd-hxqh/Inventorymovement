@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cdhxqh.inventorymovement" >
+    package="com.cdhxqh.inventorymovement"
+    android:versionCode="1"
+    android:versionName="1.0.0">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -25,7 +27,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/SampleTheme" >
+        android:theme="@style/SampleTheme">
 
         <!-- umeng设置 -->
         <meta-data
@@ -47,7 +49,8 @@
         <activity
             android:name=".ui.LoadActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".ui.MainActivity" >
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,8 +73,18 @@
             android:process=":DownloadingService" />
 
         <activity
-            android:name=".ui.itemui.ItemDetailsActivity"
+            android:name=".ui.detailsUi.ItemDetailsActivity"
             android:label="@string/title_activity_item_details"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.detailsUi.InvDetailsActivity"
+            android:label="@string/inv_text_title"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.detailsUi.ItemreqDetailsActivity"
+            android:label="@string/itemreq_title_text"
             android:parentActivityName=".ui.MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -81,8 +94,7 @@
         <activity
             android:name=".ui.pictureui.PictureActivity"
             android:label="@string/title_activity_picture"
-            android:parentActivityName=".ui.poui.PodetailsActivity">
-        </activity>
+            android:parentActivityName=".ui.poui.PodetailsActivity"></activity>
     </application>
 
 </manifest>

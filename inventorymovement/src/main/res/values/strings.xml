@@ -63,4 +63,23 @@
     <string name="logined_member_password">logined_member_password</string>
     <string name="logined_member_ischeck">logined_member_ischeck</string>
 
+    <string name="login_successful_hint">登陆成功</string>
+    <string name="get_data_info_fail">获取信息失败</string>
+    <string name="have_not_data_txt">暂无相关数据</string>
+
+
+    <string name="binnum_text">库位号:</string>
+    <string name="curbaltotal_text">当前余量:</string>
+    <string name="location_num_text">仓库编号:</string>
+    <string name="locationdesc_text">仓库描述:</string>
+    <string name="lotnum_text">批次:</string>
+    <string name="inv_text_title">库存情况详情</string>
+
+    <!--物资编码申请-->
+    <string name="itemreqnum_text">申请编号:</string>
+    <string name="itemreq_description_text">申请描述:</string>
+    <string name="itemreq_title_text">物资详情</string>
+    <string name="itemreq_num_title">物资编号:</string>
+    <string name="itemreq_matername_text">物资名称:</string>
+    <string name="itemreq_xh_text">物资型号:</string>
 </resources>

@@ -12,22 +12,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Po;
-import com.cdhxqh.inventorymovement.ui.poui.PodetailsActivity;
+import com.cdhxqh.inventorymovement.model.Inventory;
+import com.cdhxqh.inventorymovement.ui.detailsUi.InvDetailsActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by apple on 15/6/4.
+ * 库存使用情况
  */
-public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
+public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
 
-    private static final String TAG = "PoAdapter";
+    private static final String TAG = "InvAdapter";
     Context mContext;
-    ArrayList<Po> mPos = new ArrayList<Po>();
-//    V2EXDataSource mDataSource = Application.getDataSource();
+    ArrayList<Inventory> mInventorys = new ArrayList<Inventory>();
 
-    public PoAdapter(Context context) {
+    public InvAdapter(Context context) {
         mContext = context;
     }
 
@@ -37,20 +37,20 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Po po = mPos.get(i);
+        final Inventory inv = mInventorys.get(i);
 
-
-        viewHolder.itemNum.setText(po.ponum);
-        viewHolder.itemDesc.setText(po.description);
+        viewHolder.itemNum.setText(inv.itemnum);
+        viewHolder.itemDesc.setText(inv.itemdesc);
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, PodetailsActivity.class);
+                Intent intent = new Intent(mContext, InvDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("po", po);
+                bundle.putParcelable("inventory", inv);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
@@ -61,17 +61,17 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mPos.size();
+        return mInventorys.size();
     }
 
-    public void update(ArrayList<Po> data, boolean merge) {
-        if (merge && mPos.size() > 0) {
-            for (int i = 0; i < mPos.size(); i++) {
-                Log.i(TAG, "mItems=" + mPos.get(i).poid);
-                Po obj = mPos.get(i);
+    public void update(ArrayList<Inventory> data, boolean merge) {
+        if (merge && mInventorys.size() > 0) {
+            for (int i = 0; i < mInventorys.size(); i++) {
+                Log.i(TAG, "mItems=" + mInventorys.get(i).itemnum);
+                Inventory obj = mInventorys.get(i);
                 boolean exist = false;
                 for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).poid == obj.poid) {
+                    if (data.get(j).itemnum == obj.itemnum) {
                         exist = true;
                         break;
                     }
@@ -80,7 +80,7 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
                 data.add(obj);
             }
         }
-        mPos = data;
+        mInventorys = data;
 
         notifyDataSetChanged();
     }

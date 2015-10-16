@@ -76,7 +76,7 @@
                     android:textColor="@color/body_text_1"
                     android:textSize="@dimen/dimen_20sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/item_desc_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,12 +106,12 @@
                     android:id="@+id/item_in20_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_in20_text"
+                    android:text="@string/binnum_text"
                     android:textColor="@color/body_text_1"
                     android:textSize="@dimen/dimen_20sp" />
 
-                <EditText
-                    android:id="@+id/item_in20_text"
+                <TextView
+                    android:id="@+id/item_binnum_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/have_not_data"
@@ -136,15 +136,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_orderunit_title"
+                    android:id="@+id/inv_curbaltotal_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_orderunit_text"
+                    android:text="@string/curbaltotal_text"
                     android:textColor="@color/body_text_1"
                     android:textSize="@dimen/dimen_20sp" />
 
                 <TextView
-                    android:id="@+id/item_orderunit_text"
+                    android:id="@+id/inv_curbaltotal_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5"
@@ -171,7 +171,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_issueunit_title"
+                    android:id="@+id/inv_issueunit_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/item_issueunit_text"
@@ -179,7 +179,7 @@
                     android:textSize="@dimen/dimen_20sp" />
 
                 <TextView
-                    android:id="@+id/item_issueunit_text"
+                    android:id="@+id/inv_issueunit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5"
@@ -197,7 +197,7 @@
                 android:background="@drawable/line"></View>
 
             <LinearLayout
-                android:id="@+id/enterby_linearlayout_id"
+                android:id="@+id/location_linearlayout_id"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_40dp"
                 android:layout_below="@+id/issueunit_linearlayout_id"
@@ -206,15 +206,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_enterby_title"
+                    android:id="@+id/inv_enterby_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_enterby_text"
+                    android:text="@string/location_num_text"
                     android:textColor="@color/body_text_1"
                     android:textSize="@dimen/dimen_20sp" />
 
                 <TextView
-                    android:id="@+id/item_enterby_text"
+                    android:id="@+id/inv_location_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5"
@@ -228,11 +228,11 @@
                 android:id="@+id/view_6_id"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/enterby_linearlayout_id"
+                android:layout_below="@+id/location_linearlayout_id"
                 android:background="@drawable/line"></View>
 
             <LinearLayout
-                android:id="@+id/enterdate_linearlayout_id"
+                android:id="@+id/locationdesc_linearlayout_id"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_40dp"
                 android:layout_below="@+id/view_6_id"
@@ -241,15 +241,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_enterdate_title"
+                    android:id="@+id/inv_locationdesc_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/ietm_enterdate_text"
+                    android:text="@string/locationdesc_text"
                     android:textColor="@color/body_text_1"
                     android:textSize="@dimen/dimen_20sp" />
 
                 <TextView
-                    android:id="@+id/item_enterdate_text"
+                    android:id="@+id/inv_locationdesc_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dimen_5"
@@ -263,11 +263,11 @@
                 android:id="@+id/view_7_id"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/enterdate_linearlayout_id"
+                android:layout_below="@+id/locationdesc_linearlayout_id"
                 android:background="@drawable/line"></View>
 
             <LinearLayout
-                android:id="@+id/picture_linearlayout_id"
+                android:id="@+id/lotnum_linearlayout_id"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_40dp"
                 android:layout_below="@+id/view_7_id"
@@ -276,65 +276,24 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_picture_title"
+                    android:id="@+id/inv_lotnum_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/item_picture_title"
+                    android:text="@string/lotnum_text"
                     android:textColor="@color/body_text_1"
                     android:textSize="@dimen/dimen_20sp" />
 
-                <ImageView
-                    android:id="@+id/image_camera_id"
+                <TextView
+                    android:id="@+id/inv_lotnum_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_camera" />
-
-                <ImageView
-                    android:id="@+id/image_create_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/create_contact" />
-
+                    android:layout_marginLeft="@dimen/dimen_5"
+                    android:layout_toRightOf="@+id/item_num_title"
+                    android:hint="@string/have_not_data"
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimen_20sp" />
             </LinearLayout>
 
-            <View
-                android:id="@+id/view_8_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/picture_linearlayout_id"
-                android:background="@drawable/line"></View>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/id_recyclerview_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="bottom"
-                android:layout_below="@+id/view_8_id"
-                android:layout_marginTop="2dp"
-                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
-
-
-            <View
-                android:id="@+id/view_9_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/swipe_container"
-                android:background="@drawable/line"></View>
-
-            <Button
-                android:id="@+id/submit_button_id"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="50dp"
-                android:layout_marginLeft="@dimen/dimen_20"
-                android:layout_marginRight="@dimen/dimen_20"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/login_button"
-                android:text="@string/submit_button_text"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 

@@ -3,7 +3,6 @@ package com.cdhxqh.inventorymovement.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Item;
-import com.cdhxqh.inventorymovement.ui.itemui.ItemDetailsActivity;
+import com.cdhxqh.inventorymovement.ui.detailsUi.ItemDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private static final String TAG = "ItemAdapter";
     Context mContext;
     ArrayList<Item> mItems = new ArrayList<Item>();
-//    V2EXDataSource mDataSource = Application.getDataSource();
 
     public ItemAdapter(Context context) {
         mContext = context;
@@ -42,7 +40,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final Item item = mItems.get(i);
 
-
+        Log.i(TAG,"item.itemnum="+item.itemnum);
         viewHolder.itemNum.setText(item.itemnum);
         viewHolder.itemDesc.setText(item.description);
 
@@ -51,10 +49,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ItemDetailsActivity.class);
                 Bundle bundle = new Bundle();
-//                bundle.putString("num",item.itemnum);
-//                bundle.putParcelable("item",item);
                 bundle.putParcelable("item", item);
-                Log.i(TAG, "itemid=" + item.itemid + ",itemnum=" + item.itemnum + ",description=" + item.description + ",in20=" + item.in20 + ",in24=" + item.in24 + ",orderunit=" + item.orderunit + ",issueunit=" + item.issueunit + ",enterby=" + item.enterby + ",enterdate=" + item.enterdate);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

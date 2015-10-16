@@ -12,22 +12,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Po;
-import com.cdhxqh.inventorymovement.ui.poui.PodetailsActivity;
+import com.cdhxqh.inventorymovement.model.Inventory;
+import com.cdhxqh.inventorymovement.model.Itemreq;
+import com.cdhxqh.inventorymovement.ui.detailsUi.InvDetailsActivity;
+import com.cdhxqh.inventorymovement.ui.detailsUi.ItemreqDetailsActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by apple on 15/6/4.
+ * 物资编码申请
  */
-public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
+public class ItemreqAdapter extends RecyclerView.Adapter<ItemreqAdapter.ViewHolder> {
 
-    private static final String TAG = "PoAdapter";
+    private static final String TAG = "ItemreqAdapter";
     Context mContext;
-    ArrayList<Po> mPos = new ArrayList<Po>();
-//    V2EXDataSource mDataSource = Application.getDataSource();
+    ArrayList<Itemreq> mItemreqs = new ArrayList<Itemreq>();
 
-    public PoAdapter(Context context) {
+    public ItemreqAdapter(Context context) {
         mContext = context;
     }
 
@@ -37,20 +39,20 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         return new ViewHolder(v);
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Po po = mPos.get(i);
+        final Itemreq inv = mItemreqs.get(i);
 
-
-        viewHolder.itemNum.setText(po.ponum);
-        viewHolder.itemDesc.setText(po.description);
+        viewHolder.itemNum.setText(inv.itemreqnum);
+        viewHolder.itemDesc.setText(inv.description);
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, PodetailsActivity.class);
+                Intent intent = new Intent(mContext, ItemreqDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("po", po);
+                bundle.putParcelable("itemreq", inv);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
@@ -61,17 +63,17 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mPos.size();
+        return mItemreqs.size();
     }
 
-    public void update(ArrayList<Po> data, boolean merge) {
-        if (merge && mPos.size() > 0) {
-            for (int i = 0; i < mPos.size(); i++) {
-                Log.i(TAG, "mItems=" + mPos.get(i).poid);
-                Po obj = mPos.get(i);
+    public void update(ArrayList<Itemreq> data, boolean merge) {
+        if (merge && mItemreqs.size() > 0) {
+            for (int i = 0; i < mItemreqs.size(); i++) {
+                Log.i(TAG, "mItems=" + mItemreqs.get(i).itemreqnum);
+                Itemreq obj = mItemreqs.get(i);
                 boolean exist = false;
                 for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).poid == obj.poid) {
+                    if (data.get(j).itemreqnum == obj.itemreqnum) {
                         exist = true;
                         break;
                     }
@@ -80,7 +82,7 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
                 data.add(obj);
             }
         }
-        mPos = data;
+        mItemreqs = data;
 
         notifyDataSetChanged();
     }
@@ -90,11 +92,18 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
          * CardView*
          */
         public CardView cardView;
-
+        /**
+         * 编号标题*
+         */
+        public TextView itemNumTitle;
         /**
          * 编号*
          */
         public TextView itemNum;
+        /**
+         * 描述标题*
+         */
+        public TextView itemDescTitle;
         /**
          * 描述*
          */
@@ -103,7 +112,10 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.card_container);
+
+            itemNumTitle = (TextView) view.findViewById(R.id.item_num_title);
             itemNum = (TextView) view.findViewById(R.id.item_num_text);
+            itemDescTitle = (TextView) view.findViewById(R.id.item_desc_title);
             itemDesc = (TextView) view.findViewById(R.id.item_desc_text);
         }
     }

@@ -102,7 +102,7 @@ public class PoFragment extends Fragment implements HttpRequestHandler<ArrayList
     }
 
     private void requestPoById(boolean refresh) {
-        ImManager.getLatestPo(getActivity(), refresh, this);
+//        ImManager.getData(getActivity(), refresh, this);
     }
 
     private void requestPoId(boolean refresh) {

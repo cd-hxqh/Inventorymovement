@@ -1,4 +1,4 @@
-package com.cdhxqh.inventorymovement.ui.itemui;
+package com.cdhxqh.inventorymovement.ui.detailsUi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,15 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
-import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
 import com.cdhxqh.inventorymovement.ui.pictureui.PictureActivity;
 import com.cdhxqh.inventorymovement.utils.InputUtils;
-import com.cdhxqh.inventorymovement.utils.MessageUtils;
-
-import java.util.ArrayList;
 
 /**
  * 主项目详情
@@ -210,27 +203,27 @@ public class ItemDetailsActivity extends BaseActivity {
             InputUtils.popSoftkeyboard(ItemDetailsActivity.this, in20TextView, false);
             showProgressBar(R.string.submit_process_ing);
 
-            ImManager.updateItemInfo(ItemDetailsActivity.this, item.itemid, descTextView.getText().toString(), in20TextView.getText().toString(), new HttpRequestHandler<Integer>() {
-                @Override
-                public void onSuccess(Integer data) {
-
-                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
-                    colseProgressBar();
-
-                }
-
-                @Override
-                public void onSuccess(Integer data, int totalPages, int currentPage) {
-                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
-                    colseProgressBar();
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    MessageUtils.showErrorMessage(ItemDetailsActivity.this, error);
-                    colseProgressBar();
-                }
-            });
+//            ImManager.updateItemInfo(ItemDetailsActivity.this, item.itemid, descTextView.getText().toString(), in20TextView.getText().toString(), new HttpRequestHandler<Integer>() {
+//                @Override
+//                public void onSuccess(Integer data) {
+//
+//                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
+//                    colseProgressBar();
+//
+//                }
+//
+//                @Override
+//                public void onSuccess(Integer data, int totalPages, int currentPage) {
+//                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
+//                    colseProgressBar();
+//                }
+//
+//                @Override
+//                public void onFailure(String error) {
+//                    MessageUtils.showErrorMessage(ItemDetailsActivity.this, error);
+//                    colseProgressBar();
+//                }
+//            });
 
 
         }

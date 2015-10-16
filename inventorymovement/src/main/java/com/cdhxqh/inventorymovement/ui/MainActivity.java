@@ -34,7 +34,9 @@ import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.DrawerAdapter;
 import com.cdhxqh.inventorymovement.fragment.ContentFragment;
+import com.cdhxqh.inventorymovement.fragment.InVFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemFragment;
+import com.cdhxqh.inventorymovement.fragment.ItemreqFragment;
 import com.cdhxqh.inventorymovement.fragment.PoFragment;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
@@ -53,7 +55,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      */
     private TextView titleTextView;
     private Resources resources;
-    private TextView styleButton;
+
+    /**搜索按钮**/
+    private ImageView searchButton;
 
     private String mTitle;
 
@@ -61,8 +65,14 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private DrawerAdapter adapter;
     private String[] arrays;
 
-
+    /**主项目的fragment**/
     private Fragment newItemFragment;
+    /**库存使用情况**/
+    private InVFragment newInVFragment;
+
+    /**物资编码申请**/
+    private ItemreqFragment newItemreqFragment;
+
     private PoFragment newPoFragemnt;
 
     @Override
@@ -81,7 +91,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         imageView = (ImageView) findViewById(R.id.drawer_indicator);
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         resources = getResources();
-        styleButton = (TextView) findViewById(R.id.indicator_style);
+        searchButton = (ImageView) findViewById(R.id.indicator_style);
 
     }
 
@@ -122,27 +132,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             }
         });
 
-        styleButton.setOnClickListener(new View.OnClickListener() {
-            boolean rounded = false;
 
-            @Override
-            public void onClick(View v) {
-                styleButton.setText(rounded //
-                        ? resources.getString(R.string.rounded) //
-                        : resources.getString(R.string.squared));
-
-                rounded = !rounded;
-
-                drawerArrowDrawable = new DrawerArrowDrawable(resources,
-                        rounded);
-                drawerArrowDrawable.setParameter(offset);
-                drawerArrowDrawable.setFlip(flipped);
-                drawerArrowDrawable.setStrokeColor(resources
-                        .getColor(R.color.light_gray));
-
-                imageView.setImageDrawable(drawerArrowDrawable);
-            }
-        });
 
         adapter = new DrawerAdapter(this);
         mDrawerList.setAdapter(adapter);
@@ -180,6 +170,28 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     newPoFragemnt.setArguments(bundle);
                 }
                 fragmentTransaction.replace(R.id.content_frame, newPoFragemnt).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
+            case 6://库存使用情况
+                titleTextView.setText(adapter.getTitle(position));
+                if (newInVFragment == null) {
+                    newInVFragment = new InVFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newInVFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newInVFragment).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
+            case 7://物资编码申请
+                titleTextView.setText(adapter.getTitle(position));
+                if (newItemreqFragment == null) {
+                    newItemreqFragment = new ItemreqFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newItemreqFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newItemreqFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
 

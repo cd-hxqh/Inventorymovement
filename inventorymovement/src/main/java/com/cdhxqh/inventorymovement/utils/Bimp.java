@@ -9,7 +9,7 @@ import java.util.List;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
+/**图片信息处理类**/
 public class Bimp {
 	public static int max = 0;
 	public static boolean act_bool = true;

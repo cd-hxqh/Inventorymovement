@@ -1,41 +1,53 @@
 package com.cdhxqh.inventorymovement.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.cdhxqh.inventorymovement.R;
 
 public class LoadActivity extends BaseActivity {
 
+    private static final int ANIMATION_DURATION = 2000;
+    private static final float SCALE_END = 1.13F;
+
+    ImageView mSplashImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
-        new Thread() {
-
-
-            @Override
-            public void run() {
-                super.run();
-                try
-                {
-                    sleep(3000);//挂起3秒
-                    jumpLoginActivity();
-                }
-                catch (InterruptedException e)
-                {
-                    return;
-                }
-
-
-            }
-
-
-        }.start();
+        mSplashImage=(ImageView)findViewById(R.id.load_imageView_id);
+        animateImage();
     }
+
+
+
+    private void animateImage() {
+        ObjectAnimator animatorX = ObjectAnimator.ofFloat(mSplashImage, "scaleX", 1f, SCALE_END);
+        ObjectAnimator animatorY = ObjectAnimator.ofFloat(mSplashImage, "scaleY", 1f, SCALE_END);
+
+        AnimatorSet set = new AnimatorSet();
+        set.setDuration(ANIMATION_DURATION).play(animatorX).with(animatorY);
+        set.start();
+
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                jumpLoginActivity();
+            }
+        });
+    }
+
+
+
 
     /**
      * 跳转至登录界面*
@@ -48,19 +60,14 @@ public class LoadActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_load, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

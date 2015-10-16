@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 /**
  * Created by apple on 15/6/3.
+ * 主项目信息
  */
 public class Item extends Entity implements Parcelable {
     private static final String TAG = "Item";
@@ -18,7 +19,6 @@ public class Item extends Entity implements Parcelable {
     public String itemnum; //项目编号
     public String description; //描述
     public String in20; //规格型号
-    public String in24; //材质
     public String orderunit; //订购单位
     public String issueunit; //发放单位
     public String enterby; //录入人
@@ -27,17 +27,14 @@ public class Item extends Entity implements Parcelable {
 
     @Override
     public void parse(JSONObject jsonObject) throws JSONException {
-        Log.i(TAG, "jsonObject=" + jsonObject.toString());
         itemid = jsonObject.getString("itemid");
         itemnum = jsonObject.getString("itemnum");
         description = jsonObject.getString("description");
         in20 = jsonObject.getString("in20");
-        in24 = jsonObject.getString("in24");
         orderunit = jsonObject.getString("orderunit");
         issueunit = jsonObject.getString("issueunit");
         enterby = jsonObject.getString("enterby");
         enterdate = jsonObject.getString("enterdate");
-        Log.i(TAG, "itemid=" + itemid + ",itemnum=" + itemnum + ",description=" + description + ",in20=" + in20 + ",in24=" + in24 + ",orderunit=" + orderunit + ",issueunit=" + issueunit + ",enterby=" + enterby + ",enterdate=" + enterdate);
     }
 
     public Item() {
@@ -49,7 +46,6 @@ public class Item extends Entity implements Parcelable {
         itemnum = in.readString();
         description = in.readString();
         in20 = in.readString();
-        in24 = in.readString();
         orderunit = in.readString();
         issueunit = in.readString();
         enterby = in.readString();
@@ -67,7 +63,6 @@ public class Item extends Entity implements Parcelable {
         dest.writeString(itemnum);
         dest.writeString(description);
         dest.writeString(in20);
-        dest.writeString(in24);
         dest.writeString(orderunit);
         dest.writeString(issueunit);
         dest.writeString(enterby);
@@ -120,13 +115,6 @@ public class Item extends Entity implements Parcelable {
         this.in20 = in20;
     }
 
-    public String getIn24() {
-        return in24;
-    }
-
-    public void setIn24(String in24) {
-        this.in24 = in24;
-    }
 
     public String getOrderunit() {
         return orderunit;

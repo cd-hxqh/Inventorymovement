@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
+/**网络消息处理类**/
 public class NetWorkHelper {
 
 	/**
