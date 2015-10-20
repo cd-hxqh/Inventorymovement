@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cdhxqh.inventorymovement.ui.SearchActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -9,7 +11,7 @@
         android:background="@color/login_bj">
 
         <ImageView
-            android:id="@+id/drawer_indicator"
+            android:id="@+id/back_image_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -17,26 +19,30 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_back_selector" />
 
-        <TextView
-            android:id="@+id/drawer_text"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/actionbar_dimen"
-            android:layout_centerHorizontal="true"
+        <EditText
+            android:id="@+id/search_edittext_id"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/back_image_id"
             android:gravity="center_vertical"
-            android:text="@string/main_project"
-            android:textColor="@color/white"
-            android:textSize="23dp" />
+            android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/menu_imageview_id"
             android:layout_width="30dip"
-            android:layout_height="wrap_content"
+            android:layout_height="30dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/ic_menu" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/abc_ic_capture" />
 
 
     </RelativeLayout>
+
+    <include layout="@layout/fragment_item"></include>
 </LinearLayout>

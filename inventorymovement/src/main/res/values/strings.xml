@@ -82,4 +82,7 @@
     <string name="itemreq_num_title">物资编号:</string>
     <string name="itemreq_matername_text">物资名称:</string>
     <string name="itemreq_xh_text">物资型号:</string>
+    <string name="generate_item_number">生成物资编码</string>
+    <string name="work_flow">工作流</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

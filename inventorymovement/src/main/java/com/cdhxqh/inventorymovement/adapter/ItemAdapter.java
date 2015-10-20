@@ -40,7 +40,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final Item item = mItems.get(i);
 
-        Log.i(TAG,"item.itemnum="+item.itemnum);
+        Log.i(TAG, "item.itemnum=" + item.itemnum);
         viewHolder.itemNum.setText(item.itemnum);
         viewHolder.itemDesc.setText(item.description);
 
@@ -83,6 +83,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
         notifyDataSetChanged();
     }
+
+
+    public void removeAllData() {
+        if (mItems.size() > 0) {
+            mItems.removeAll(mItems);
+        }
+    }
+
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         /**

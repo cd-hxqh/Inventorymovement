@@ -1,14 +1,11 @@
 package com.cdhxqh.inventorymovement.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.cdhxqh.inventorymovement.R;
@@ -18,35 +15,24 @@ public class LoadActivity extends BaseActivity {
     private static final int ANIMATION_DURATION = 2000;
     private static final float SCALE_END = 1.13F;
 
-    ImageView mSplashImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
-        mSplashImage=(ImageView)findViewById(R.id.load_imageView_id);
-        animateImage();
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Handler x = new Handler();
+        x.postDelayed(new splashhandler(), 2000);
     }
 
 
+    class splashhandler implements Runnable {
 
-    private void animateImage() {
-        ObjectAnimator animatorX = ObjectAnimator.ofFloat(mSplashImage, "scaleX", 1f, SCALE_END);
-        ObjectAnimator animatorY = ObjectAnimator.ofFloat(mSplashImage, "scaleY", 1f, SCALE_END);
+        public void run() {
+            jumpLoginActivity();
+        }
 
-        AnimatorSet set = new AnimatorSet();
-        set.setDuration(ANIMATION_DURATION).play(animatorX).with(animatorY);
-        set.start();
-
-        set.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                jumpLoginActivity();
-            }
-        });
     }
-
-
 
 
     /**

@@ -20,8 +20,13 @@ public class Constants {
     public static final String ITEM_UPDATE_URL = HTTP_API_URL + "item/update";
 
 
+    //生成物资编码接口
+    public static final String ITEM_GENERATE_URL = HTTP_API_URL + "itemreq/createCode";
+    //发送工作流接口
 
-
+    public static final String START_FLOW_URL = HTTP_API_URL + "wf/start";
+    //审批工作流接口
+    public static final String APPROVAL_FLOW_URL = HTTP_API_URL + "wf/approve";
 
     /**------------------数据库表名配置－－开始**/
 

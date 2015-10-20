@@ -19,9 +19,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -138,7 +140,18 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(this);
 
+
+        searchButton.setOnClickListener(searchButtonOnClickListener);
     }
+
+    private View.OnClickListener searchButtonOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setSearchButton(mSelectPos);
+        }
+    };
+
+
 
     int mSelectPos = 0;
     @Override
@@ -251,6 +264,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         } else {
             AppManager.AppExit(MainActivity.this);
         }
+    }
+
+    /**跳转至搜索界面**/
+    private void setSearchButton(int mark){
+
+        Log.i(TAG,"mark="+mark);
+        Intent intent=new Intent();
+        intent.putExtra("search_mark",mark);
+        intent.setClass(MainActivity.this, SearchActivity.class);
+
+        startActivityForResult(intent,0);
     }
 
 }

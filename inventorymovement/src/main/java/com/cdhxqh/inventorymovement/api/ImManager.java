@@ -2,30 +2,17 @@ package com.cdhxqh.inventorymovement.api;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 
 import com.cdhxqh.inventorymovement.Application;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.constants.Constants;
-import com.cdhxqh.inventorymovement.model.Item;
-import com.cdhxqh.inventorymovement.model.MemberModel;
-import com.cdhxqh.inventorymovement.model.PersistenceHelper;
-import com.cdhxqh.inventorymovement.model.Po;
-import com.cdhxqh.inventorymovement.utils.AccountUtils;
-import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
-
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by apple on 15/5/27.
@@ -37,25 +24,55 @@ public class ImManager {
     private static final String TAG = "ImManager";
 
 
-    /**设置主项目接口**/
-    public static String serItemUrl(int curpage,int showcount){
-        return "{'appid':'ITEM','objectname':'ITEM','curpage':"+curpage+",'showcount':"+showcount+",'option':'read'}";
+    /**
+     * 设置主项目接口*
+     */
+    public static String serItemUrl(int curpage, int showcount) {
+        return "{'appid':'ITEM','objectname':'ITEM','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
     }
 
-    /**设置库存使用情况接口**/
-    public static String serInventoryUrl(int curpage,int showcount){
-        return "{'appid':'"+Constants.INV_APPID+"','objectname':'"+Constants.INVENTORY_NAME+"','curpage':"+curpage+",'showcount':"+showcount+",'option':'read'}";
+    /**
+     * 主项目搜索接口
+     */
+    public static String searchItem(String search) {
+        return "{'appid':'ITEM','objectname':'ITEM','option':'read','condition':{'ITEMNUM':'" + search + "'}}";
     }
 
-    /**设置物资编码申请接口**/
-    public static String serItemreqUrl(int curpage,int showcount){
-        return "{'appid':'"+Constants.ITEMREQ_APPID+"','objectname':'"+Constants.ITEMREQ_NAME+"','curpage':"+curpage+",'showcount':"+showcount+",'option':'read'}";
+    /**
+     * 库存使用情况搜索接口*
+     */
+    public static String searchInventoryUrl(String search) {
+        return "{'appid':'" + Constants.INV_APPID + "','objectname':'" + Constants.INVENTORY_NAME + "','option':'read','condition':{'ITEMNUM':'" + search + "'}}";
+    }
+
+//    /**
+//     * 设置入库管理*
+//     */
+//    public static String serItemUrl(int curpage, int showcount) {
+//        return "{'appid':'ITEM','objectname':'ITEM','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+//    }
+
+
+    /**
+     * 设置库存使用情况接口*
+     */
+    public static String serInventoryUrl(int curpage, int showcount) {
+        return "{'appid':'" + Constants.INV_APPID + "','objectname':'" + Constants.INVENTORY_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+    }
+
+    /**
+     * 设置物资编码申请接口*
+     */
+    public static String serItemreqUrl(int curpage, int showcount) {
+        return "{'appid':'" + Constants.ITEMREQ_APPID + "','objectname':'" + Constants.ITEMREQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
     }
 
 
-    /**设置物资编码申请行接口**/
-    public static String serItemreqLineUrl(int curpage,int showcount,String itemreqnum){
-        return "{'appid':'"+Constants.ITEMREQ_APPID+"','objectname':'"+Constants.ITEMREQLINE_NAME+"','curpage':"+curpage+",'showcount':"+showcount+",'option':'read','condition':{'itemreqnum':'"+itemreqnum+"'}}";
+    /**
+     * 设置物资编码申请行接口*
+     */
+    public static String serItemreqLineUrl(int curpage, int showcount, String itemreqnum) {
+        return "{'appid':'" + Constants.ITEMREQ_APPID + "','objectname':'" + Constants.ITEMREQLINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'itemreqnum':'" + itemreqnum + "'}}";
     }
 
     /**
@@ -99,10 +116,9 @@ public class ImManager {
 
 
     /**
-     * 获取信息方法*
+     * 不分页获取信息方法*
      */
-    public static void getData(final Context cxt, String data, final HttpRequestHandler<String> handler) {
-        Log.i(TAG,"itemdata="+data);
+    public static void getData(final Context cxt, String data, final HttpRequestHandler<Results> handler) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("data", data);
@@ -114,7 +130,10 @@ public class ImManager {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                SafeHandler.onSuccess(handler, responseString);
+
+                Results result = JsonUtils.parsingResults1(cxt, responseString);
+
+                SafeHandler.onSuccess(handler, result, result.getCurpage(), result.getShowcount());
 
             }
         });
@@ -125,7 +144,7 @@ public class ImManager {
      * 解析返回的结果--分页*
      */
     public static void getDataPagingInfo(final Context cxt, String data, final HttpRequestHandler<Results> handler) {
-        Log.i(TAG,"data="+data);
+        Log.i(TAG, "data=" + data);
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("data", data);
@@ -137,7 +156,7 @@ public class ImManager {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
+                Log.i(TAG, "statusCode");
                 Results result = JsonUtils.parsingResults(cxt, responseString);
 
                 SafeHandler.onSuccess(handler, result, result.getCurpage(), result.getShowcount());
@@ -146,6 +165,114 @@ public class ImManager {
     }
 
 
+    /**
+     * 生成物资编码*
+     *
+     * @ cxt 上下问
+     * useruid 用户唯一ID
+     * itemreqid 编码申请单唯一标识
+     */
+    public static void setItemNumber(final Context cxt, final String useruid, final String itemreqid,
+                                     final HttpRequestHandler<String> handler) {
+
+        Log.i(TAG, "itemreqid=" + itemreqid);
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("useruid", useruid);
+        params.put("itemreqid", itemreqid);
+        client.post(Constants.ITEM_GENERATE_URL, params, new TextHttpResponseHandler() {
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorLoginFailure));
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.i(TAG, "SstatusCode=" + statusCode + "responseString=" + responseString);
+
+            }
+        });
+
+
+    }
+
+
+    /**
+     * 发送工作流
+     *
+     * @cxt 上下文
+     * @ownertable 工作流对应的主表名称
+     * @ownerid 工作流对应的主表主键
+     * @processname 工作流名称
+     * @useruid 当前登录人的唯一标识
+     */
+    public static void startFlow(final Context cxt, final String ownertable, final String ownerid, final String processname, final String useruid,
+                                 final HttpRequestHandler<String> handler) {
+
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("ownertable", ownertable);
+        params.put("ownerid", ownerid);
+        params.put("processname", processname);
+        params.put("useruid", useruid);
+        client.post(Constants.START_FLOW_URL, params, new TextHttpResponseHandler() {
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorLoginFailure));
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.i(TAG, "SstatusCode=" + statusCode + "responseString=" + responseString);
+
+            }
+        });
+
+
+    }
+
+    /**
+     * 审批工作流
+     *
+     * @ownertable 工作流对应的主表名称
+     * @ownerid 工作流对应的主表主键
+     * @memo 审批意见
+     * @selectWhat 是否接受：true/false
+     * useruid 当前登录人的唯一标识
+     */
+    public static void approvalFlow(final Context cxt, final String ownertable, final String ownerid, final String memo, final String selectWhat, final String useruid,
+                                    final HttpRequestHandler<String> handler) {
+
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("ownertable", ownertable);
+        params.put("ownerid", ownerid);
+        params.put("memo", memo);
+        params.put("selectWhat", selectWhat);
+        params.put("useruid", useruid);
+        client.post(Constants.APPROVAL_FLOW_URL, params, new TextHttpResponseHandler() {
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                SafeHandler.onFailure(handler, IMErrorType.errorMessage(cxt, IMErrorType.ErrorLoginFailure));
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.i(TAG, "SstatusCode=" + statusCode + "responseString=" + responseString);
+
+            }
+        });
+
+
+    }
 
 
 }

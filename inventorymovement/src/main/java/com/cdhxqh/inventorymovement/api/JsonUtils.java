@@ -85,6 +85,37 @@ public class JsonUtils {
     }
 
     /**
+     * 不分页解析返回的结果*
+     */
+    public static Results parsingResults1(Context ctx, String data) {
+
+        String result = null;
+        Results results = null;
+        try {
+            JSONObject json = new JSONObject(data);
+            String jsonString = json.getString("errcode");
+            if (jsonString.equals(Constants.GETDATASUCCESS)) {
+                result = json.getString("result");
+                Log.i(TAG,"result="+result);
+                results = new Results();
+                results.setResultlist(result);
+            }
+
+            return results;
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return results;
+        }
+
+    }
+
+
+
+
+
+    /**
      * 解析主项目信息*
      */
     public static ArrayList<Item> parsingItem(Context ctx, String data) {
