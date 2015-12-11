@@ -32,7 +32,6 @@ class WrappedJsonHttpResponseHandler<T extends Entity> extends JsonHttpResponseH
         this.key = key;
     }
 
-    @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         ArrayList<T> models = new ArrayList<T>();
         try {
@@ -50,9 +49,7 @@ class WrappedJsonHttpResponseHandler<T extends Entity> extends JsonHttpResponseH
         }
     }
 
-    @Override
     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-        Log.i(TAG,"response="+response);
         ArrayList<T> models = new ArrayList<T>();
         for (int i = 0; i < response.length(); i++) {
 
@@ -80,7 +77,6 @@ class WrappedJsonHttpResponseHandler<T extends Entity> extends JsonHttpResponseH
         SafeHandler.onSuccess(handler, models);
     }
 
-    @Override
     public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
         handleFailure(statusCode, e.getMessage());
     }
