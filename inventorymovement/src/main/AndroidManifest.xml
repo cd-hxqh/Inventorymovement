@@ -103,6 +103,10 @@
             android:name=".ui.poui.InvbalancesActivity"
             android:label="@string/title_activity_search" >
         </activity>
+        <activity
+            android:name=".ui.LocationsDetailActivity"
+            android:label="@string/title_activity_locations_detail" >
+        </activity>
     </application>
 
 </manifest>
