@@ -84,6 +84,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void adddate(ArrayList<Item> data){
+        if(data.size()>0){
+            for(int i = 0;i < data.size();i++){
+                if(!mItems.contains(data.get(i))){
+                    mItems.add(data.get(i));
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     public void removeAllData() {
         if (mItems.size() > 0) {

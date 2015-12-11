@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,13 +25,14 @@ import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
+import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
 /**
  * 主项目列表*
  */
-public class ItemFragment extends Fragment {
+public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
     private static final String TAG = "ItemFragment";
     private static final int RESULT_ADD_TOPIC = 100;
     /**
@@ -52,6 +52,7 @@ public class ItemFragment extends Fragment {
 
     ItemAdapter itemAdapter;
 
+    private int page = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,18 +81,20 @@ public class ItemFragment extends Fragment {
         itemAdapter = new ItemAdapter(getActivity());
         mRecyclerView.setAdapter(itemAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getItemList();
-            }
-        });
-        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSwipeLayout.setProgressViewOffset(false, 0,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+//        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                getItemList();
+//            }
+//        });
+        mSwipeLayout.setColor(R.color.holo_blue_bright,
+                R.color.holo_green_light,
+                R.color.holo_orange_light,
+                R.color.holo_red_light);
+        mSwipeLayout.setRefreshing(true);
+
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setOnLoadListener(this);
 
 
         notLinearLayout = (LinearLayout) view.findViewById(R.id.have_not_data_id);
@@ -123,7 +126,7 @@ public class ItemFragment extends Fragment {
      */
 
     private void getItemList() {
-        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemUrl(1, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemUrl(page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -133,10 +136,17 @@ public class ItemFragment extends Fragment {
             public void onSuccess(Results results, int totalPages, int currentPage) {
                 ArrayList<Item> items = JsonUtils.parsingItem(getActivity(), results.getResultlist());
                 mSwipeLayout.setRefreshing(false);
+                mSwipeLayout.setLoading(false);
                 if (items == null || items.isEmpty()) {
                     notLinearLayout.setVisibility(View.VISIBLE);
-                } else {
-                    itemAdapter.update(items, true);
+                } else{
+                    if(page == 1){
+                        itemAdapter = new ItemAdapter(getActivity());
+                        mRecyclerView.setAdapter(itemAdapter);
+                    }
+                    if(page == totalPages) {
+                        itemAdapter.adddate(items);
+                    }
                 }
             }
 
@@ -148,5 +158,17 @@ public class ItemFragment extends Fragment {
         });
     }
 
+    //下拉刷新触发事件
+    @Override
+    public void onRefresh() {
+        page = 1;
+        getItemList();
+    }
 
+    //上拉加载
+    @Override
+    public void onLoad() {
+        page++;
+        getItemList();
+    }
 }

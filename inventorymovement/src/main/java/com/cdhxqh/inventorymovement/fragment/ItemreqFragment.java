@@ -2,7 +2,6 @@ package com.cdhxqh.inventorymovement.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,13 +20,14 @@ import com.cdhxqh.inventorymovement.api.JsonUtils;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Itemreq;
+import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
 /**
  * 物资编码申请列表*
  */
-public class ItemreqFragment extends Fragment {
+public class ItemreqFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
     private static final String TAG = "ItemreqFragment";
     private static final int RESULT_ADD_TOPIC = 100;
     /**
@@ -47,6 +47,7 @@ public class ItemreqFragment extends Fragment {
 
     ItemreqAdapter itemreqAdapter;
 
+    private int page = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,18 +76,14 @@ public class ItemreqFragment extends Fragment {
         itemreqAdapter = new ItemreqAdapter(getActivity());
         mRecyclerView.setAdapter(itemreqAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getItemList();
-            }
-        });
-        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSwipeLayout.setProgressViewOffset(false, 0,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mSwipeLayout.setColor(R.color.holo_blue_bright,
+                R.color.holo_green_light,
+                R.color.holo_orange_light,
+                R.color.holo_red_light);
+        mSwipeLayout.setRefreshing(true);
+
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setOnLoadListener(this);
 
 
         notLinearLayout = (LinearLayout) view.findViewById(R.id.have_not_data_id);
@@ -118,7 +115,7 @@ public class ItemreqFragment extends Fragment {
      */
 
     private void getItemList() {
-        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemreqUrl(1, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemreqUrl(page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -128,10 +125,17 @@ public class ItemreqFragment extends Fragment {
             public void onSuccess(Results results, int totalPages, int currentPage) {
                 ArrayList<Itemreq> items = JsonUtils.parsingItemreq(getActivity(), results.getResultlist());
                 mSwipeLayout.setRefreshing(false);
+                mSwipeLayout.setLoading(false);
                 if (items == null || items.isEmpty()) {
                     notLinearLayout.setVisibility(View.VISIBLE);
-                } else {
-                    itemreqAdapter.update(items, true);
+                } else{
+                    if(page == 1){
+                        itemreqAdapter = new ItemreqAdapter(getActivity());
+                        mRecyclerView.setAdapter(itemreqAdapter);
+                    }
+                    if(page == totalPages) {
+                        itemreqAdapter.adddate(items);
+                    }
                 }
             }
 
@@ -143,5 +147,18 @@ public class ItemreqFragment extends Fragment {
         });
     }
 
+    //下拉刷新触发事件
+    @Override
+    public void onRefresh() {
+        page = 1;
+        getItemList();
+    }
+
+    //上拉加载
+    @Override
+    public void onLoad() {
+        page++;
+        getItemList();
+    }
 
 }

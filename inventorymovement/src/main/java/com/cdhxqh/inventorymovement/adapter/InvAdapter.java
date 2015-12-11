@@ -85,6 +85,17 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void adddate(ArrayList<Inventory> data){
+        if(data.size()>0){
+            for(int i = 0;i < data.size();i++){
+                if(!mInventorys.contains(data.get(i))){
+                    mInventorys.add(data.get(i));
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         /**
          * CardView*

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +17,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"></android.support.v7.widget.RecyclerView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/have_not_data_id"
