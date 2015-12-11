@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.ui.LocationsDetailActivity;
 import com.cdhxqh.inventorymovement.ui.detailsUi.ItemDetailsActivity;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final Locations item = mItems.get(i);
-        viewHolder.itemNumTitle.setText(mContext.getString(R.string.item_num_title));
+        viewHolder.itemNumTitle.setText(mContext.getString(R.string.locations_location_title));
         viewHolder.itemDescTitle.setText(mContext.getString(R.string.item_desc_title));
         viewHolder.itemNum.setText(item.location);
         viewHolder.itemDesc.setText(item.description);
@@ -49,11 +50,11 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ItemDetailsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("item", item);
-//                intent.putExtras(bundle);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, LocationsDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("locations", item);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
 

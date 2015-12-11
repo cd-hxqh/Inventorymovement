@@ -86,4 +86,12 @@
     <string name="work_flow">工作流</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="eixt_hint_text">再按一次退出程序</string>
+
+    <!--库存转移-->
+    <string name="title_activity_locations_detail">库房</string>
+    <string name="locations_location_title">位置:</string>
+    <string name="location_sited_text">地点:</string>
+    <string name="locations_removed_btn">移出</string>
+    <string name="locations_move_btn">移入</string>
+    <string name="locations_title_text">库房详情</string>
 </resources>
