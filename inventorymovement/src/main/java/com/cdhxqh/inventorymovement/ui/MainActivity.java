@@ -39,6 +39,7 @@ import com.cdhxqh.inventorymovement.fragment.ContentFragment;
 import com.cdhxqh.inventorymovement.fragment.InVFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemreqFragment;
+import com.cdhxqh.inventorymovement.fragment.LocationFragment;
 import com.cdhxqh.inventorymovement.fragment.PoFragment;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
@@ -58,7 +59,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private TextView titleTextView;
     private Resources resources;
 
-    /**搜索按钮**/
+    /**
+     * 搜索按钮*
+     */
     private ImageView searchButton;
 
     private String mTitle;
@@ -67,15 +70,23 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private DrawerAdapter adapter;
     private String[] arrays;
 
-    /**主项目的fragment**/
+    /**
+     * 主项目的fragment*
+     */
     private Fragment newItemFragment;
-    /**库存使用情况**/
+    /**
+     * 库存使用情况*
+     */
     private InVFragment newInVFragment;
 
-    /**物资编码申请**/
+    /**
+     * 物资编码申请*
+     */
     private ItemreqFragment newItemreqFragment;
-
+    /**入库管理**/
     private PoFragment newPoFragemnt;
+    /**库存转移**/
+    private LocationFragment newLocationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +146,6 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         });
 
 
-
         adapter = new DrawerAdapter(this);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(this);
@@ -144,7 +154,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         searchButton.setOnClickListener(searchButtonOnClickListener);
     }
 
-    private View.OnClickListener searchButtonOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener searchButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             setSearchButton(mSelectPos);
@@ -152,8 +162,8 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     };
 
 
-
     int mSelectPos = 0;
+
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                             long arg3) {
@@ -183,6 +193,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     newPoFragemnt.setArguments(bundle);
                 }
                 fragmentTransaction.replace(R.id.content_frame, newPoFragemnt).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
+            case 4://库存转移
+                titleTextView.setText(adapter.getTitle(position));
+                if (newPoFragemnt == null) {
+                    newLocationFragment = new LocationFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newLocationFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newLocationFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
             case 6://库存使用情况
@@ -233,8 +254,10 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     }
 
-    /**默认显示主项目的**/
-    private void defaultShowItem(){
+    /**
+     * 默认显示主项目的*
+     */
+    private void defaultShowItem() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         if (newItemFragment == null) {
@@ -246,10 +269,6 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         fragmentTransaction.replace(R.id.content_frame, newItemFragment).commit();
         drawer.closeDrawer(mDrawerList);
     }
-
-
-
-
 
 
     private long exitTime = 0;
@@ -266,15 +285,18 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         }
     }
 
-    /**跳转至搜索界面**/
-    private void setSearchButton(int mark){
+    /**
+     * 跳转至搜索界面*
+     */
+    private void setSearchButton(int mark) {
 
-        Log.i(TAG,"mark="+mark);
-        Intent intent=new Intent();
-        intent.putExtra("search_mark",mark);
-        intent.setClass(MainActivity.this, SearchActivity.class);
+        if (mark == 0) { //跳转至主项目界面
+            Intent intent = new Intent();
+            intent.putExtra("search_mark", mark);
+            intent.setClass(MainActivity.this, SearchActivity.class);
+            startActivityForResult(intent, 0);
+        }
 
-        startActivityForResult(intent,0);
     }
 
 }

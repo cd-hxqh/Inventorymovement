@@ -60,6 +60,13 @@ public class Constants {
     //物资编码申请line
     public static final String ITEMREQLINE_NAME="ITEMREQLINE";
 
+
+    /**库存转移**/
+    //LOCATIONS的appid
+    public static final String LOCATIONS_APPID="TRANSFER";
+    //LOCATIONS的表名
+    public static final String LOCATIONS_NAME="LOCATIONS";
+
     /**
      * 用户登录表识--开始*
      */

@@ -107,8 +107,8 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
                 R.color.holo_green_light,
                 R.color.holo_orange_light,
                 R.color.holo_red_light);
-        mSwipeLayout.setRefreshing(true);
-
+        mSwipeLayout.setRefreshing(false);
+        mSwipeLayout.setLoading(false);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setOnLoadListener(this);
 
@@ -150,9 +150,9 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                 search = editText.getText().toString();
-                if (search_mark == ITEM_MARK) {
+                if (search_mark == ITEM_MARK) { //主项目
                     getItemList(search);
-                } else if (search_mark == INV_MARK) {
+                } else if (search_mark == INV_MARK) { //库存使用情况
                     getInvList(search);
                 }
                 return true;

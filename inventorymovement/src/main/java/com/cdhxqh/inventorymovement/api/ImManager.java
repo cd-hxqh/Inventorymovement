@@ -74,6 +74,20 @@ public class ImManager {
         return "{'appid':'" + Constants.ITEMREQ_APPID + "','objectname':'" + Constants.ITEMREQLINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'itemreqnum':'" + itemreqnum + "'}}";
     }
 
+
+    /**
+     * 设置库存转移接口*
+     */
+    public static String serLocationsUrl(int curpage, int showcount) {
+        return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.LOCATIONS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'TYPE':'STOREROOM'}}";
+    }
+
+
+
+
+
+
+
     /**
      * 使用用户名密码登录
      *
