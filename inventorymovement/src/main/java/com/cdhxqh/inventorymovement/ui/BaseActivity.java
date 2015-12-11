@@ -8,14 +8,18 @@ import android.view.MenuItem;
 
 import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.application.BaseApplication;
 
 public class BaseActivity extends Activity {
     private ProgressDialog mProgressDialog;
+
+    protected BaseApplication baseApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
+        baseApplication = (BaseApplication) getApplication();
     }
 
 
@@ -80,6 +84,13 @@ public class BaseActivity extends Activity {
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
+    }
+
+    /**
+     *
+     */
+    protected BaseApplication getBaseApplication(){
+        return baseApplication;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui.detailsUi;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
 import com.cdhxqh.inventorymovement.ui.pictureui.PictureActivity;
 import com.cdhxqh.inventorymovement.utils.InputUtils;
+import com.cdhxqh.inventorymovement.webserviceclient.AndroidClientService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 主项目详情
@@ -202,29 +208,32 @@ public class ItemDetailsActivity extends BaseActivity {
 
             InputUtils.popSoftkeyboard(ItemDetailsActivity.this, in20TextView, false);
             showProgressBar(R.string.submit_process_ing);
+            new AsyncTask<String, String, String>() {
+                @Override
+                protected String doInBackground(String... strings) {
+                    String result = null;
+                    String data = getBaseApplication().getWsService().InsertWO(getBaseApplication().getUsername(),
+                            item.itemnum,descTextView.getText().toString(),in20TextView.getText().toString());
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        result = jsonObject.getString("msg");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return result;
+                }
 
-//            ImManager.updateItemInfo(ItemDetailsActivity.this, item.itemid, descTextView.getText().toString(), in20TextView.getText().toString(), new HttpRequestHandler<Integer>() {
-//                @Override
-//                public void onSuccess(Integer data) {
-//
-//                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
-//                    colseProgressBar();
-//
-//                }
-//
-//                @Override
-//                public void onSuccess(Integer data, int totalPages, int currentPage) {
-//                    MessageUtils.showMiddleToast(ItemDetailsActivity.this, getString(R.string.submit_successful_text));
-//                    colseProgressBar();
-//                }
-//
-//                @Override
-//                public void onFailure(String error) {
-//                    MessageUtils.showErrorMessage(ItemDetailsActivity.this, error);
-//                    colseProgressBar();
-//                }
-//            });
-
+                @Override
+                protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
+                    colseProgressBar();
+                    if(s.equals("操作成功！")){
+                        Toast.makeText(ItemDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
+                    }else if (s!=null||s.equals("")){
+                        Toast.makeText(ItemDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }.execute();
 
         }
     };

@@ -116,22 +116,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onSuccess(String data) {
 
-                        MessageUtils.showMiddleToast(LoginActivity.this, data);
+//                        MessageUtils.showMiddleToast(LoginActivity.this, data);
                         mProgressDialog.dismiss();
-                        if (isRemember) {
-                            AccountUtils.setChecked(LoginActivity.this, isRemember);
-                            //记住密码
-                            AccountUtils.setUserNameAndPassWord(LoginActivity.this, mUsername.getText().toString(), mPassword.getText().toString());
+                        if(data!=null) {
+                            getBaseApplication().setUsername(mUsername.getText().toString());
+                            if (isRemember) {
+                                AccountUtils.setChecked(LoginActivity.this, isRemember);
+                                //记住密码
+                                AccountUtils.setUserNameAndPassWord(LoginActivity.this, mUsername.getText().toString(), mPassword.getText().toString());
+                            }
+                            startIntent();
+                        }else {
+                            MessageUtils.showMiddleToast(LoginActivity.this, "用户名或密码错误");
                         }
-                        startIntent();
-
                     }
 
                     @Override
                     public void onSuccess(String data, int totalPages, int currentPage) {
-                        MessageUtils.showMiddleToast(LoginActivity.this, getString(R.string.login_successful_hint));
+                        if(data!=null) {
+                            MessageUtils.showMiddleToast(LoginActivity.this, getString(R.string.login_successful_hint));
 
-                        startIntent();
+                            startIntent();
+                        }
                     }
 
                     @Override
