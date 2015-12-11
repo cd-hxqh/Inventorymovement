@@ -25,16 +25,16 @@ public class LocationsDetailActivity extends BaseActivity {
     private ImageView backImage; //返回
 
 
-    /**������Ϣ��ʾ**/
-    private TextView locationText; //λ��
+    /**界面值ʾ**/
+    private TextView locationText; //位置
 
-    private TextView desctionText; //����
+    private TextView desctionText; //描述
 
-    private TextView siteidText;  //վ��
+    private TextView siteidText;  //地点
 
 
-    private Button removedBtn; //�Ƴ�
-    private Button moveBtn; //����
+    private Button removedBtn; //移出
+    private Button moveBtn; //移入
 
 
     /**Locations**/
@@ -53,13 +53,13 @@ public class LocationsDetailActivity extends BaseActivity {
     }
 
 
-    /**��ʼ���������**/
+    /**获取上个界面**/
     private void initData() {
         locations= (Locations) getIntent().getSerializableExtra("locations");
     }
 
 
-    /**��ʼ���������**/
+    /**初始化界面控件**/
     private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
@@ -74,7 +74,7 @@ public class LocationsDetailActivity extends BaseActivity {
         moveBtn=(Button)findViewById(R.id.locations_move_btn_id);
     }
 
-    /**�����¼�����**/
+    /**设置事件监听**/
     private void initView() {
         titleTextView.setText(getString(R.string.locations_title_text));
         backImage.setOnClickListener(backOnClickListener);
