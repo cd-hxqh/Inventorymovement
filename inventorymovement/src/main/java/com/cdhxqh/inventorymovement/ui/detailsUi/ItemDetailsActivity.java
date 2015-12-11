@@ -212,7 +212,7 @@ public class ItemDetailsActivity extends BaseActivity {
                 @Override
                 protected String doInBackground(String... strings) {
                     String result = null;
-                    String data = getBaseApplication().getWsService().InsertWO(getBaseApplication().getUsername(),
+                    String data = getBaseApplication().getWsService().UpdateItem(getBaseApplication().getUsername(),
                             item.itemnum,descTextView.getText().toString(),in20TextView.getText().toString());
                     try {
                         JSONObject jsonObject = new JSONObject(data);

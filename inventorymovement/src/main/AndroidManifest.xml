@@ -99,6 +99,10 @@
             android:name=".ui.SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
+        <activity
+            android:name=".ui.poui.InvbalancesActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
     </application>
 
 </manifest>

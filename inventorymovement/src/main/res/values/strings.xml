@@ -86,4 +86,6 @@
     <string name="work_flow">工作流</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="eixt_hint_text">再按一次退出程序</string>
+
+    <string name="itemreqDetails_list">要转移的库存项目</string>
 </resources>

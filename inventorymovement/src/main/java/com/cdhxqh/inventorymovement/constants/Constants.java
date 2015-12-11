@@ -66,6 +66,8 @@ public class Constants {
     public static final String LOCATIONS_APPID="TRANSFER";
     //LOCATIONS的表名
     public static final String LOCATIONS_NAME="LOCATIONS";
+    //INVBALANCES的表名
+    public static final String INVBALANCES_NAME = "INVBALANCES";
 
     /**
      * 用户登录表识--开始*

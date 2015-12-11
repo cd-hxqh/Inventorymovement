@@ -52,6 +52,7 @@ public class ImManager {
 //    }
 
 
+
     /**
      * 设置库存使用情况接口*
      */
@@ -83,7 +84,9 @@ public class ImManager {
     }
 
 
-
+    public static String getInvbalances(){
+        return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.INVBALANCES_NAME + "','option':'read'}";
+    }
 
 
 
