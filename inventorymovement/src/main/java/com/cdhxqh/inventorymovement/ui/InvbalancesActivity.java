@@ -28,6 +28,9 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
 
 
     private ImageView backImage; //返回
+
+
+    private Button chooseBtn; //选择
     /**
      * RecyclerView*
      */
@@ -68,6 +71,9 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
     private void findViewById(){
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
+        chooseBtn=(Button)findViewById(R.id.btn_transfer_btn);
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         confirm = (Button) findViewById(R.id.confirm);
@@ -81,6 +87,9 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
                 finish();
             }
         });
+
+        chooseBtn.setVisibility(View.VISIBLE);
+
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
