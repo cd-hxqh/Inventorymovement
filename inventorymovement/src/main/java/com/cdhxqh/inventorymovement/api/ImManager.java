@@ -12,7 +12,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
 
 /**
  * Created by apple on 15/5/27.

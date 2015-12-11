@@ -50,7 +50,7 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PodetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("po", po);
+                bundle.putSerializable("po", po);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

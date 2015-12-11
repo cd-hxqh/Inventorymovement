@@ -9,7 +9,7 @@
         <item name="item_4">库存转移</item>
         <item name="item_5">条码打印</item>
         <item name="item_6">库存使用情况</item>
-        <item name="item_7">物质编码申请</item>
+        <item name="item_7">物资编码申请</item>
         <item name="item_8">设置</item>
         <item name="item_9">退出</item>
     </string-array>

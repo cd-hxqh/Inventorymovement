@@ -4,95 +4,107 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.instagram.common.json.annotation.JsonField;
+import com.instagram.common.json.annotation.JsonType;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by apple on 15/6/9.
  */
-public class Po extends Entity implements Parcelable {
-    private static final String TAG = "PO";
-
-    private static final long serialVersionUID = 2015050105L;
-
+@JsonType
+public class Po extends Entity {
+    @JsonField(fieldName = "poid")
     public String poid; //唯一表识
 
+    @JsonField(fieldName = "ponum")
     public String ponum; //采购编号
-
+    @JsonField(fieldName = "description")
     public String description; //描述
-
+    @JsonField(fieldName = "vendordesc")
     public String vendordesc; //公司名称
-
+    @JsonField(fieldName = "status")
     public String status; //状态
-
+    @JsonField(fieldName = "siteid")
     public String siteid; //站点
-
+    @JsonField(fieldName = "pretaxtotal")
     public String pretaxtotal; //税前总计
 
-
+    @JsonField(fieldName = "orderdate")
     public String orderdate; //订购日期
-
+    @JsonField(fieldName = "shiptoattn")
     public String shiptoattn; //接收人
 
-    @Override
-    public void parse(JSONObject jsonObject) throws JSONException {
-        Log.i(TAG, "jsonObject=" + jsonObject.toString());
-        poid = jsonObject.getString("poid");
-        ponum = jsonObject.getString("ponum");
-        description = jsonObject.getString("description");
-        vendordesc = jsonObject.getString("vendordesc");
-        status = jsonObject.getString("status");
-        siteid = jsonObject.getString("siteid");
-        pretaxtotal = jsonObject.getString("pretaxtotal");
-        orderdate = jsonObject.getString("orderdate");
-        shiptoattn = jsonObject.getString("shiptoattn");
-        Log.i(TAG, "poid=" + poid + ",ponum=" + ponum + ",description=" + description + ",status=" + status + ",siteid=" + siteid + ",orderdate=" + orderdate + ",shiptoattn=" + shiptoattn);
+    public String getPoid() {
+        return poid;
     }
 
-    public Po() {
+    public void setPoid(String poid) {
+        this.poid = poid;
     }
 
-    private Po(Parcel in) {
-        poid = in.readString();
-        ponum = in.readString();
-        description = in.readString();
-        vendordesc = in.readString();
-        status = in.readString();
-        siteid = in.readString();
-        pretaxtotal = in.readString();
-        orderdate = in.readString();
-        shiptoattn = in.readString();
+    public String getPonum() {
+        return ponum;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setPonum(String ponum) {
+        this.ponum = ponum;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(poid);
-        dest.writeString(ponum);
-        dest.writeString(description);
-        dest.writeString(vendordesc);
-        dest.writeString(status);
-        dest.writeString(siteid);
-        dest.writeString(pretaxtotal);
-        dest.writeString(orderdate);
-        dest.writeString(shiptoattn);
+    public String getDescription() {
+        return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public static final Creator<Po> CREATOR = new Creator<Po>() {
-        @Override
-        public Po createFromParcel(Parcel source) {
-            return new Po(source);
-        }
+    public String getVendordesc() {
+        return vendordesc;
+    }
 
-        @Override
-        public Po[] newArray(int size) {
-            return new Po[size];
-        }
-    };
+    public void setVendordesc(String vendordesc) {
+        this.vendordesc = vendordesc;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSiteid() {
+        return siteid;
+    }
+
+    public void setSiteid(String siteid) {
+        this.siteid = siteid;
+    }
+
+    public String getPretaxtotal() {
+        return pretaxtotal;
+    }
+
+    public void setPretaxtotal(String pretaxtotal) {
+        this.pretaxtotal = pretaxtotal;
+    }
+
+    public String getOrderdate() {
+        return orderdate;
+    }
+
+    public void setOrderdate(String orderdate) {
+        this.orderdate = orderdate;
+    }
+
+    public String getShiptoattn() {
+        return shiptoattn;
+    }
+
+    public void setShiptoattn(String shiptoattn) {
+        this.shiptoattn = shiptoattn;
+    }
 }

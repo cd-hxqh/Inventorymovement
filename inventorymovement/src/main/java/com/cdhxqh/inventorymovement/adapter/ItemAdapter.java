@@ -49,7 +49,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ItemDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item", item);
+                bundle.putSerializable("item", item);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

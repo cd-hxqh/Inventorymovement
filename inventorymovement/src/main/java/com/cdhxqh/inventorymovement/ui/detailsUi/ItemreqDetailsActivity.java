@@ -2,7 +2,6 @@ package com.cdhxqh.inventorymovement.ui.detailsUi;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,21 +15,26 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.adapter.InvAdapter;
 import com.cdhxqh.inventorymovement.adapter.ItemreqLineAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.api.JsonUtils;
+import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
+import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
+import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * 物资编码申请详情
  */
-public class ItemreqDetailsActivity extends BaseActivity {
+public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
 
     private static final String TAG = "ItemreqDetailsActivity";
 
@@ -91,7 +95,7 @@ public class ItemreqDetailsActivity extends BaseActivity {
     /**进度条**/
     private ProgressDialog mProgressDialog;
 
-
+    private int page = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +109,7 @@ public class ItemreqDetailsActivity extends BaseActivity {
      * 获取上个界面的数据*
      */
     private void geiIntentData() {
-        itemreq = (Itemreq) getIntent().getParcelableExtra("itemreq");
+        itemreq = (Itemreq) getIntent().getSerializableExtra("itemreq");
 
     }
 
@@ -130,19 +134,14 @@ public class ItemreqDetailsActivity extends BaseActivity {
         itemreqLineAdapter = new ItemreqLineAdapter(ItemreqDetailsActivity.this);
         mRecyclerView.setAdapter(itemreqLineAdapter);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getItemList(itemreq.itemreqnum);
-            }
-        });
-        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSwipeLayout.setProgressViewOffset(false, 0,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mSwipeLayout.setColor(R.color.holo_blue_bright,
+                R.color.holo_green_light,
+                R.color.holo_orange_light,
+                R.color.holo_red_light);
+        mSwipeLayout.setRefreshing(true);
 
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setOnLoadListener(this);
 
         notLinearLayout = (LinearLayout) findViewById(R.id.have_not_data_id);
 
@@ -189,7 +188,7 @@ public class ItemreqDetailsActivity extends BaseActivity {
 
     private void getItemList(String itemreqnum) {
         Log.i(TAG, "itemreqnum=" + itemreqnum);
-        ImManager.getDataPagingInfo(this, ImManager.serItemreqLineUrl(1, 20, itemreqnum), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(this, ImManager.serItemreqLineUrl(page, 20, itemreqnum), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -197,13 +196,25 @@ public class ItemreqDetailsActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                Log.i(TAG, "results data=" + results.getResultlist());
-                ArrayList<Itemreqline> items = JsonUtils.parsingItemreqline(ItemreqDetailsActivity.this, results.getResultlist());
-                mSwipeLayout.setRefreshing(false);
-                if (items == null || items.isEmpty()) {
-                    notLinearLayout.setVisibility(View.VISIBLE);
-                } else {
-                    itemreqLineAdapter.update(items, true);
+                ArrayList<Itemreqline> items = null;
+                try {
+                    items = Ig_Json_Model.parseItemreqlineFromString(results.getResultlist());
+                    mSwipeLayout.setRefreshing(false);
+                    mSwipeLayout.setLoading(false);
+                    if (items == null || items.isEmpty()) {
+                        notLinearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        if (page == 1) {
+                            itemreqLineAdapter = new ItemreqLineAdapter(ItemreqDetailsActivity.this);
+                            mRecyclerView.setAdapter(itemreqLineAdapter);
+                        }
+                        if (totalPages == page) {
+                            itemreqLineAdapter.adddate(items);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -296,4 +307,15 @@ public class ItemreqDetailsActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onLoad() {
+        page = 1;
+        getItemList(itemreq.itemreqnum);
+    }
+
+    @Override
+    public void onRefresh() {
+        page++;
+        getItemList(itemreq.itemreqnum);
+    }
 }

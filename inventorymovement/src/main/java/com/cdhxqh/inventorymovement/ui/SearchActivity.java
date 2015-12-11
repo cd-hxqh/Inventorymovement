@@ -1,7 +1,6 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,13 +19,16 @@ import com.cdhxqh.inventorymovement.adapter.ItemAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.api.JsonUtils;
+import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout.OnRefreshListener, com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "SearchActivity";
     private static final int ITEM_MARK = 0; //主项目标识
     private static final int INV_MARK = 6; //库存使用情况标识
@@ -66,6 +68,12 @@ public class SearchActivity extends BaseActivity {
      * 搜索标识*
      */
     private int search_mark;
+    /**
+     * 搜索值*
+     */
+    private String search;
+
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +83,6 @@ public class SearchActivity extends BaseActivity {
         initView();
         setEvent();
     }
-
 
 
     /**
@@ -91,17 +98,19 @@ public class SearchActivity extends BaseActivity {
         if (search_mark == ITEM_MARK) {
             itemAdapter = new ItemAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(itemAdapter);
-        }else if(search_mark==INV_MARK){
-            invAdapter=new InvAdapter(SearchActivity.this);
+        } else if (search_mark == INV_MARK) {
+            invAdapter = new InvAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(invAdapter);
         }
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        mSwipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSwipeLayout.setProgressViewOffset(false, 0,
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        mSwipeLayout.setColor(R.color.holo_blue_bright,
+                R.color.holo_green_light,
+                R.color.holo_orange_light,
+                R.color.holo_red_light);
+        mSwipeLayout.setRefreshing(true);
+
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setOnLoadListener(this);
 
 
         notLinearLayout = (LinearLayout) findViewById(R.id.have_not_data_id);
@@ -140,11 +149,11 @@ public class SearchActivity extends BaseActivity {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-
+                search = editText.getText().toString();
                 if (search_mark == ITEM_MARK) {
-                    getItemList(editText.getText().toString());
+                    getItemList(search);
                 } else if (search_mark == INV_MARK) {
-                    getInvList(editText.getText().toString());
+                    getInvList(search);
                 }
                 return true;
 
@@ -168,18 +177,25 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<Item> items = JsonUtils.parsingItem(SearchActivity.this, results.getResultlist());
-                mSwipeLayout.setRefreshing(false);
-                if (items == null || items.isEmpty()) {
-                    mRecyclerView.setVisibility(View.GONE);
-                    notLinearLayout.setVisibility(View.VISIBLE);
-                } else {
-                    itemAdapter = new ItemAdapter(SearchActivity.this);
-                    mRecyclerView.setAdapter(itemAdapter);
+                ArrayList<Inventory> items = null;
+                try {
+                    items = Ig_Json_Model.parseInventoryFromString(results.getResultlist());
+                    mSwipeLayout.setRefreshing(false);
+                    mSwipeLayout.setLoading(false);
+                    if (items == null || items.isEmpty()) {
+                        notLinearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        if (page == 1) {
+                            invAdapter = new InvAdapter(SearchActivity.this);
+                            mRecyclerView.setAdapter(invAdapter);
+                        }
+                        if (totalPages == page) {
+                            invAdapter.adddate(items);
+                        }
+                    }
 
-                    itemAdapter.update(items, true);
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    notLinearLayout.setVisibility(View.GONE);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -205,12 +221,25 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<Inventory> items = JsonUtils.parsingInventory(SearchActivity.this, results.getResultlist());
-                mSwipeLayout.setRefreshing(false);
-                if (items == null || items.isEmpty()) {
-                    notLinearLayout.setVisibility(View.VISIBLE);
-                } else {
-                    invAdapter.update(items, true);
+                ArrayList<Inventory> items = null;
+                try {
+                    items = Ig_Json_Model.parseInventoryFromString(results.getResultlist());
+                    mSwipeLayout.setRefreshing(false);
+                    mSwipeLayout.setLoading(false);
+                    if (items == null || items.isEmpty()) {
+                        notLinearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        if (page == 1) {
+                            invAdapter = new InvAdapter(SearchActivity.this);
+                            mRecyclerView.setAdapter(invAdapter);
+                        }
+                        if (totalPages == page) {
+                            invAdapter.adddate(items);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -222,4 +251,15 @@ public class SearchActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onLoad() {
+        page = 1;
+        getItemList(search);
+    }
+
+    @Override
+    public void onRefresh() {
+        page++;
+        getItemList(search);
+    }
 }

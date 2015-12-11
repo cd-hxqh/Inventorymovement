@@ -52,7 +52,7 @@ public class ItemreqAdapter extends RecyclerView.Adapter<ItemreqAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ItemreqDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("itemreq", inv);
+                bundle.putSerializable("itemreq", inv);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

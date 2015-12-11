@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.ui.detailsUi.ItemreqDetailsActivity;
@@ -105,4 +106,18 @@ public class ItemreqLineAdapter extends RecyclerView.Adapter<ItemreqLineAdapter.
             xhText = (TextView) view.findViewById(R.id.itemreq_xh_text);
         }
     }
+
+
+    public void adddate(ArrayList<Itemreqline> data){
+        if(data.size()>0){
+            for(int i = 0;i < data.size();i++){
+                if(!mItemreqlines.contains(data.get(i))){
+                    mItemreqlines.add(data.get(i));
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+
 }

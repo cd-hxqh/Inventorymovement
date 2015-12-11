@@ -77,7 +77,7 @@ public class ItemDetailsActivity extends BaseActivity {
      * 获取上个界面的数据*
      */
     private void geiIntentData() {
-        item = (Item) getIntent().getParcelableExtra("item");
+        item = (Item) getIntent().getSerializableExtra("item");
         Log.i(TAG, "item=" + item);
 
     }

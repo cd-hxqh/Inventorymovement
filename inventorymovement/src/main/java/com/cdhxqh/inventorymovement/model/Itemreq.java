@@ -3,6 +3,9 @@ package com.cdhxqh.inventorymovement.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.instagram.common.json.annotation.JsonField;
+import com.instagram.common.json.annotation.JsonType;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,90 +13,99 @@ import org.json.JSONObject;
  * Created by apple on 15/6/3.
  * 物资编码申请
  */
-public class Itemreq extends Entity implements Parcelable {
-    private static final String TAG = "Itemreq";
 
-    private static final long serialVersionUID = 2015050105L;
+@JsonType
+public class Itemreq extends Entity {
 
+    @JsonField(fieldName = "itemreqnum")
     public String itemreqnum; //申请编号
-
+    @JsonField(fieldName = "description")
     public String description; //申请描述
-
+    @JsonField(fieldName = "recorder")
     public String recorder; //录入人编号
-
+    @JsonField(fieldName = "recorderdesc")
     public String recorderdesc; //录入人名称
-
+    @JsonField(fieldName = "recorderdate")
     public String recorderdate; //录入时间
-
+    @JsonField(fieldName = "itemreqid")
     public String itemreqid; //唯一ID
-
+    @JsonField(fieldName = "status")
     public String status; //状态
-
+    @JsonField(fieldName = "statusdesc")
     public String statusdesc; //状态描述
-
+    @JsonField(fieldName = "isfinish")
     public String isfinish; //是否完成
 
 
-    @Override
-    public void parse(JSONObject jsonObject) throws JSONException {
-        itemreqnum = jsonObject.getString("itemreqnum");
-        description = jsonObject.getString("description");
-        recorder = jsonObject.getString("recorder");
-        recorderdesc = jsonObject.getString("recorderdesc");
-        recorderdate = jsonObject.getString("recorderdate");
-        itemreqid = jsonObject.getString("itemreqid");
-        status = jsonObject.getString("status");
-        statusdesc = jsonObject.getString("statusdesc");
-        isfinish = jsonObject.getString("isfinish");
+    public String getItemreqnum() {
+        return itemreqnum;
     }
 
-    public Itemreq() {
+    public void setItemreqnum(String itemreqnum) {
+        this.itemreqnum = itemreqnum;
     }
 
-
-    private Itemreq(Parcel in) {
-        itemreqnum = in.readString();
-        description = in.readString();
-        recorder = in.readString();
-        recorderdesc = in.readString();
-        recorderdate = in.readString();
-        itemreqid = in.readString();
-        status = in.readString();
-        statusdesc = in.readString();
-        isfinish = in.readString();
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(itemreqnum);
-        dest.writeString(description);
-        dest.writeString(recorder);
-        dest.writeString(recorderdesc);
-        dest.writeString(recorderdate);
-        dest.writeString(itemreqid);
-        dest.writeString(status);
-        dest.writeString(statusdesc);
-        dest.writeString(isfinish);
-
+    public String getRecorder() {
+        return recorder;
     }
 
+    public void setRecorder(String recorder) {
+        this.recorder = recorder;
+    }
 
-    public static final Creator<Itemreq> CREATOR = new Creator<Itemreq>() {
-        @Override
-        public Itemreq createFromParcel(Parcel source) {
-            return new Itemreq(source);
-        }
+    public String getRecorderdesc() {
+        return recorderdesc;
+    }
 
-        @Override
-        public Itemreq[] newArray(int size) {
-            return new Itemreq[size];
-        }
-    };
+    public void setRecorderdesc(String recorderdesc) {
+        this.recorderdesc = recorderdesc;
+    }
 
+    public String getRecorderdate() {
+        return recorderdate;
+    }
 
+    public void setRecorderdate(String recorderdate) {
+        this.recorderdate = recorderdate;
+    }
+
+    public String getItemreqid() {
+        return itemreqid;
+    }
+
+    public void setItemreqid(String itemreqid) {
+        this.itemreqid = itemreqid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusdesc() {
+        return statusdesc;
+    }
+
+    public void setStatusdesc(String statusdesc) {
+        this.statusdesc = statusdesc;
+    }
+
+    public String getIsfinish() {
+        return isfinish;
+    }
+
+    public void setIsfinish(String isfinish) {
+        this.isfinish = isfinish;
+    }
 }

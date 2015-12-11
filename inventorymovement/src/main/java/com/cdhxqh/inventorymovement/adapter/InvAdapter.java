@@ -50,7 +50,7 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, InvDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("inventory", inv);
+                bundle.putSerializable("inventory", inv);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

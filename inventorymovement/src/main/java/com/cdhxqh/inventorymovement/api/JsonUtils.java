@@ -115,76 +115,9 @@ public class JsonUtils {
 
 
 
-    /**
-     * 解析主项目信息*
-     */
-    public static ArrayList<Item> parsingItem(Context ctx, String data) {
-        Log.i(TAG, "data=" + data);
-        ArrayList<Item> list = null;
-        Item item = null;
-        try {
-            JSONArray jsonArray = new JSONArray(data);
-            JSONObject jsonObject;
-            list = new ArrayList<Item>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                item = new Item();
-                jsonObject = jsonArray.getJSONObject(i);
-                item.itemnum = jsonObject.getString("ITEMNUM"); //项目编号
-                item.description = jsonObject.getString("DESCRIPTION"); //项目描述
-                item.in20 = jsonObject.getString("IN20"); //规格型号
-                item.orderunit = jsonObject.getString("ORDERUNIT"); //订购单位
-                item.issueunit = jsonObject.getString("ISSUEUNIT"); //发放单位
-                item.enterby = jsonObject.getString("ENTERBY"); //录入人
-
-                String enterdate = jsonObject.getString("ENTERDATE");//录入时间
-                if (!enterdate.equals("null")) {
-                    item.enterdate = enterdate;
-                }
-                list.add(item);
-            }
-
-            return list;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
 
 
-    /**
-     * 解析库存使用情况信息
-     */
-    public static ArrayList<Inventory> parsingInventory(Context ctx, String data) {
-        Log.i(TAG, "data=" + data);
-        ArrayList<Inventory> list = null;
-        Inventory inventory = null;
-        try {
-            JSONArray jsonArray = new JSONArray(data);
-            JSONObject jsonObject;
-            list = new ArrayList<Inventory>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                inventory = new Inventory();
-                jsonObject = jsonArray.getJSONObject(i);
-                inventory.binnum = jsonObject.getString("BINNUM"); //箱柜号
-                inventory.curbaltotal = jsonObject.getString("CURBALTOTAL"); //数量
-                inventory.issueunit = jsonObject.getString("ISSUEUNIT"); //单位
-                inventory.itemdesc = jsonObject.getString("ITEMDESC"); //项目描述
-                inventory.itemnum = jsonObject.getString("ITEMNUM"); //项目
-                inventory.location = jsonObject.getString("LOCATION"); //仓库
-                inventory.locationdesc = jsonObject.getString("LOCATIONDESC"); //仓库描述
-                inventory.lotnum = jsonObject.getString("LOTNUM"); //批次
 
-                list.add(inventory);
-            }
-
-            return list;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
 
 
     /**
@@ -225,36 +158,6 @@ public class JsonUtils {
 
 
 
-    /**
-     * 解析物资编码从表信息
-     */
-    public static ArrayList<Itemreqline> parsingItemreqline(Context ctx, String data) {
-        Log.i(TAG, "data=" + data);
-        ArrayList<Itemreqline> list = null;
-        Itemreqline itemreqline = null;
-        try {
-            JSONArray jsonArray = new JSONArray(data);
-            JSONObject jsonObject;
-            list = new ArrayList<Itemreqline>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                itemreqline = new Itemreqline();
-                jsonObject = jsonArray.getJSONObject(i);
-                itemreqline.itemnum = jsonObject.getString("ITEMNUM"); //编号
-                itemreqline.itemreqnum = jsonObject.getString("ITEMREQNUM"); //编码ID
-                itemreqline.matername = jsonObject.getString("MATERNAME"); //物资名称
-                itemreqline.xh = jsonObject.getString("XH"); //型号
-
-
-                list.add(itemreqline);
-            }
-
-            return list;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
 
 
 

@@ -3,6 +3,9 @@ package com.cdhxqh.inventorymovement.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.instagram.common.json.annotation.JsonField;
+import com.instagram.common.json.annotation.JsonType;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -10,86 +13,93 @@ import org.json.JSONObject;
  * Created by apple on 15/6/3.
  * 库存使用情况信息
  */
-public class Inventory extends Entity implements Parcelable {
+@JsonType
+public class Inventory extends Entity  {
     private static final String TAG = "Inventory";
-    private static final long serialVersionUID = 2015050105L;
 
+    @JsonField(fieldName = "binnum")
     public String binnum; //货柜编号
 
+    @JsonField(fieldName = "curbaltotal")
     public String curbaltotal; //当前余量
 
+    @JsonField(fieldName = "issueunit")
     public String issueunit; //发放单位
 
+    @JsonField(fieldName = "itemdesc")
     public String itemdesc; //项目描述
 
+    @JsonField(fieldName = "itemnum")
     public String itemnum; //项目编号
-
+    @JsonField(fieldName = "location")
     public String location; //仓库
-
+    @JsonField(fieldName = "locationdesc")
     public String locationdesc; //仓库描述
-
+    @JsonField(fieldName = "lotnum")
     public String lotnum; //批次
 
 
-    @Override
-    public void parse(JSONObject jsonObject) throws JSONException {
-        binnum = jsonObject.getString("binnum");
-        curbaltotal = jsonObject.getString("curbaltotal");
-        issueunit = jsonObject.getString("issueunit");
-        itemdesc = jsonObject.getString("itemdesc");
-        itemnum = jsonObject.getString("itemnum");
-        location = jsonObject.getString("location");
-        locationdesc = jsonObject.getString("locationdesc");
-        lotnum = jsonObject.getString("lotnum");
+    public String getBinnum() {
+        return binnum;
     }
 
-    public Inventory() {
+    public void setBinnum(String binnum) {
+        this.binnum = binnum;
     }
 
-
-    private Inventory(Parcel in) {
-        binnum = in.readString();
-        curbaltotal = in.readString();
-        issueunit = in.readString();
-        itemdesc = in.readString();
-        itemnum = in.readString();
-        issueunit = in.readString();
-        location = in.readString();
-        locationdesc = in.readString();
-        lotnum = in.readString();
+    public String getCurbaltotal() {
+        return curbaltotal;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setCurbaltotal(String curbaltotal) {
+        this.curbaltotal = curbaltotal;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(binnum);
-        dest.writeString(curbaltotal);
-        dest.writeString(issueunit);
-        dest.writeString(itemdesc);
-        dest.writeString(itemnum);
-        dest.writeString(issueunit);
-        dest.writeString(location);
-        dest.writeString(locationdesc);
-        dest.writeString(lotnum);
-
+    public String getIssueunit() {
+        return issueunit;
     }
 
+    public void setIssueunit(String issueunit) {
+        this.issueunit = issueunit;
+    }
 
-    public static final Creator<Inventory> CREATOR = new Creator<Inventory>() {
-        @Override
-        public Inventory createFromParcel(Parcel source) {
-            return new Inventory(source);
-        }
+    public String getItemdesc() {
+        return itemdesc;
+    }
 
-        @Override
-        public Inventory[] newArray(int size) {
-            return new Inventory[size];
-        }
-    };
+    public void setItemdesc(String itemdesc) {
+        this.itemdesc = itemdesc;
+    }
 
+    public String getItemnum() {
+        return itemnum;
+    }
 
+    public void setItemnum(String itemnum) {
+        this.itemnum = itemnum;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getLocationdesc() {
+        return locationdesc;
+    }
+
+    public void setLocationdesc(String locationdesc) {
+        this.locationdesc = locationdesc;
+    }
+
+    public String getLotnum() {
+        return lotnum;
+    }
+
+    public void setLotnum(String lotnum) {
+        this.lotnum = lotnum;
+    }
 }

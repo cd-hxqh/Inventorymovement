@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
             case 9: //退出登陆
                 if ((System.currentTimeMillis() - exitTime) > 2000) {
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.eixt_hint_text), Toast.LENGTH_LONG).show();
                     exitTime = System.currentTimeMillis();
                 } else {
                     AppManager.AppExit(MainActivity.this);
