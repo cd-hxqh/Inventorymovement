@@ -27,6 +27,7 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
 
     private TextView titleTextView; // 标题
 
+
     private ImageView backImage; //返回按钮
     /**
      * RecyclerView*
