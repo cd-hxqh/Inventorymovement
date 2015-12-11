@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,25 +11,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Locations;
 
 public class LocationsDetailActivity extends BaseActivity {
 
-    private TextView titleTextView; // ±êÌâ
 
-    private ImageView backImage; //·µ»Ø°´Å¥
+    private static final int REMOVED_MARK=1000; //ç§»å‡º
+    private static final int MOVED_MARK=1001; //ç§»å…¥
 
+    private TextView titleTextView; // æ ‡é¢˜
 
-    /**½çÃæÐÅÏ¢ÏÔÊ¾**/
-    private TextView locationText; //Î»ÖÃ
-
-    private TextView desctionText; //ÃèÊö
-
-    private TextView siteidText;  //Õ¾µã
+    private ImageView backImage; //è¿”å›ž
 
 
-    private Button removedBtn; //ÒÆ³ö
-    private Button moveBtn; //ÒÆÈë
+    /**ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ê¾**/
+    private TextView locationText; //Î»ï¿½ï¿½
+
+    private TextView desctionText; //ï¿½ï¿½ï¿½ï¿½
+
+    private TextView siteidText;  //Õ¾ï¿½ï¿½
+
+
+    private Button removedBtn; //ï¿½Æ³ï¿½
+    private Button moveBtn; //ï¿½ï¿½ï¿½ï¿½
 
 
     /**Locations**/
@@ -47,13 +53,13 @@ public class LocationsDetailActivity extends BaseActivity {
     }
 
 
-    /**³õÊ¼»¯½çÃæÊý¾Ý**/
+    /**ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½**/
     private void initData() {
         locations= (Locations) getIntent().getSerializableExtra("locations");
     }
 
 
-    /**³õÊ¼»¯½çÃæ×é¼þ**/
+    /**ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½**/
     private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
@@ -68,7 +74,7 @@ public class LocationsDetailActivity extends BaseActivity {
         moveBtn=(Button)findViewById(R.id.locations_move_btn_id);
     }
 
-    /**ÉèÖÃÊÂ¼þ¼àÌý**/
+    /**ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½**/
     private void initView() {
         titleTextView.setText(getString(R.string.locations_title_text));
         backImage.setOnClickListener(backOnClickListener);
@@ -78,6 +84,9 @@ public class LocationsDetailActivity extends BaseActivity {
             desctionText.setText(locations.getDescription()==null?"":locations.getDescription());
             siteidText.setText(locations.getSiteid()==null?"":locations.getSiteid());
         }
+
+
+        removedBtn.setOnClickListener(onClickListener);
     }
 
 
@@ -86,6 +95,18 @@ public class LocationsDetailActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             finish();
+        }
+    };
+
+
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent=new Intent(LocationsDetailActivity.this,InvbalancesActivity.class);
+            intent.putExtra("location",locations.getLocation());
+            intent.putExtra("mark",REMOVED_MARK);
+            startActivityForResult(intent,0);
         }
     };
 }

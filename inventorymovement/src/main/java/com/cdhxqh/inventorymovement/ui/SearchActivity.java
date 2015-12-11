@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class SearchActivity extends BaseActivity implements com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout.OnRefreshListener, com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "SearchActivity";
     private static final int ITEM_MARK = 0; //主项目标识
+    private static final int LOCATION_MARK = 4; //库存转移
     private static final int INV_MARK = 6; //库存使用情况标识
 
     private EditText editText; // 搜索
@@ -154,6 +155,8 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
                     getItemList(search);
                 } else if (search_mark == INV_MARK) { //库存使用情况
                     getInvList(search);
+                }else if(search_mark ==LOCATION_MARK){ //库存转移
+
                 }
                 return true;
 

@@ -1,4 +1,4 @@
-package com.cdhxqh.inventorymovement.ui.poui;
+package com.cdhxqh.inventorymovement.ui;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,15 +20,14 @@ import java.io.IOException;
 
 /**
  * Created by think on 2015/12/11.
- * Òª×ªÒÆµÄ¿â´æÏîÄ¿ÁĞ±í
  */
 public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
     private static final String TAG = "InvbalancesActivity";
 
-    private TextView titleTextView; // ±êÌâ
+    private TextView titleTextView; // æ ‡é¢˜
 
 
-    private ImageView backImage; //·µ»Ø°´Å¥
+    private ImageView backImage; //è¿”å›
     /**
      * RecyclerView*
      */
@@ -38,9 +37,11 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
 
     SwipeRefreshLayout mSwipeLayout;
 
-    private Button confirm;//È·¶¨
+    private Button confirm;//ç¡®å®š
 
-    private String location;//Ô´²Ö¿â
+    private String location;//æºä»“åº“
+
+    private int mark; //ç§»å‡ºï¼Œç§»å…¥
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +54,17 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     /**
-     * »ñÈ¡Êı¾İ*
+     *è·å–ç•Œé¢æ•°æ®
      */
     private void geiIntentData() {
         location = getIntent().getStringExtra("location");
+        mark = getIntent().getIntExtra("mark",0);
+        Log.i(TAG,"location="+location+"mark="+mark);
     }
 
+    /**
+     * åˆå§‹åŒ–ç•Œé¢æ§ä»¶
+     */
     private void findViewById(){
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
@@ -88,7 +94,7 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     /**
-     * »ñÈ¡Òª×ªÒÆµÄ¿â´æÏîÄ¿
+     * è·å–ç•Œé¢æ•°æ®
      */
     private void getInvbalancesList(){
         ImManager.getData(this, ImManager.getInvbalances(), new HttpRequestHandler<Results>() {
@@ -130,7 +136,7 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
         });
     }
 
-    //ÏÂÀ­Ë¢ĞÂ´¥·¢ÊÂ¼ş
+    //ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Â´ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
     @Override
     public void onRefresh() {
         getInvbalancesList();

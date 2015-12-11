@@ -100,8 +100,8 @@
             android:label="@string/title_activity_search" >
         </activity>
         <activity
-            android:name=".ui.poui.InvbalancesActivity"
-            android:label="@string/title_activity_search" >
+            android:name=".ui.InvbalancesActivity"
+            android:label="@string/location_zhuangyi" >
         </activity>
         <activity
             android:name=".ui.LocationsDetailActivity"

@@ -96,4 +96,5 @@
     <string name="locations_removed_btn">移出</string>
     <string name="locations_move_btn">移入</string>
     <string name="locations_title_text">库房详情</string>
+    <string name="location_zhuangyi">转移</string>
 </resources>

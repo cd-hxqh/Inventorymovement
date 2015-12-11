@@ -295,6 +295,11 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
+        }else if(mark==4){ //跳转至库存转移界面
+            Intent intent = new Intent();
+            intent.putExtra("search_mark", mark);
+            intent.setClass(MainActivity.this, SearchActivity.class);
+            startActivityForResult(intent, 0);
         }
 
     }
