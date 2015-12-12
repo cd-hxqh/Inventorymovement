@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.cdhxqh.inventorymovement.fragment.ItemFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemreqFragment;
 import com.cdhxqh.inventorymovement.fragment.LocationFragment;
 import com.cdhxqh.inventorymovement.fragment.PoFragment;
+import com.cdhxqh.inventorymovement.wight.CustomDialog;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
 import static android.view.Gravity.START;
@@ -230,12 +232,8 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
 
             case 9: //退出登陆
-                if ((System.currentTimeMillis() - exitTime) > 2000) {
-                    Toast.makeText(this, getString(R.string.eixt_hint_text), Toast.LENGTH_LONG).show();
-                    exitTime = System.currentTimeMillis();
-                } else {
-                    AppManager.AppExit(MainActivity.this);
-                }
+                showAlertDialog();
+                drawer.closeDrawer(mDrawerList);
                 break;
             default:
                 titleTextView.setText(adapter.getTitle(position));
@@ -253,6 +251,38 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
 
     }
+
+
+    /**
+     * 退出程序
+     */
+    public void showAlertDialog() {
+
+        CustomDialog.Builder builder = new CustomDialog.Builder(MainActivity.this);
+        builder.setMessage(getString(R.string.exit_dialog_hint));
+        builder.setTitle(getString(R.string.exit_dialog_title));
+        builder.setPositiveButton(getString(R.string.sure), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                AppManager.AppExit(MainActivity.this);
+            }
+        });
+
+        builder.setNegativeButton(getString(R.string.canel),
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        builder.create().show();
+
+    }
+
+
+
+
+
 
     /**
      * 默认显示主项目的*
