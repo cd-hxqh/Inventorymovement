@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cdhxqh.inventorymovement"
     android:versionCode="1"
-    android:versionName="1.0.0" >
+    android:versionName="1.0.0">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -19,6 +19,8 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <!-- Permission for Unit Test -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
@@ -27,7 +29,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/SampleTheme" >
+        android:theme="@style/SampleTheme">
 
         <!-- umeng设置 -->
         <meta-data
@@ -50,7 +52,7 @@
             android:name=".ui.LoadActivity"
             android:label="@string/app_name"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/SampleTheme" >
+            android:theme="@style/SampleTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -97,30 +99,32 @@
             android:parentActivityName=".ui.poui.PodetailsActivity" />
         <activity
             android:name=".ui.SearchActivity"
-            android:label="@string/title_activity_search" >
-        </activity>
+            android:label="@string/title_activity_search"></activity>
         <activity
             android:name=".ui.InvbalancesActivity"
-            android:label="@string/location_zhuangyi" >
-        </activity>
+            android:label="@string/location_zhuangyi"></activity>
         <activity
             android:name=".ui.MatrectransActivity"
-            android:label="@string/location_zhuangyi_matrectrans" >
-        </activity>
+            android:label="@string/location_zhuangyi_matrectrans"></activity>
         <activity
             android:name=".ui.LocationsDetailActivity"
-            android:label="@string/title_activity_locations_detail" >
-        </activity>
+            android:label="@string/title_activity_locations_detail"></activity>
 
         <!-- 库存项目 -->
         <activity
             android:name=".ui.InvbalancesListActivity"
-            android:label="@string/title_activity_invbalances_list" >
-        </activity>
+            android:label="@string/title_activity_invbalances_list"></activity>
         <activity
             android:name=".ui.InvbalanceDetailActivity"
-            android:label="@string/title_activity_invbalance_detail" >
-        </activity>
+            android:label="@string/title_activity_invbalance_detail"></activity>
+        <activity
+            android:name=".ui.Results_Activity"
+            android:label="@string/title_activity_results_"></activity>
+
+        <!--二维码扫描-->
+        <activity
+            android:name=".ui.MipcaActivityCapture"
+            android:label="@string/title_activity_results_"></activity>
     </application>
 
 </manifest>

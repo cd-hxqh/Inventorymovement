@@ -8,8 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionbar_dimen"
-        android:background="@color/login_bj"
-        >
+        android:background="@color/login_bj">
 
         <ImageView
             android:id="@+id/back_image_id"
@@ -40,7 +39,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/abc_ic_capture" />
+            android:background="@drawable/abc_ic_capture"
+            android:visibility="gone" />
 
 
     </RelativeLayout>

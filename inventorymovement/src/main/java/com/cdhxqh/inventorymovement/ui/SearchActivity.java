@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,8 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     private EditText editText; // 搜索
 
     private ImageView backImage; //返回按钮
+
+    private ImageView codeImage; //二维码扫描
 
 
     /**
@@ -95,6 +98,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     private void finViewById() {
         editText = (EditText) findViewById(R.id.search_edittext_id);
         backImage = (ImageView) findViewById(R.id.back_image_id);
+        codeImage = (ImageView) findViewById(R.id.menu_imageview_id);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
         mLayoutManager = new LinearLayoutManager(SearchActivity.this);
@@ -127,10 +131,22 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     private void initView() {
         backImage.setOnClickListener(backOnClickListener);
         editText.setOnEditorActionListener(editTextOnEditorActionListener);
-
+        codeImage.setOnClickListener(codeImageOnClickListener);
 
 
     }
+
+
+    /**
+     * 二维码扫描*
+     */
+    private View.OnClickListener codeImageOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(SearchActivity.this, MipcaActivityCapture.class);
+            startActivityForResult(intent, 0);
+        }
+    };
 
 
     /**
@@ -291,9 +307,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     @Override
     public void onRefresh() {
         page++;
-        if (search_mark == ITEM_MARK&&search!=null) {
+        if (search_mark == ITEM_MARK && search != null) {
             getItemList(search);
-        }else{
+        } else {
             mSwipeLayout.setRefreshing(false);
         }
     }
