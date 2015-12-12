@@ -42,6 +42,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
     private ImageView backImage; //返回
 
+    private ImageView search; //搜索
 
     private Button chooseBtn; //选择
     /**
@@ -91,6 +92,9 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
+        search=(ImageView)findViewById(R.id.menu_imageview_id);
+
+
         chooseBtn = (Button) findViewById(R.id.invbalances_btn_id);
 
 
@@ -108,8 +112,8 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
         titleTextView.setText(getResources().getString(R.string.title_activity_invbalances_list));
         backImage.setOnClickListener(backImageOnClickListener);
-        chooseBtn.setText(getString(R.string.confirm_text));
-        chooseBtn.setVisibility(View.VISIBLE);
+        search.setBackgroundResource(R.drawable.ic_search);
+        search.setVisibility(View.VISIBLE);
 
 
         chooseBtn.setOnClickListener(chooseBtnOnClickListener);

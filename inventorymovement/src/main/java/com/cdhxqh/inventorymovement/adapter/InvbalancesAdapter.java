@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Invbalances;
 import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.ui.InvbalanceDetailActivity;
 import com.cdhxqh.inventorymovement.ui.LocationsDetailActivity;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 
@@ -31,7 +32,7 @@ public class InvbalancesAdapter extends RecyclerView.Adapter<InvbalancesAdapter.
     Context mContext;
     ArrayList<Invbalances> mItems = new ArrayList<Invbalances>();
 
-    public HashMap<Integer,Invbalances> checkedlist = new HashMap<>();
+    public HashMap<Integer, Invbalances> checkedlist = new HashMap<>();
 
     public InvbalancesAdapter(Context context) {
         mContext = context;
@@ -57,9 +58,9 @@ public class InvbalancesAdapter extends RecyclerView.Adapter<InvbalancesAdapter.
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 // TODO Auto-generated method stub
-                if (isChecked&&!checkedlist.containsKey(position)) {
+                if (isChecked && !checkedlist.containsKey(position)) {
                     checkedlist.put(position, item);
-                } else if (!isChecked&&checkedlist.containsKey(position)){
+                } else if (!isChecked && checkedlist.containsKey(position)) {
                     checkedlist.remove(position);
                 }
             }
@@ -69,20 +70,19 @@ public class InvbalancesAdapter extends RecyclerView.Adapter<InvbalancesAdapter.
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, LocationsDetailActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("locations", item);
-//                intent.putExtras(bundle);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, InvbalanceDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("invbalances", item);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
 
 
-
-        if(checkedlist.size()>0){
-            if(checkedlist.containsKey(position)){
+        if (checkedlist.size() > 0) {
+            if (checkedlist.containsKey(position)) {
                 viewHolder.checkBox.setChecked(true);
-            }else {
+            } else {
                 viewHolder.checkBox.setChecked(false);
             }
         }

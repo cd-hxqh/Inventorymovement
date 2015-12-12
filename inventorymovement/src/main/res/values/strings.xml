@@ -129,4 +129,13 @@
     <string name="invbalances_itemnum_text">项目:</string>
     <string name="loading_data_fail">加载数据失败...</string>
     <string name="confirm_text">确认</string>
+    <!--库存项目详情-->
+    <string name="title_activity_invbalance_detail">项目详情</string>
+    <string name="invbalance_itemnum_title">项目:</string>
+    <string name="invbalance_in20_title">规格型号:</string>
+    <string name="invbalance_orderunit_title">订购单位:</string>
+    <string name="invbalance_curbal_title">当前余量:</string>
+    <string name="invbalance_location_title">库房:</string>
+    <string name="invbalance_siteid_title">地点:</string>
+    <string name="invbalance_binnum_title">货柜:</string>
 </resources>

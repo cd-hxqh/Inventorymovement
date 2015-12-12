@@ -112,10 +112,14 @@
             android:label="@string/title_activity_locations_detail" >
         </activity>
 
-        <!--库存项目-->
+        <!-- 库存项目 -->
         <activity
             android:name=".ui.InvbalancesListActivity"
             android:label="@string/title_activity_invbalances_list" >
+        </activity>
+        <activity
+            android:name=".ui.InvbalanceDetailActivity"
+            android:label="@string/title_activity_invbalance_detail" >
         </activity>
     </application>
 
