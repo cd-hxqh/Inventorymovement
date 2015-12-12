@@ -10,18 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
-import com.cdhxqh.inventorymovement.api.ImManager;
-import com.cdhxqh.inventorymovement.bean.Results;
-import com.cdhxqh.inventorymovement.ui.BaseActivity;
-import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
+import com.cdhxqh.inventorymovement.adapter.MatrectransAdapter;
+import com.cdhxqh.inventorymovement.model.Matrectrans;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by think on 2015/12/11.
  */
-public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class InvbalancesActivity extends BaseActivity{
     private static final String TAG = "InvbalancesActivity";
 
     private TextView titleTextView; // 标题
@@ -38,7 +37,7 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
 
     RecyclerView.LayoutManager mLayoutManager;
 
-    SwipeRefreshLayout mSwipeLayout;
+    MatrectransAdapter matrectransAdapter;
 
     private Button confirm;//确定
 
@@ -62,7 +61,7 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
     private void geiIntentData() {
         location = getIntent().getStringExtra("location");
         mark = getIntent().getIntExtra("mark",0);
-        Log.i(TAG,"location="+location+"mark="+mark);
+        Log.i(TAG, "location=" + location + "mark=" + mark);
     }
 
     /**
@@ -75,12 +74,15 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
-        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         confirm = (Button) findViewById(R.id.confirm);
     }
 
     private void initView(){
-        titleTextView.setText(R.string.itemreqDetails_list);
+        if(mark == 1000) {
+            titleTextView.setText(R.string.invbalances_remove);
+        }else if(mark == 1001){
+            titleTextView.setText(R.string.invbalances_move);
+        }
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,63 +94,26 @@ public class InvbalancesActivity extends BaseActivity implements SwipeRefreshLay
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mSwipeLayout.setColor(R.color.holo_blue_bright,
-                R.color.holo_green_light,
-                R.color.holo_orange_light,
-                R.color.holo_red_light);
-        mSwipeLayout.setRefreshing(true);
+        matrectransAdapter = new MatrectransAdapter(this);
+        mRecyclerView.setAdapter(matrectransAdapter);
+        addData();
 
-        mSwipeLayout.setOnRefreshListener(this);
-        getInvbalancesList();
     }
 
-    /**
-     * 获取界面数据
-     */
-    private void getInvbalancesList(){
-        ImManager.getData(this, ImManager.getInvbalances(), new HttpRequestHandler<Results>() {
-            @Override
-            public void onSuccess(Results results) {
-                Log.i(TAG, "data=" + results);
-            }
-
-            @Override
-            public void onSuccess(Results results, int totalPages, int currentPage) {
-//                ArrayList<Item> items = null;
-//                try {
-//                    items = Ig_Json_Model.parseItemFromString(results.getResultlist());
-                mSwipeLayout.setRefreshing(false);
-//                    mSwipeLayout.setLoading(false);
-//                    if (items == null || items.isEmpty()) {
-//                        notLinearLayout.setVisibility(View.VISIBLE);
-//                    } else {
-//                        if (page == 1) {
-//                            itemAdapter = new ItemAdapter(getActivity());
-//                            mRecyclerView.setAdapter(itemAdapter);
-//                        }
-//                        if (totalPages == page) {
-//                            itemAdapter.adddate(items);
-//                        }
-//                    }
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-            }
-
-            @Override
-            public void onFailure(String error) {
-                mSwipeLayout.setRefreshing(false);
-//                notLinearLayout.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-    //����ˢ�´����¼�
-    @Override
-    public void onRefresh() {
-        getInvbalancesList();
+    private void addData(){
+        Matrectrans matrectrans = new Matrectrans();
+        matrectrans.itemnum = "101002";
+        matrectrans.description = "双金属温度计";
+        matrectrans.type = "0－100℃，Ф10，L=120";
+        matrectrans.receiptquantity = "1.00";
+        matrectrans.curbaltotal = "3";
+        matrectrans.linecost = "129231";
+        matrectrans.frombin = "B210D0107";
+        matrectrans.tostoreloc = "";
+        matrectrans.tobin = "";
+        ArrayList<Matrectrans> matrectranses = new ArrayList<>();
+        matrectranses.add(matrectrans);
+        matrectransAdapter.adddate(matrectranses);
     }
 
 }

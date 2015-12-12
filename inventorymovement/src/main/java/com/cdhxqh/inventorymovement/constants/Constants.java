@@ -9,7 +9,7 @@ import android.content.Context;
 public class Constants {
 
     /**基础接口**/
-    public static final String HTTP_API_URL = "http://182.92.8.94:7002/maximo/mobile/";
+    public static final String HTTP_API_URL = "http://192.168.1.125:7008/maximo/mobile/";
 
     //登陆URL
     public static final String SIGN_IN_URL = HTTP_API_URL + "system/login";

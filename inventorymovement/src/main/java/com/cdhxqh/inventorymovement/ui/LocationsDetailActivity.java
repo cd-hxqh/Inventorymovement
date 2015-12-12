@@ -86,7 +86,8 @@ public class LocationsDetailActivity extends BaseActivity {
         }
 
 
-        removedBtn.setOnClickListener(onClickListener);
+        removedBtn.setOnClickListener(new IntentClickListener(REMOVED_MARK));
+        moveBtn.setOnClickListener(new IntentClickListener(MOVED_MARK));
     }
 
 
@@ -99,8 +100,11 @@ public class LocationsDetailActivity extends BaseActivity {
     };
 
 
-
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    private class IntentClickListener implements View.OnClickListener{
+        private int mark;
+        private IntentClickListener(int mark){
+            this.mark = mark;
+        }
         @Override
         public void onClick(View v) {
             Intent intent=new Intent(LocationsDetailActivity.this,InvbalancesActivity.class);
@@ -108,5 +112,15 @@ public class LocationsDetailActivity extends BaseActivity {
             intent.putExtra("mark",REMOVED_MARK);
             startActivityForResult(intent,0);
         }
-    };
+    }
+
+//    private View.OnClickListener onClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            Intent intent=new Intent(LocationsDetailActivity.this,InvbalancesActivity.class);
+//            intent.putExtra("location",locations.getLocation());
+//            intent.putExtra("mark",REMOVED_MARK);
+//            startActivityForResult(intent,0);
+//        }
+//    };
 }
