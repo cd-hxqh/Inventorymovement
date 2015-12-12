@@ -1,5 +1,6 @@
 package com.cdhxqh.inventorymovement.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -98,6 +99,8 @@ public class InvbalancesActivity extends BaseActivity{
         mRecyclerView.setAdapter(matrectransAdapter);
         addData();
 
+        chooseBtn.setOnClickListener(chooseBtnOnClickListener);
+
     }
 
     private void addData(){
@@ -115,5 +118,23 @@ public class InvbalancesActivity extends BaseActivity{
         matrectranses.add(matrectrans);
         matrectransAdapter.adddate(matrectranses);
     }
+
+
+    /**
+     * 选择按钮*
+     */
+    private View.OnClickListener chooseBtnOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = getIntent();
+
+            intent.setClass(InvbalancesActivity.this, InvbalancesListActivity.class);
+
+            startActivityForResult(intent, 0);
+        }
+    };
+
+
+
 
 }

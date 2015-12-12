@@ -9,13 +9,19 @@ import android.content.Context;
 public class Constants {
 
     /**基础接口**/
+//    public static final String HTTP_API_URL = "http://182.92.8.94:7002/maximo/mobile/";
+
+    /**本地接口**/
     public static final String HTTP_API_URL = "http://192.168.1.125:7008/maximo/mobile/";
 
     //登陆URL
     public static final String SIGN_IN_URL = HTTP_API_URL + "system/login";
 
     //webservice上传接口
-    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
+    //远程
+//    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
+    //本地
+    public static final String webserviceURL = "http://192.168.1.125:7008/meaweb/services/MOBILESERVICE";
     public static String getWsUrl(Context context) {
         return webserviceURL;
     }
@@ -68,6 +74,11 @@ public class Constants {
     public static final String LOCATIONS_NAME="LOCATIONS";
     //INVBALANCES的表名
     public static final String INVBALANCES_NAME = "INVBALANCES";
+
+
+
+
+
 
     /**
      * 用户登录表识--开始*

@@ -5,10 +5,12 @@ package com.cdhxqh.inventorymovement.api.ig_json;
 import android.util.Log;
 
 
+import com.cdhxqh.inventorymovement.api.ig_json.impl.Invbalances_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Inventory_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Item_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreqline_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Locations_JsonHelper;
+import com.cdhxqh.inventorymovement.model.Invbalances;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
@@ -47,6 +49,12 @@ public class Ig_Json_Model {
      */
     public static ArrayList<Locations> parseLocationsFromString(String input) throws IOException {
         return Locations_JsonHelper.parseFromJsonList(input);
+    }
+    /**
+     * 解析库存项目
+     */
+    public static ArrayList<Invbalances> parseInvbalancesFromString(String input) throws IOException {
+        return Invbalances_JsonHelper.parseFromJsonList(input);
     }
 
 

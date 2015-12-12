@@ -87,6 +87,19 @@ public class ImManager {
         }
     }
 
+    /**
+     * 设置库存转移接口*
+     */
+    public static String serInvbalancesUrl(String location,String search, int curpage, int showcount) {
+        if (search.equals("")) {
+            return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.INVBALANCES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'LOCATION':'" + location + "','CURBAL':'>0'}}";
+        }else{
+            return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.INVBALANCES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'LOCATION':'" + location + "','CURBAL':'>0'"+"','POLINENUM':'" + search + "''}}";
+        }
+    }
+
+
+
 
     public static String getInvbalances(){
         return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.INVBALANCES_NAME + "','option':'read'}";

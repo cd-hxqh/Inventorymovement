@@ -123,4 +123,10 @@
     <string name="exit_dialog_title">提示</string>
     <string name="sure">确定</string>
     <string name="canel">取消</string>
+
+    <!--库存项目-->
+    <string name="title_activity_invbalances_list">库存项目</string>
+    <string name="invbalances_itemnum_text">项目:</string>
+    <string name="loading_data_fail">加载数据失败...</string>
+    <string name="confirm_text">确认</string>
 </resources>
