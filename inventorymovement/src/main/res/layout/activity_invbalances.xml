@@ -1,14 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cdhxqh.inventorymovement.ui.InvbalancesListActivity">
 
-    <include
-        android:id="@+id/title_id"
-        layout="@layout/title_text"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include layout="@layout/fragment_item"></include>
+        <include
+            android:id="@+id/title_id"
+            layout="@layout/title_text"></include>
 
-</LinearLayout>
+        <include
+            layout="@layout/fragment_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/title_id"
+            android:layout_marginBottom="40dp"></include>
+
+        <Button
+            android:id="@+id/invbalances_btn_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_ok_selector"
+            android:text="@string/confirm_text"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+
+</FrameLayout>

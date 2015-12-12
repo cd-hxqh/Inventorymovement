@@ -91,7 +91,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
-        chooseBtn = (Button) findViewById(R.id.btn_transfer_btn);
+        chooseBtn = (Button) findViewById(R.id.invbalances_btn_id);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
@@ -163,6 +163,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
             Intent intent = getIntent();
             intent.putExtra("matrectrans", mList);
             setResult(1000, intent);
+            finish();
         }
     };
 
