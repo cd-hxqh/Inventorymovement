@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -141,21 +142,27 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     };
 
 
-    private View.OnClickListener chooseBtnOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener chooseBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
 
-            HashMap<Integer,Invbalances> list =invbalancesAdapter.checkedlist;
+            HashMap<Integer, Invbalances> list = invbalancesAdapter.checkedlist;
 
 
-            ArrayList<Matrectrans> mList=new ArrayList<Matrectrans>();
-
-            for (int i=0;i<list.size();i++){
-                Matrectrans matrectrans=new Matrectrans();
-
+            ArrayList<Matrectrans> mList = new ArrayList<Matrectrans>();
+            Matrectrans matrectrans = null;
+            for (int i = 0; i < list.size(); i++) {
+                matrectrans = new Matrectrans();
+                matrectrans.setItemnum(list.get(i).itemnum);
+                matrectrans.setDescription(list.get(i).itemdesc);
+                matrectrans.setType(list.get(i).itemin20);
+                matrectrans.setCurbaltotal(list.get(i).curbal);
+                matrectrans.setFrombin(list.get(i).binnum);
+                mList.add(matrectrans);
             }
-
-
+            Intent intent = getIntent();
+            intent.putExtra("matrectrans", mList);
+            setResult(1000, intent);
         }
     };
 
