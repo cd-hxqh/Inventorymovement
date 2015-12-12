@@ -8,11 +8,13 @@ import android.util.Log;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Invbalances_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Inventory_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Item_JsonHelper;
+import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreq_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreqline_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Locations_JsonHelper;
 import com.cdhxqh.inventorymovement.model.Invbalances;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.model.Locations;
 
@@ -43,6 +45,12 @@ public class Ig_Json_Model {
      */
     public static ArrayList<Itemreqline> parseItemreqlineFromString(String input) throws IOException {
         return Itemreqline_JsonHelper.parseFromJsonList(input);
+    }
+    /**
+     * 物资编码申请
+     */
+    public static ArrayList<Itemreq> parseItemreqFromString(String input) throws IOException {
+        return Itemreq_JsonHelper.parseFromJsonList(input);
     }
     /**
      * 解析库存转移
