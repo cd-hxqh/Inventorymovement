@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Created by apple on 15/10/8.
  * 静态常量类
- *
+
  */
 public class Constants {
 
