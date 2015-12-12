@@ -1,6 +1,8 @@
 package com.cdhxqh.inventorymovement.webserviceclient;
 
 
+import android.util.Log;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
@@ -132,33 +134,36 @@ public class AndroidClientService {
         return obj;
     }
 
-//    /**
-//     * �޸�Ԥ�ù�������
-//     * @param string
-//     * @return
-//     */
-//    public String UpdataWOyz(String string){
-//        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-//        soapEnvelope.implicitTypes = true;
-//        soapEnvelope.dotNet = true;
-//        SoapObject soapReq = new SoapObject(NAMESPACE, "UpdateWO");
-//        soapReq.addProperty("in0", string);
-//        soapReq.addProperty("in1", 0);
-//        soapEnvelope.setOutputSoapObject(soapReq);
-//        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
-//        try {
-//            httpTransport.call("", soapEnvelope);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (XmlPullParserException e) {
-//            e.printStackTrace();
-//        }
-//        String obj = null;
-//        try {
-//            obj = soapEnvelope.getResponse().toString();
-//        } catch (SoapFault soapFault) {
-//            soapFault.printStackTrace();
-//        }
-//        return obj;
-//    }
+
+
+    /**
+     * 生成物资编码
+     */
+    public String INV08CreateItem(String userid,String itemnum){
+
+        Log.i(TAG,"userid="+userid+",itemnum="+itemnum);
+        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        soapEnvelope.implicitTypes = true;
+        soapEnvelope.dotNet = true;
+        SoapObject soapReq = new SoapObject(NAMESPACE, "INV08CreateItem");
+        soapReq.addProperty("userid", userid);//用户名
+        soapReq.addProperty("itemreqid", itemnum);//物质编号
+        soapEnvelope.setOutputSoapObject(soapReq);
+        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        try {
+            httpTransport.call("urn:action", soapEnvelope);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        String obj = null;
+        try {
+            obj = soapEnvelope.getResponse().toString();
+        } catch (SoapFault soapFault) {
+            soapFault.printStackTrace();
+        }
+        return obj;
+    }
+
 }

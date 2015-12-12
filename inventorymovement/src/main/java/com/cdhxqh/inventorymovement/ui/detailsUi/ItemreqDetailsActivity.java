@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui.detailsUi;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.InvAdapter;
@@ -28,13 +30,16 @@ import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * 物资编码申请详情
  */
-public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
+public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
     private static final String TAG = "ItemreqDetailsActivity";
 
@@ -92,10 +97,13 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
      */
     private TextView flowTextView;
 
-    /**进度条**/
+    /**
+     * 进度条*
+     */
     private ProgressDialog mProgressDialog;
 
     private int page = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +163,7 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
     private void setEvent() {
         titleTextView.setText(getString(R.string.itemreq_title_text));
         backImage.setOnClickListener(backOnClickListener);
+        menuImage.setVisibility(View.VISIBLE);
         menuImage.setOnClickListener(menuImageOnClickListener);
 
         if (itemreq != null) {
@@ -265,19 +274,23 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
 
     }
 
-    /**生成物资编码**/
-    private View.OnClickListener genTextViewOnClickListener=new View.OnClickListener() {
+    /**
+     * 生成物资编码*
+     */
+    private View.OnClickListener genTextViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mProgressDialog = ProgressDialog.show(ItemreqDetailsActivity.this, null,
-                   "正在生成物资编码...", true, true);
+                    "正在生成物资编码...", true, true);
             genNumber();
         }
     };
 
 
-    /**工作流**/
-    private View.OnClickListener flowTextViewOnClickListener=new View.OnClickListener() {
+    /**
+     * 工作流*
+     */
+    private View.OnClickListener flowTextViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
@@ -285,25 +298,34 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
     };
 
 
-    /**生成物资编码**/
-    private void genNumber(){
-        ImManager.setItemNumber(ItemreqDetailsActivity.this, "1", itemreq.itemreqid, new HttpRequestHandler<String>() {
+    /**
+     * 生成物资编码*
+     */
+    private void genNumber() {
+        new AsyncTask<String, String, String>() {
             @Override
-            public void onSuccess(String data) {
-                Log.i(TAG,"item data ="+data);
-                mProgressDialog.dismiss();
+            protected String doInBackground(String... strings) {
+                String result = null;
+                String data = getBaseApplication().getWsService().INV08CreateItem(getBaseApplication().getUsername(),
+                        itemreq.itemreqnum);
+
+                Log.i(TAG,"data="+data);
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    result = jsonObject.getString("msg");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return result;
             }
 
             @Override
-            public void onSuccess(String data, int totalPages, int currentPage) {
-                Log.i(TAG,"item1 data ="+data);
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+//                mProgressDialog.cancel();
+              Log.i(TAG,"s="+s);
             }
-
-            @Override
-            public void onFailure(String error) {
-                Log.i(TAG,"error ="+error);
-            }
-        });
+        }.execute();
     }
 
 
