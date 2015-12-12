@@ -123,7 +123,7 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
      */
 
     private void getItemList() {
-        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemUrl(page, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemUrl("",page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);

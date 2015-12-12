@@ -12,25 +12,25 @@ import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Invbalances;
 
 /**
- * ¿â´æ×ªÒÆÏêÇé*
+ * åº“å­˜è½¬ç§»è¯¦æƒ…*
  */
 public class InvbalanceDetailActivity extends BaseActivity {
-    private TextView titleTextView; // ±êÌâ
+    private TextView titleTextView; // æ ‡é¢˜
 
-    private ImageView backImage; //·µ»Ø
+    private ImageView backImage; //è¿”å›
 
     /**
-     * ½çÃæËµÃ÷*
+     * ç•Œé¢è¯´æ˜*
      */
 
-    private TextView itemnumText; //ÏîÄ¿
-    private TextView descriptionText; //ÃèÊö
-    private TextView in20Text; //¹æ¸ñĞÍºÅ
-    private TextView orderunitText; //¶©¹ºµ¥Î»
-    private TextView curbalText; //µ±Ç°ÓàÁ¿
-    private TextView locationText; //¿â·¿
-    private TextView siteidText; //µØµã
-    private TextView binnumText; //»õ¹ñ
+    private TextView itemnumText; //é¡¹ç›®
+    private TextView descriptionText; //æè¿°
+    private TextView in20Text; //è§„æ ¼å‹å·
+    private TextView orderunitText; //è®¢è´­å•ä½
+    private TextView curbalText; //å½“å‰ä½™é‡
+    private TextView locationText; //åº“æˆ¿
+    private TextView siteidText; //åœ°ç‚¹
+    private TextView binnumText; //è´§æŸœ
 
     /**Invbalances**/
     private Invbalances invbalances;
@@ -53,7 +53,7 @@ public class InvbalanceDetailActivity extends BaseActivity {
 
 
     /**
-     * ³õÊ¼»¯½çÃæ¿Ø¼ş*
+     * åˆå§‹åŒ–ç•Œé¢æ§ä»¶*
      */
     private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
@@ -72,7 +72,7 @@ public class InvbalanceDetailActivity extends BaseActivity {
 
 
     /**
-     * ÉèÖÃÊÂ¼ş¼àÌı*
+     * è®¾ç½®äº‹ä»¶ç›‘å¬*
      */
     private void initView() {
         titleTextView.setText(getString(R.string.title_activity_invbalance_detail));

@@ -26,16 +26,15 @@ public class ImManager {
     /**
      * 设置主项目接口*
      */
-    public static String serItemUrl(int curpage, int showcount) {
-        return "{'appid':'ITEM','objectname':'ITEM','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+    public static String serItemUrl(String search,int curpage, int showcount) {
+        if(search.equals("")){
+            return "{'appid':'"+Constants.ITEM_APPID+"','objectname':'"+Constants.ITEM_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+        }else{
+            return "{'appid':'"+Constants.ITEM_APPID+"','objectname':'"+Constants.ITEM_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'ITEMNUM':'" + search + "'}}";
+        }
+
     }
 
-    /**
-     * 主项目搜索接口
-     */
-    public static String searchItem(String search) {
-        return "{'appid':'ITEM','objectname':'ITEM','option':'read','condition':{'ITEMNUM':'" + search + "'}}";
-    }
 
     /**
      * 库存使用情况搜索接口*

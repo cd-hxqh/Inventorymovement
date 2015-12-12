@@ -1,5 +1,6 @@
 package com.cdhxqh.inventorymovement.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,12 +25,13 @@ import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SearchActivity extends BaseActivity implements com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout.OnRefreshListener, com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout.OnLoadListener {
+public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "SearchActivity";
     private static final int ITEM_MARK = 0; //主项目标识
     private static final int LOCATION_MARK = 4; //库存转移
@@ -81,15 +84,15 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         getData();
+        finViewById();
         initView();
-        setEvent();
     }
 
 
     /**
      * 初始化界面控件*
      */
-    private void initView() {
+    private void finViewById() {
         editText = (EditText) findViewById(R.id.search_edittext_id);
         backImage = (ImageView) findViewById(R.id.back_image_id);
 
@@ -121,9 +124,12 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
     /**
      * 设置事件监听*
      */
-    private void setEvent() {
+    private void initView() {
         backImage.setOnClickListener(backOnClickListener);
         editText.setOnEditorActionListener(editTextOnEditorActionListener);
+
+
+
     }
 
 
@@ -150,12 +156,22 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+
+                // 先隐藏键盘
+                ((InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(
+                                SearchActivity.this.getCurrentFocus()
+                                        .getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
                 search = editText.getText().toString();
+                mSwipeLayout.setRefreshing(true);
+                mSwipeLayout.setLoading(true);
+                notLinearLayout.setVisibility(View.GONE);
                 if (search_mark == ITEM_MARK) { //主项目
                     getItemList(search);
                 } else if (search_mark == INV_MARK) { //库存使用情况
                     getInvList(search);
-                }else if(search_mark ==LOCATION_MARK){ //库存转移
+                } else if (search_mark == LOCATION_MARK) { //库存转移
 
                 }
                 return true;
@@ -172,7 +188,7 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
 
     private void getItemList(String search) {
         Log.i(TAG, "search=" + search);
-        ImManager.getData(SearchActivity.this, ImManager.searchItem(search), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(SearchActivity.this, ImManager.serItemUrl(search, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -180,20 +196,21 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<Inventory> items = null;
+
+                ArrayList<Item> items = null;
                 try {
-                    items = Ig_Json_Model.parseInventoryFromString(results.getResultlist());
+                    items = Ig_Json_Model.parseItemFromString(results.getResultlist());
                     mSwipeLayout.setRefreshing(false);
                     mSwipeLayout.setLoading(false);
                     if (items == null || items.isEmpty()) {
                         notLinearLayout.setVisibility(View.VISIBLE);
                     } else {
                         if (page == 1) {
-                            invAdapter = new InvAdapter(SearchActivity.this);
-                            mRecyclerView.setAdapter(invAdapter);
+                            itemAdapter = new ItemAdapter(SearchActivity.this);
+                            mRecyclerView.setAdapter(itemAdapter);
                         }
                         if (totalPages == page) {
-                            invAdapter.adddate(items);
+                            itemAdapter.adddate(items);
                         }
                     }
 
@@ -230,8 +247,13 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
                     mSwipeLayout.setRefreshing(false);
                     mSwipeLayout.setLoading(false);
                     if (items == null || items.isEmpty()) {
-                        notLinearLayout.setVisibility(View.VISIBLE);
+                        if (invAdapter.getItemCount() != 0) {
+                            MessageUtils.showMiddleToast(SearchActivity.this, getString(R.string.loading_data_fail));
+                        } else {
+                            notLinearLayout.setVisibility(View.VISIBLE);
+                        }
                     } else {
+
                         if (page == 1) {
                             invAdapter = new InvAdapter(SearchActivity.this);
                             mRecyclerView.setAdapter(invAdapter);
@@ -249,7 +271,11 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
             @Override
             public void onFailure(String error) {
                 mSwipeLayout.setRefreshing(false);
-                notLinearLayout.setVisibility(View.VISIBLE);
+                if (invAdapter.getItemCount() != 0) {
+                    MessageUtils.showMiddleToast(SearchActivity.this, getString(R.string.loading_data_fail));
+                } else {
+                    notLinearLayout.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -257,12 +283,18 @@ public class SearchActivity extends BaseActivity implements com.cdhxqh.inventory
     @Override
     public void onLoad() {
         page = 1;
-        getItemList(search);
+        if (search_mark == ITEM_MARK) {
+            getItemList(search);
+        }
     }
 
     @Override
     public void onRefresh() {
         page++;
-        getItemList(search);
+        if (search_mark == ITEM_MARK&&search!=null) {
+            getItemList(search);
+        }else{
+            mSwipeLayout.setRefreshing(false);
+        }
     }
 }
