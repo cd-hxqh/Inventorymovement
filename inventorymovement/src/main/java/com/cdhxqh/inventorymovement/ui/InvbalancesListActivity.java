@@ -151,7 +151,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
             ArrayList<Matrectrans> mList=new ArrayList<Matrectrans>();
 
             for (int i=0;i<list.size();i++){
-
+                Matrectrans matrectrans=new Matrectrans();
 
             }
 
