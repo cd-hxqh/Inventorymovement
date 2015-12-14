@@ -22,10 +22,12 @@ public class Matrectrans extends Entity {
     public String curbaltotal;//仓库当前余量
     @JsonField(fieldName = "linecost")
     public String linecost;//行成本
+    @JsonField(fieldName = "fromstoreloc")
+    public String fromstoreloc;//原仓库
     @JsonField(fieldName = "frombin")
     public String frombin;//原库位号
     @JsonField(fieldName = "tostoreloc")
-    public String tostoreloc;//目标位置
+    public String tostoreloc;//目标仓库
     @JsonField(fieldName = "tobin")
     public String tobin;//目标库位号
 
@@ -76,6 +78,14 @@ public class Matrectrans extends Entity {
 
     public void setLinecost(String linecost) {
         this.linecost = linecost;
+    }
+
+    public String getFromstoreloc() {
+        return fromstoreloc;
+    }
+
+    public void setFromstoreloc(String fromstoreloc) {
+        this.fromstoreloc = fromstoreloc;
     }
 
     public String getFrombin() {

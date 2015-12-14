@@ -108,7 +108,16 @@
             android:label="@string/location_zhuangyi_matrectrans"></activity>
         <activity
             android:name=".ui.LocationsDetailActivity"
-            android:label="@string/title_activity_locations_detail"></activity>
+            android:label="@string/title_activity_locations_detail">
+        </activity>
+        <activity
+            android:name=".ui.BinChooseActivity"
+            android:label="@string/title_activity_bin" >
+        </activity>
+        <activity
+            android:name=".ui.StorelocChooseActivity"
+            android:label="@string/matrectrans_tostoreloc_title" >
+        </activity>
 
         <!-- 库存项目 -->
         <activity

@@ -109,7 +109,7 @@ public class LocationsDetailActivity extends BaseActivity {
         public void onClick(View v) {
             Intent intent=new Intent(LocationsDetailActivity.this,InvbalancesActivity.class);
             intent.putExtra("location",locations.getLocation());
-            intent.putExtra("mark",REMOVED_MARK);
+            intent.putExtra("mark",mark);
             startActivityForResult(intent,0);
         }
     }

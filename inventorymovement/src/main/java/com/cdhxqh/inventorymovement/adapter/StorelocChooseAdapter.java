@@ -5,33 +5,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Matrectrans;
-import com.cdhxqh.inventorymovement.ui.InvbalancesActivity;
+import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.ui.LocationsDetailActivity;
 import com.cdhxqh.inventorymovement.ui.MatrectransActivity;
-import com.cdhxqh.inventorymovement.ui.detailsUi.ItemDetailsActivity;
+import com.cdhxqh.inventorymovement.ui.StorelocChooseActivity;
 
 import java.util.ArrayList;
 
 /**
- * Created by apple on 15/12/12.
+ * Created by apple on 15/6/4.
+ * 仓库选择
  */
-public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.ViewHolder> {
+public class StorelocChooseAdapter extends RecyclerView.Adapter<StorelocChooseAdapter.ViewHolder> {
 
-    private static final String TAG = "MatrectransAdapter";
-    InvbalancesActivity activity;
-    String location;
-    public ArrayList<Matrectrans> mItems = new ArrayList<Matrectrans>();
+    private static final String TAG = "LocationsAdapter";
+    StorelocChooseActivity activity;
+    ArrayList<Locations> mItems = new ArrayList<Locations>();
 
-    public MatrectransAdapter(InvbalancesActivity activity,String location) {
+    public StorelocChooseAdapter(StorelocChooseActivity activity) {
         this.activity = activity;
-        this.location = location;
     }
 
     @Override
@@ -42,12 +40,10 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Matrectrans item = mItems.get(i);
-
-        Log.i(TAG, "item.itemnum=" + item.itemnum);
-
-        viewHolder.itemNum_title.setText(R.string.item_num_text);
-        viewHolder.itemNum.setText(item.itemnum==null?"":item.itemnum);
+        final Locations item = mItems.get(i);
+        viewHolder.itemNumTitle.setText(activity.getString(R.string.locations_location_title));
+        viewHolder.itemDescTitle.setText(activity.getString(R.string.item_desc_title));
+        viewHolder.itemNum.setText(item.location);
         viewHolder.itemDesc.setText(item.description);
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -55,11 +51,10 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent(activity, MatrectransActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("matrectrans", item);
-                bundle.putString("location", location);
-                bundle.putInt("mark", activity.mark);
+                bundle.putSerializable("locations", item.location);
                 intent.putExtras(bundle);
-                activity.startActivityForResult(intent, 1);
+                activity.setResult(2, intent);
+                activity.finish();
             }
         });
 
@@ -71,14 +66,13 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
         return mItems.size();
     }
 
-    public void update(ArrayList<Matrectrans> data, boolean merge) {
+    public void update(ArrayList<Locations> data, boolean merge) {
         if (merge && mItems.size() > 0) {
             for (int i = 0; i < mItems.size(); i++) {
-                Log.i(TAG, "mItems=" + mItems.get(i).itemnum);
-                Matrectrans obj = mItems.get(i);
+                Locations obj = mItems.get(i);
                 boolean exist = false;
                 for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).itemnum == obj.itemnum) {
+                    if (data.get(j).locationsid == obj.locationsid) {
                         exist = true;
                         break;
                     }
@@ -92,30 +86,12 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
         notifyDataSetChanged();
     }
 
-    public void update(Matrectrans matrectrans){
-        for(int i = 0;i < mItems.size();i ++){
-            if(mItems.get(i).itemnum.equals(matrectrans.itemnum)){
-                mItems.set(i,matrectrans);
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public void adddate(ArrayList<Matrectrans> data){
+    public void adddate(ArrayList<Locations> data){
         if(data.size()>0){
             for(int i = 0;i < data.size();i++){
                 if(!mItems.contains(data.get(i))){
                     mItems.add(data.get(i));
                 }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public void remove(String itemnum){
-        for(int i = 0;i < mItems.size();i ++){
-            if(mItems.get(i).itemnum.equals(itemnum)){
-                mItems.remove(i);
             }
         }
         notifyDataSetChanged();
@@ -133,16 +109,18 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
          * CardView*
          */
         public CardView cardView;
-
+        /**
+         * 编号-title*
+         */
+        public TextView itemNumTitle;
         /**
          * 编号*
          */
-        public TextView itemNum_title;
-
-        /**
-         * 项目*
-         */
         public TextView itemNum;
+        /**
+         * 描述-title*
+         */
+        public TextView itemDescTitle;
         /**
          * 描述*
          */
@@ -151,8 +129,9 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
         public ViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.card_container);
-            itemNum_title = (TextView) view.findViewById(R.id.item_num_title);
+            itemNumTitle = (TextView) view.findViewById(R.id.item_num_title);
             itemNum = (TextView) view.findViewById(R.id.item_num_text);
+            itemDescTitle = (TextView) view.findViewById(R.id.item_desc_title);
             itemDesc = (TextView) view.findViewById(R.id.item_desc_text);
         }
     }

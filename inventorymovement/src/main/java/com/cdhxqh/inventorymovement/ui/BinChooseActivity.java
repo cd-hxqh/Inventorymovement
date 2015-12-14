@@ -1,13 +1,9 @@
 package com.cdhxqh.inventorymovement.ui;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,36 +11,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.adapter.InvAdapter;
-import com.cdhxqh.inventorymovement.adapter.InvbalancesAdapter;
+import com.cdhxqh.inventorymovement.adapter.BinAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Invbalances;
-import com.cdhxqh.inventorymovement.model.Inventory;
-import com.cdhxqh.inventorymovement.model.Matrectrans;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
- * 库存项目*
+ * Created by think on 2015/12/12.
+ * 仓库库位号选择页面
  */
-public class InvbalancesListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
-    private static final String TAG = "InvbalancesActivity";
+public class BinChooseActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
+    private static final String TAG = "BinChooseActivity";
 
     private TextView titleTextView; // 标题
 
-
     private ImageView backImage; //返回
 
-    private ImageView search; //搜索
-
-    private Button chooseBtn; //选择
     /**
      * RecyclerView*
      */
@@ -54,77 +43,64 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
     SwipeRefreshLayout mSwipeLayout;
 
-    /**
-     * 暂无数据*
-     */
-    LinearLayout notLinearLayout;
-
-    InvbalancesAdapter invbalancesAdapter;
+    BinAdapter binAdapter;
 
     private int page = 1;
 
     private String location;
 
-    private int mark;
+    private String itemnum;
+
+    private int mark;//1.原库位 2.目标库位
+
+    public int requestCode;
+
+    /**
+     * 暂无数据*
+     */
+    LinearLayout notLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invbalances);
+        setContentView(R.layout.activity_bin_choose);
 
         initData();
-
         findViewById();
-
         initView();
     }
-
 
     /**
      * 获取上个界面的数据*
      */
     private void initData() {
         location = getIntent().getStringExtra("location");
+        itemnum = getIntent().getStringExtra("itemnum");
         mark = getIntent().getIntExtra("mark",0);
+        requestCode = getIntent().getIntExtra("requestCode", 0);
     }
 
-
-    /**
-     * 初始化界面组件*
-     */
-    private void findViewById() {
+    private void findViewById(){
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
-        search=(ImageView)findViewById(R.id.menu_imageview_id);
-
-
-        chooseBtn = (Button) findViewById(R.id.invbalances_btn_id);
-
-
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-
         notLinearLayout = (LinearLayout) findViewById(R.id.have_not_data_id);
     }
 
+    private void initView(){
+        titleTextView.setText(itemnum);
 
-    /**
-     * 设置事件监听*
-     */
-    private void initView() {
-
-        titleTextView.setText(getResources().getString(R.string.title_activity_invbalances_list));
-        backImage.setOnClickListener(backImageOnClickListener);
-        search.setBackgroundResource(R.drawable.ic_search);
-        search.setVisibility(View.VISIBLE);
-
-
-        chooseBtn.setOnClickListener(chooseBtnOnClickListener);
-
-        mLayoutManager = new LinearLayoutManager(InvbalancesListActivity.this);
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mLayoutManager = new LinearLayoutManager(BinChooseActivity.this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        invbalancesAdapter = new InvbalancesAdapter(InvbalancesListActivity.this);
-        mRecyclerView.setAdapter(invbalancesAdapter);
+        binAdapter = new BinAdapter(this);
+
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
                 R.color.holo_green_light,
@@ -136,56 +112,15 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setOnLoadListener(this);
 
-
-        getItemList(location, "");
+        getItemList();
     }
 
-
-    private View.OnClickListener backImageOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            finish();
-        }
-    };
-
-
-    private View.OnClickListener chooseBtnOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-            HashMap<Integer, Invbalances> list = invbalancesAdapter.checkedlist;
-
-
-            ArrayList<Matrectrans> mList = new ArrayList<Matrectrans>();
-            Matrectrans matrectrans = null;
-            for (int i = 0; i < list.size(); i++) {
-                matrectrans = new Matrectrans();
-                matrectrans.setItemnum(list.get(i).itemnum);
-                matrectrans.setDescription(list.get(i).itemdesc);
-                matrectrans.setType(list.get(i).itemin20);
-                matrectrans.setCurbaltotal(list.get(i).curbal);
-                matrectrans.setFrombin(list.get(i).binnum);
-                if(mark == 1000){
-                    matrectrans.setFromstoreloc(location);
-                }else if(mark == 1001){
-                    matrectrans.setTostoreloc(location);
-                }
-                mList.add(matrectrans);
-            }
-            Intent intent = getIntent();
-            intent.putExtra("matrectrans", mList);
-            setResult(1000, intent);
-            finish();
-        }
-    };
-
-
     /**
-     * 获取库存项目信息*
+     * 获取库存原库位号信息*
      */
 
-    private void getItemList(String location, String seach) {
-        ImManager.getDataPagingInfo(InvbalancesListActivity.this, ImManager.serInvbalancesUrl(location, seach, page, 20), new HttpRequestHandler<Results>() {
+    private void getItemList() {
+        ImManager.getDataPagingInfo(BinChooseActivity.this, ImManager.serFrombinUrl(location,itemnum, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -199,8 +134,8 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
                     mSwipeLayout.setRefreshing(false);
                     mSwipeLayout.setLoading(false);
                     if (items == null || items.isEmpty()) {
-                        if (invbalancesAdapter.getItemCount() != 0) {
-                            MessageUtils.showMiddleToast(InvbalancesListActivity.this, getString(R.string.loading_data_fail));
+                        if (binAdapter.getItemCount() != 0) {
+                            MessageUtils.showMiddleToast(BinChooseActivity.this, getString(R.string.loading_data_fail));
                         } else {
                             notLinearLayout.setVisibility(View.VISIBLE);
                         }
@@ -209,11 +144,11 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
                     } else {
                         Log.i(TAG, "page=" + page + ",totalPages=" + totalPages + ",currentPage=" + currentPage);
                         if (page == 1) {
-                            invbalancesAdapter = new InvbalancesAdapter(InvbalancesListActivity.this);
-                            mRecyclerView.setAdapter(invbalancesAdapter);
+                            binAdapter = new BinAdapter(BinChooseActivity.this);
+                            mRecyclerView.setAdapter(binAdapter);
                         }
                         if (totalPages == page) {
-                            invbalancesAdapter.adddate(items);
+                            binAdapter.adddate(items);
                         }
                     }
 
@@ -227,8 +162,8 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
             public void onFailure(String error) {
                 mSwipeLayout.setRefreshing(false);
                 mSwipeLayout.setLoading(false);
-                if (invbalancesAdapter.getItemCount() != 0) {
-                    MessageUtils.showMiddleToast(InvbalancesListActivity.this, getString(R.string.loading_data_fail));
+                if (binAdapter.getItemCount() != 0) {
+                    MessageUtils.showMiddleToast(BinChooseActivity.this, getString(R.string.loading_data_fail));
                 } else {
                     notLinearLayout.setVisibility(View.VISIBLE);
                 }
@@ -240,7 +175,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     @Override
     public void onLoad() {
         page++;
-        getItemList(location, "");
+        getItemList();
     }
 
     @Override

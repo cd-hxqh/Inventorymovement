@@ -76,7 +76,7 @@ public class ImManager {
 
 
     /**
-     * 设置库存转移接口*
+     * 设置仓库接口*
      */
     public static String serLocationsUrl(String search, int curpage, int showcount) {
         if (search.equals("")) {
@@ -96,7 +96,13 @@ public class ImManager {
             return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.INVBALANCES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'LOCATION':'" + location + "','CURBAL':'>0'"+"','POLINENUM':'" + search + "''}}";
         }
     }
+    /**
+     * 设置库存仓库库位接口*
+     */
+    public static String serFrombinUrl(String location,String itemnum, int curpage, int showcount) {
+            return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.INVBALANCES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'LOCATION':'" + location + "','ITEMNUM':'"+itemnum+"'}}";
 
+    }
 
 
 

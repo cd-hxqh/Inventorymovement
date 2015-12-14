@@ -75,16 +75,19 @@ public class AndroidClientService {
     /**
      * 库存移出
      */
-    public String INV05Invtrans1(String userid,String itemnum,String qty,String storeroom1,String binnum1){
+    public String INV05Invtrans1(String userid,String itemnum,String qty,String storeroom1,String binnum1,
+            String storeroom2,String binnum2){
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
-        SoapObject soapReq = new SoapObject(NAMESPACE, "INV05Invtrans");
-        soapReq.addProperty("userid", userid);//用户名
-        soapReq.addProperty("itemnum", itemnum);//物质编号
-        soapReq.addProperty("qty", qty);//数量
-        soapReq.addProperty("storeroom1", storeroom1);//库房
-        soapReq.addProperty("binnum1", binnum1);//货柜号
+        SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV05Invtrans");
+        soapReq.addProperty("userid", "maxadmin");//用户名
+        soapReq.addProperty("itemnum", "110013");//物质编号
+        soapReq.addProperty("qty", "1");//数量
+        soapReq.addProperty("storeroom1", "G100");//出库房
+        soapReq.addProperty("binnum1", "A102O0504");//出货柜号
+        soapReq.addProperty("storeroom2", "G100");//入库房
+        soapReq.addProperty("binnum2", "A102O0504");//入货柜号
         soapEnvelope.setOutputSoapObject(soapReq);
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
         try {
@@ -97,42 +100,43 @@ public class AndroidClientService {
         String obj = null;
         try {
             obj = soapEnvelope.getResponse().toString();
+            String s = obj;
         } catch (SoapFault soapFault) {
             soapFault.printStackTrace();
         }
         return obj;
     }
 
-    /**
-     * 库存移入
-     */
-    public String INV05Invtrans2(String userid,String itemnum,String qty,String storeroom2,String binnum2){
-        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        soapEnvelope.implicitTypes = true;
-        soapEnvelope.dotNet = true;
-        SoapObject soapReq = new SoapObject(NAMESPACE, "INV05Invtrans");
-        soapReq.addProperty("userid", userid);//用户名
-        soapReq.addProperty("itemnum", itemnum);//物质编号
-        soapReq.addProperty("qty", qty);//数量
-        soapReq.addProperty("storeroom2", storeroom2);//库房
-        soapReq.addProperty("binnum2", binnum2);//货柜号
-        soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
-        try {
-            httpTransport.call("urn:action", soapEnvelope);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        }
-        String obj = null;
-        try {
-            obj = soapEnvelope.getResponse().toString();
-        } catch (SoapFault soapFault) {
-            soapFault.printStackTrace();
-        }
-        return obj;
-    }
+//    /**
+//     * 库存移入
+//     */
+//    public String INV05Invtrans2(String userid,String itemnum,String qty,String storeroom2,String binnum2){
+//        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//        soapEnvelope.implicitTypes = true;
+//        soapEnvelope.dotNet = true;
+//        SoapObject soapReq = new SoapObject(NAMESPACE, "INV05Invtrans");
+//        soapReq.addProperty("userid", userid);//用户名
+//        soapReq.addProperty("itemnum", itemnum);//物质编号
+//        soapReq.addProperty("qty", qty);//数量
+//        soapReq.addProperty("storeroom2", storeroom2);//库房
+//        soapReq.addProperty("binnum2", binnum2);//货柜号
+//        soapEnvelope.setOutputSoapObject(soapReq);
+//        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+//        try {
+//            httpTransport.call("urn:action", soapEnvelope);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (XmlPullParserException e) {
+//            e.printStackTrace();
+//        }
+//        String obj = null;
+//        try {
+//            obj = soapEnvelope.getResponse().toString();
+//        } catch (SoapFault soapFault) {
+//            soapFault.printStackTrace();
+//        }
+//        return obj;
+//    }
 
 
 
