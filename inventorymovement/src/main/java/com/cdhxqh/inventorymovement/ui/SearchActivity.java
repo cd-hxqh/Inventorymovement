@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.InvAdapter;
 import com.cdhxqh.inventorymovement.adapter.ItemAdapter;
+import com.cdhxqh.inventorymovement.adapter.ItemreqAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.api.JsonUtils;
@@ -26,6 +27,7 @@ import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
+import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "SearchActivity";
     private static final int ITEM_MARK = 0; //主项目标识
+    private static final int PO_MARK = 1; //主项目标识
     private static final int LOCATION_MARK = 4; //库存转移
     private static final int INV_MARK = 6; //库存使用情况标识
 
@@ -64,6 +67,11 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
      * 主项目*
      */
     ItemAdapter itemAdapter;
+
+    /**
+     * 入库管理
+     */
+    ItemreqAdapter itemreqAdapter;
 
     /**
      * 库存使用情况*
@@ -106,7 +114,10 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         if (search_mark == ITEM_MARK) {
             itemAdapter = new ItemAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(itemAdapter);
-        } else if (search_mark == INV_MARK) {
+        }else if(search_mark == PO_MARK){
+            itemreqAdapter = new ItemreqAdapter(SearchActivity.this);
+            mRecyclerView.setAdapter(itemreqAdapter);
+        }else if (search_mark == INV_MARK) {
             invAdapter = new InvAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(invAdapter);
         }
@@ -185,7 +196,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                 notLinearLayout.setVisibility(View.GONE);
                 if (search_mark == ITEM_MARK) { //主项目
                     getItemList(search);
-                } else if (search_mark == INV_MARK) { //库存使用情况
+                } else if(search_mark == PO_MARK){//入库管理
+                    getPoList(search);
+                }else if (search_mark == INV_MARK) { //库存使用情况
                     getInvList(search);
                 } else if (search_mark == LOCATION_MARK) { //库存转移
 
@@ -244,6 +257,42 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         });
     }
 
+    /**
+     * 获取入库管理*
+     */
+
+    private void getPoList(String search) {
+        ImManager.getDataPagingInfo(SearchActivity.this, ImManager.serItemreqUrl(search,page, 20), new HttpRequestHandler<Results>() {
+            @Override
+            public void onSuccess(Results results) {
+                Log.i(TAG, "data=" + results);
+            }
+
+            @Override
+            public void onSuccess(Results results, int totalPages, int currentPage) {
+                ArrayList<Itemreq> items = JsonUtils.parsingItemreq(SearchActivity.this, results.getResultlist());
+                mSwipeLayout.setRefreshing(false);
+                mSwipeLayout.setLoading(false);
+                if (items == null || items.isEmpty()) {
+                    notLinearLayout.setVisibility(View.VISIBLE);
+                } else{
+                    if(page == 1){
+                        itemreqAdapter = new ItemreqAdapter(SearchActivity.this);
+                        mRecyclerView.setAdapter(itemreqAdapter);
+                    }
+                    if(page == totalPages) {
+                        itemreqAdapter.adddate(items);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                mSwipeLayout.setRefreshing(false);
+                notLinearLayout.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
     /**
      * 库存使用情况*

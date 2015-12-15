@@ -1,17 +1,23 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
@@ -39,10 +45,19 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
     private TextView titleTextView; // 标题
 
+    private LinearLayout titlelayout;//标题布局
+    private RelativeLayout title_searchlayout;//标题搜索布局
 
     private ImageView backImage; //返回
 
-    private ImageView search; //搜索
+    private ImageView searchimg; //搜索
+
+    private EditText editText; // 搜索
+
+    /**
+     * 搜索值*
+     */
+    private String search;
 
     private Button chooseBtn; //选择
     /**
@@ -94,9 +109,11 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
      */
     private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
+        titlelayout = (LinearLayout) findViewById(R.id.title_contains);
+        title_searchlayout = (RelativeLayout) findViewById(R.id.title_search_layout);
+        editText = (EditText) findViewById(R.id.search_edittext_id);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
-        search=(ImageView)findViewById(R.id.menu_imageview_id);
-
+        searchimg=(ImageView)findViewById(R.id.menu_imageview_id);
 
         chooseBtn = (Button) findViewById(R.id.invbalances_btn_id);
 
@@ -115,8 +132,16 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
         titleTextView.setText(getResources().getString(R.string.title_activity_invbalances_list));
         backImage.setOnClickListener(backImageOnClickListener);
-        search.setBackgroundResource(R.drawable.ic_search);
-        search.setVisibility(View.VISIBLE);
+        searchimg.setBackgroundResource(R.drawable.ic_search);
+        searchimg.setVisibility(View.VISIBLE);
+        searchimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                titlelayout.setVisibility(View.GONE);
+                title_searchlayout.setVisibility(View.VISIBLE);
+            }
+        });
+        editText.setOnEditorActionListener(editTextOnEditorActionListener);
 
 
         chooseBtn.setOnClickListener(chooseBtnOnClickListener);
@@ -141,10 +166,40 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     }
 
 
+    /**
+     * 软键盘*
+     */
+    private TextView.OnEditorActionListener editTextOnEditorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+
+                // 先隐藏键盘
+                ((InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(
+                                InvbalancesListActivity.this.getCurrentFocus()
+                                        .getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
+                search = editText.getText().toString();
+                mSwipeLayout.setRefreshing(true);
+                mSwipeLayout.setLoading(true);
+                notLinearLayout.setVisibility(View.GONE);
+                getItemList(location, search);
+                return true;
+
+            }
+            return false;
+        }
+    };
+
     private View.OnClickListener backImageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            finish();
+            if(title_searchlayout.getVisibility()==View.VISIBLE){
+                title_searchlayout.setVisibility(View.GONE);
+            }else {
+                finish();
+            }
         }
     };
 
@@ -240,11 +295,13 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     @Override
     public void onLoad() {
         page++;
-        getItemList(location, "");
+        getItemList(location, search);
     }
 
     @Override
     public void onRefresh() {
+        page = 1;
+        getItemList(location, search);
         mSwipeLayout.setRefreshing(false);
     }
 }

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +38,12 @@ public class MatrectransActivity extends BaseActivity {
     public TextView curbaltotal;//仓库当前余量
     public TextView linecost;//行成本
     public TextView frombin;//原库位号
-    public LinearLayout frombinlayout;
+    public RelativeLayout frombinlayout;
     private TextView tostoreloc_title;
     public TextView tostoreloc;//目标仓库/原仓库
-    public LinearLayout tostoreloclayout;
+    public RelativeLayout tostoreloclayout;
     public TextView tobin;//目标库位号
-    public LinearLayout tobinlayout;
+    public RelativeLayout tobinlayout;
 
     private ImageView img;
 
@@ -85,12 +86,12 @@ public class MatrectransActivity extends BaseActivity {
         curbaltotal = (TextView) findViewById(R.id.matrectrans_curbaltotal);
         linecost = (TextView) findViewById(R.id.matrectrans_linecost);
         frombin = (TextView) findViewById(R.id.matrectrans_frombin);
-        frombinlayout = (LinearLayout) findViewById(R.id.frombin_linearlayout_id);
+        frombinlayout = (RelativeLayout) findViewById(R.id.frombin_linearlayout_id);
         tostoreloc_title = (TextView) findViewById(R.id.matrectrans_tostoreloc_title);
         tostoreloc = (TextView) findViewById(R.id.matrectrans_tostoreloc);
-        tostoreloclayout = (LinearLayout) findViewById(R.id.tostoreloc_linearlayout_id);
+        tostoreloclayout = (RelativeLayout) findViewById(R.id.tostoreloc_linearlayout_id);
         tobin = (TextView) findViewById(R.id.matrectrans_tobin);
-        tobinlayout = (LinearLayout) findViewById(R.id.tobin_linearlayout_id);
+        tobinlayout = (RelativeLayout) findViewById(R.id.tobin_linearlayout_id);
         confirm = (Button) findViewById(R.id.confirm_button_id);
 
         img = (ImageView) findViewById(R.id.matrectrans_tostoreloc_img);
@@ -107,9 +108,11 @@ public class MatrectransActivity extends BaseActivity {
 
         if(mark == 1000){
             tostoreloc.setText(matrectrans.fromstoreloc);
+            matrectrans.tostoreloc = location;
         }else if(mark == 1001){
             tostoreloc_title.setText(R.string.matrectrans_fromstoreloc);
             tostoreloc.setText(matrectrans.tostoreloc);
+            matrectrans.fromstoreloc = location;
             img.setVisibility(View.GONE);
         }
         itemnum.setText(matrectrans.itemnum);
