@@ -87,6 +87,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
 
     private int mark;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
