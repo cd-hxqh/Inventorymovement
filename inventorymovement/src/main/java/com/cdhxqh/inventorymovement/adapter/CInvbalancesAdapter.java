@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Invbalances;
+import com.cdhxqh.inventorymovement.ui.CInvbalancesDetailActivity;
 import com.cdhxqh.inventorymovement.ui.InvbalanceDetailActivity;
 
 import java.util.ArrayList;
@@ -28,10 +29,11 @@ public class CInvbalancesAdapter extends RecyclerView.Adapter<CInvbalancesAdapte
     private static final String TAG = "CInvbalancesAdapter";
     Context mContext;
     ArrayList<Invbalances> mItems = new ArrayList<Invbalances>();
+    private String location; //位置
 
-
-    public CInvbalancesAdapter(Context context) {
-        mContext = context;
+    public CInvbalancesAdapter(Context context,String location) {
+        this.mContext = context;
+        this.location=location;
     }
 
 
@@ -44,24 +46,24 @@ public class CInvbalancesAdapter extends RecyclerView.Adapter<CInvbalancesAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         final Invbalances item = mItems.get(position);
-        viewHolder.itemNumTitle.setText(mContext.getString(R.string.invbalances_itemnum_text));
-        viewHolder.itemDescTitle.setText(mContext.getString(R.string.item_desc_title));
-        viewHolder.itemNum.setText(item.itemnum);
-        viewHolder.itemDesc.setText(item.itemdesc);
-
+        viewHolder.itemNumTitle.setText(mContext.getString(R.string.invbalances_binnum_title));
+        viewHolder.itemDescTitle.setText(mContext.getString(R.string.invbalances_lotnum_title));
+        viewHolder.itemNum.setText(item.binnum);
+        viewHolder.itemDesc.setText(item.lotnum);
 
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, InvbalanceDetailActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("invbalances", item);
-//                intent.putExtras(bundle);
-//                mContext.startActivity(intent);
+
+                Intent intent = new Intent(mContext, CInvbalancesDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("invbalances", item);
+                bundle.putString("location", location);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
-
 
 
     }
@@ -130,7 +132,6 @@ public class CInvbalancesAdapter extends RecyclerView.Adapter<CInvbalancesAdapte
          * 描述*
          */
         public TextView itemDesc;
-
 
 
         public ViewHolder(View view) {

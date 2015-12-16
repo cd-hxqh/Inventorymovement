@@ -81,9 +81,9 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
     private int page = 1;
 
     /**
-     * Locations*
+     * Inventory*
      */
-    private Locations locations;
+    private Inventory inventory;
 
     private int mark;
 
@@ -106,7 +106,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
      */
     private void initData() {
 
-        locations = (Locations) getIntent().getSerializableExtra("locations");
+        inventory = (Inventory) getIntent().getSerializableExtra("inventory");
     }
 
 
@@ -134,7 +134,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
      */
     private void initView() {
 
-        titleTextView.setText(locations.location);
+        titleTextView.setText(inventory.location);
         backImage.setOnClickListener(backImageOnClickListener);
         searchimg.setBackgroundResource(R.drawable.ic_search);
         searchimg.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
 
         mLayoutManager = new LinearLayoutManager(CInvbalancesActivity.this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        cInvbalancesAdapter = new CInvbalancesAdapter(CInvbalancesActivity.this);
+        cInvbalancesAdapter = new CInvbalancesAdapter(CInvbalancesActivity.this,inventory.location);
         mRecyclerView.setAdapter(cInvbalancesAdapter);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
@@ -163,7 +163,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
         mSwipeLayout.setOnLoadListener(this);
 
 
-        getItemList(locations.location, "");
+        getItemList(inventory.itemnum, "");
     }
 
 
@@ -185,7 +185,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
                 mSwipeLayout.setRefreshing(true);
                 mSwipeLayout.setLoading(true);
                 notLinearLayout.setVisibility(View.GONE);
-                getItemList(locations.location, search);
+                getItemList(inventory.itemnum, search);
                 return true;
 
             }
@@ -209,8 +209,8 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
      * 获取库存项目信息*
      */
 
-    private void getItemList(String location, String seach) {
-        ImManager.getDataPagingInfo(CInvbalancesActivity.this, ImManager.sercInvbalancesUrl(locations.location, seach, page, 20), new HttpRequestHandler<Results>() {
+    private void getItemList(String itemnum, String seach) {
+        ImManager.getDataPagingInfo(CInvbalancesActivity.this, ImManager.sercInvbalancesUrl(itemnum, seach, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -235,7 +235,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
 
                     } else {
                         if (page == 1) {
-                            cInvbalancesAdapter = new CInvbalancesAdapter(CInvbalancesActivity.this);
+                            cInvbalancesAdapter = new CInvbalancesAdapter(CInvbalancesActivity.this,inventory.location);
                             mRecyclerView.setAdapter(cInvbalancesAdapter);
                         }
                         if (totalPages == page) {
@@ -266,13 +266,13 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
     @Override
     public void onLoad() {
         page++;
-        getItemList(locations.location, search);
+        getItemList(inventory.itemnum, search);
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        getItemList(locations.location, search);
+        getItemList(inventory.itemnum, search);
         mSwipeLayout.setRefreshing(false);
     }
 }

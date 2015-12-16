@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Inventory;
+import com.cdhxqh.inventorymovement.ui.CInvbalancesActivity;
 import com.cdhxqh.inventorymovement.ui.detailsUi.InvDetailsActivity;
 
 import java.util.ArrayList;
@@ -27,8 +28,10 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
     Context mContext;
     ArrayList<Inventory> mInventorys = new ArrayList<Inventory>();
 
-    public InvAdapter(Context context) {
+    private int mark; //库存情况/库存盘点
+    public InvAdapter(Context context,int mark) {
         mContext = context;
+        mark=mark;
     }
 
     @Override
@@ -48,7 +51,14 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, InvDetailsActivity.class);
+                Intent intent = new Intent();
+                if(mark==1){
+                    intent.setClass(mContext, InvDetailsActivity.class);
+                }else{
+                    intent.setClass(mContext, CInvbalancesActivity.class);
+                }
+
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("inventory", inv);
                 intent.putExtras(bundle);

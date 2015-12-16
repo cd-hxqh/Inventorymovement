@@ -118,7 +118,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
             itemreqAdapter = new ItemreqAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(itemreqAdapter);
         }else if (search_mark == INV_MARK) {
-            invAdapter = new InvAdapter(SearchActivity.this);
+            invAdapter = new InvAdapter(SearchActivity.this,0);
             mRecyclerView.setAdapter(invAdapter);
         }
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
@@ -320,7 +320,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     } else {
 
                         if (page == 1) {
-                            invAdapter = new InvAdapter(SearchActivity.this);
+                            invAdapter = new InvAdapter(SearchActivity.this,0);
                             mRecyclerView.setAdapter(invAdapter);
                         }
                         if (totalPages == page) {

@@ -137,6 +137,10 @@
             android:name=".ui.CInvbalancesActivity"
             android:label="@string/title_activity_cinvbalances" >
         </activity>
+        <activity
+            android:name=".ui.CInvbalancesDetailActivity"
+            android:label="@string/title_activity_cinvbalances_detail" >
+        </activity>
     </application>
 
 </manifest>

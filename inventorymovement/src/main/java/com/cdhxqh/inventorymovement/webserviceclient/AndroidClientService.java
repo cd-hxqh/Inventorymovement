@@ -72,6 +72,51 @@ public class AndroidClientService {
         return obj;
     }
 
+
+
+    /**
+     * 库存盘点
+     */
+    public String INV04Invadj(String userid,String storeroom,String itemnum,String qty){
+        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        soapEnvelope.implicitTypes = true;
+        soapEnvelope.dotNet = true;
+        SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV04Invadj");
+        soapReq.addProperty("userid", userid);//用户名
+        soapReq.addProperty("storeroom", storeroom);//库房
+        soapReq.addProperty("itemnum",itemnum);//物资编号
+        soapReq.addProperty("qty", qty);//数量
+        soapEnvelope.setOutputSoapObject(soapReq);
+        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        try {
+            httpTransport.call("urn:action", soapEnvelope);
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        String obj = null;
+        try {
+            obj = soapEnvelope.getResponse().toString();
+            String s = obj;
+        } catch (SoapFault soapFault) {
+            soapFault.printStackTrace();
+        }
+        return obj;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * 库存移出
      */

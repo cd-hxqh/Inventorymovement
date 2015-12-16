@@ -153,4 +153,14 @@
     <string name="scanning_text">条码/二维码</string>
     <string name="title_activity_results_">Results_Activity</string>
     <string name="title_activity_cinvbalances">CInvbalancesActivity</string>
+
+
+    <!--库存余量详情-->
+    <string name="title_activity_cinvbalances_detail">库存余量详情</string>
+    <string name="invbalances_binnum_title">货柜</string>
+    <string name="invbalances_lotnum_title">批次:</string>
+    <string name="invbalances_curbal_title">当前余量:</string>
+    <string name="invbalances_invtype_title">库存类别:</string>
+    <string name="inbalance_itemnum_title">物资编号:</string>
+    <string name="cinvbalances_detail_title">余量详情</string>
 </resources>

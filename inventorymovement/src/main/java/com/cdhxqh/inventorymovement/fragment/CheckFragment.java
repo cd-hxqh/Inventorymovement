@@ -1,32 +1,38 @@
 package com.cdhxqh.inventorymovement.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.adapter.LocationsAdapter;
+import com.cdhxqh.inventorymovement.adapter.InvAdapter;
+import com.cdhxqh.inventorymovement.adapter.ItemAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
+import com.cdhxqh.inventorymovement.api.JsonUtils;
 import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
-import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.model.Inventory;
+import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * 库存转移列表*
+ * 库存盘点
  */
 public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
-    private static final String TAG = "LocationFragment";
+    private static final String TAG = "CheckFragment";
     private static final int RESULT_ADD_TOPIC = 100;
     /**
      * RecyclerView*
@@ -37,17 +43,17 @@ public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     SwipeRefreshLayout mSwipeLayout;
 
+    private int page = 1;
 
     /**
      * 暂无数据*
      */
     LinearLayout notLinearLayout;
 
-    LocationsAdapter locationsAdapter;
+    InvAdapter invAdapter;
 
-    private int page = 1;
+    private static final  int mark=1;
 
-    private static final int mark=1; //库存盘点标识
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +79,8 @@ public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_topics);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        locationsAdapter = new LocationsAdapter(getActivity(),mark);
-        mRecyclerView.setAdapter(locationsAdapter);
+        invAdapter = new InvAdapter(getActivity(),mark);
+        mRecyclerView.setAdapter(invAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
                 R.color.holo_green_light,
@@ -84,7 +90,6 @@ public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setOnLoadListener(this);
-
 
         notLinearLayout = (LinearLayout) view.findViewById(R.id.have_not_data_id);
     }
@@ -100,11 +105,11 @@ public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
 
     /**
-     * 获取库存转移位置信息*
+     * 获取库存项目信息*
      */
 
     private void getItemList() {
-        ImManager.getDataPagingInfo(getActivity(), ImManager.serLocationsUrl("",page, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(getActivity(), ImManager.serInventoryUrl(page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -112,20 +117,20 @@ public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<Locations> items = null;
+                ArrayList<Inventory> items = null;
                 try {
-                    items = Ig_Json_Model.parseLocationsFromString(results.getResultlist());
+                    items = Ig_Json_Model.parseInventoryFromString(results.getResultlist());
                     mSwipeLayout.setRefreshing(false);
                     mSwipeLayout.setLoading(false);
                     if (items == null || items.isEmpty()) {
                         notLinearLayout.setVisibility(View.VISIBLE);
                     } else {
                         if (page == 1) {
-                            locationsAdapter = new LocationsAdapter(getActivity(),mark);
-                            mRecyclerView.setAdapter(locationsAdapter);
+                            invAdapter = new InvAdapter(getActivity(),mark);
+                            mRecyclerView.setAdapter(invAdapter);
                         }
                         if (totalPages == page) {
-                            locationsAdapter.adddate(items);
+                            invAdapter.adddate(items);
                         }
                     }
 
