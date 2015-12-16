@@ -34,6 +34,17 @@ public class ImManager {
         }
 
     }
+    /**
+     * 设置库存余量接口*
+     */
+    public static String sercInvbalancesUrl(String loaction,String search,int curpage, int showcount) {
+        if(search.equals("")){
+            return "{'appid':'"+Constants.INVBALANCES_APPID+"','objectname':'"+Constants.INVBALANCESS_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'LOCATION':'" + loaction + "'}}";
+        }else{
+            return "{'appid':'"+Constants.INVBALANCES_APPID+"','objectname':'"+Constants.INVBALANCESS_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'LOCATION':'" + loaction + "','BINNUM':'"+search+"'}}";
+        }
+
+    }
 
 
     /**

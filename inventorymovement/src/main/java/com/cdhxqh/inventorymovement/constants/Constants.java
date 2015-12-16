@@ -49,7 +49,12 @@ public class Constants {
     //主项目的表名
     public static final String ITEM_NAME="ITEM";
 
+    /**库存盘点**/
+    //库存盘点情况appid
+    public static final String INVBALANCES_APPID="TRANSFER";
 
+    //库存盘点的表名
+    public static final String INVBALANCESS_NAME="INVBALANCES";
     /**库存使用情况**/
 
     //库存使用情况appid

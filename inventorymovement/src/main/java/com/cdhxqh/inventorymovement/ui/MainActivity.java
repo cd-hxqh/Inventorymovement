@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.cdhxqh.inventorymovement.AppManager;
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.DrawerAdapter;
+import com.cdhxqh.inventorymovement.fragment.CheckFragment;
 import com.cdhxqh.inventorymovement.fragment.ContentFragment;
 import com.cdhxqh.inventorymovement.fragment.InVFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemFragment;
@@ -80,6 +81,8 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      * 库存使用情况*
      */
     private InVFragment newInVFragment;
+    /**库存盘点**/
+    private CheckFragment newCheckFragment;
 
     /**
      * 物资编码申请*
@@ -195,6 +198,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     newPoFragemnt.setArguments(bundle);
                 }
                 fragmentTransaction.replace(R.id.content_frame, newPoFragemnt).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
+            case 3://库存盘点
+                titleTextView.setText(adapter.getTitle(position));
+                if (newCheckFragment == null) {
+                    newCheckFragment = new CheckFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newCheckFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newCheckFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
             case 4://库存转移

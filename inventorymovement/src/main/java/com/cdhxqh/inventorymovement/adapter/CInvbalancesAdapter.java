@@ -5,65 +5,63 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Item;
-import com.cdhxqh.inventorymovement.model.Locations;
-import com.cdhxqh.inventorymovement.ui.CInvbalancesActivity;
-import com.cdhxqh.inventorymovement.ui.LocationsDetailActivity;
-import com.cdhxqh.inventorymovement.ui.detailsUi.ItemDetailsActivity;
+import com.cdhxqh.inventorymovement.model.Invbalances;
+import com.cdhxqh.inventorymovement.ui.InvbalanceDetailActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
- * Created by apple on 15/6/4.
- * 库存转移
+ * Created by apple on 15/12/12.
+ * 库存余量
  */
-public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.ViewHolder> {
+public class CInvbalancesAdapter extends RecyclerView.Adapter<CInvbalancesAdapter.ViewHolder> {
 
-    private static final String TAG = "LocationsAdapter";
+    private static final String TAG = "CInvbalancesAdapter";
     Context mContext;
-    ArrayList<Locations> mItems = new ArrayList<Locations>();
-    int mark=0; //库房标识
-    public LocationsAdapter(Context context,int mark) {
+    ArrayList<Invbalances> mItems = new ArrayList<Invbalances>();
+
+
+    public CInvbalancesAdapter(Context context) {
         mContext = context;
-        this.mark=mark;
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cinvbalances_list_item, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Locations item = mItems.get(i);
-        viewHolder.itemNumTitle.setText(mContext.getString(R.string.locations_location_title));
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        final Invbalances item = mItems.get(position);
+        viewHolder.itemNumTitle.setText(mContext.getString(R.string.invbalances_itemnum_text));
         viewHolder.itemDescTitle.setText(mContext.getString(R.string.item_desc_title));
-        viewHolder.itemNum.setText(item.location);
-        viewHolder.itemDesc.setText(item.description);
+        viewHolder.itemNum.setText(item.itemnum);
+        viewHolder.itemDesc.setText(item.itemdesc);
+
+
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                if(mark==0){
-                    intent.setClass(mContext, LocationsDetailActivity.class);
-                }else{
-                    intent.setClass(mContext, CInvbalancesActivity.class);
-                }
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("locations", item);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, InvbalanceDetailActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("invbalances", item);
+//                intent.putExtras(bundle);
+//                mContext.startActivity(intent);
             }
         });
+
 
 
     }
@@ -73,13 +71,13 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
         return mItems.size();
     }
 
-    public void update(ArrayList<Locations> data, boolean merge) {
+    public void update(ArrayList<Invbalances> data, boolean merge) {
         if (merge && mItems.size() > 0) {
             for (int i = 0; i < mItems.size(); i++) {
-                Locations obj = mItems.get(i);
+                Invbalances obj = mItems.get(i);
                 boolean exist = false;
                 for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).locationsid == obj.locationsid) {
+                    if (data.get(j).itemnum == obj.itemnum) {
                         exist = true;
                         break;
                     }
@@ -93,10 +91,10 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
         notifyDataSetChanged();
     }
 
-    public void adddate(ArrayList<Locations> data){
-        if(data.size()>0){
-            for(int i = 0;i < data.size();i++){
-                if(!mItems.contains(data.get(i))){
+    public void adddate(ArrayList<Invbalances> data) {
+        if (data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                if (!mItems.contains(data.get(i))) {
                     mItems.add(data.get(i));
                 }
             }
@@ -133,6 +131,8 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
          */
         public TextView itemDesc;
 
+
+
         public ViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.card_container);
@@ -140,6 +140,7 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.View
             itemNum = (TextView) view.findViewById(R.id.item_num_text);
             itemDescTitle = (TextView) view.findViewById(R.id.item_desc_title);
             itemDesc = (TextView) view.findViewById(R.id.item_desc_text);
+
         }
     }
 }

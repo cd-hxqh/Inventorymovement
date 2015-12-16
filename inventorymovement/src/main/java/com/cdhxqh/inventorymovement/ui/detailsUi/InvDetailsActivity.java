@@ -68,7 +68,7 @@ public class InvDetailsActivity extends BaseActivity {
      * 获取上个界面的数据*
      */
     private void geiIntentData() {
-        inventory = (Inventory) getIntent().getParcelableExtra("inventory");
+        inventory = (Inventory) getIntent().getSerializableExtra("inventory");
 
     }
 
