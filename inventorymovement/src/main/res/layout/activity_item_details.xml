@@ -275,6 +275,7 @@
                 android:layout_below="@+id/view_7_id"
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView

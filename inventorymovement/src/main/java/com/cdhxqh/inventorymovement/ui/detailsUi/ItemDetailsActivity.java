@@ -78,7 +78,6 @@ public class ItemDetailsActivity extends BaseActivity {
      */
     private void geiIntentData() {
         item = (Item) getIntent().getSerializableExtra("item");
-        Log.i(TAG, "item=" + item);
 
     }
 
@@ -229,8 +228,10 @@ public class ItemDetailsActivity extends BaseActivity {
                     colseProgressBar();
                     if(s.equals("操作成功！")){
                         Toast.makeText(ItemDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
+                        finish();
                     }else if (s!=null||s.equals("")){
                         Toast.makeText(ItemDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }
             }.execute();

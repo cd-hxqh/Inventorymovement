@@ -261,6 +261,8 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     mSwipeLayout.setRefreshing(false);
                     mSwipeLayout.setLoading(false);
                     if (items == null || items.isEmpty()) {
+                        itemAdapter.removeAllData();
+                        itemAdapter.notifyDataSetChanged();
                         notLinearLayout.setVisibility(View.VISIBLE);
                     } else {
                         if (page == 1) {

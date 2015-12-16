@@ -7,18 +7,22 @@ import android.util.Log;
 
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Invbalances_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Inventory_JsonHelper;
+import com.cdhxqh.inventorymovement.api.ig_json.impl.Invreserve_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Item_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreq_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreqline_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Locations_JsonHelper;
+import com.cdhxqh.inventorymovement.api.ig_json.impl.WorkOrder_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Po_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Poline_JsonHelper;
 import com.cdhxqh.inventorymovement.model.Invbalances;
 import com.cdhxqh.inventorymovement.model.Inventory;
+import com.cdhxqh.inventorymovement.model.Invreserve;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.model.WorkOrder;
 import com.cdhxqh.inventorymovement.model.Po;
 import com.cdhxqh.inventorymovement.model.Poline;
 
@@ -37,6 +41,18 @@ public class Ig_Json_Model {
      */
     public static ArrayList<Item> parseItemFromString(String input) throws IOException {
         return Item_JsonHelper.parseFromJsonList(input);
+    }
+    /**
+     * 出库管理
+     */
+    public static ArrayList<WorkOrder> parseWorkOrderFromString(String input) throws IOException {
+        return WorkOrder_JsonHelper.parseFromJsonList(input);
+    }
+    /**
+     * 出库管理Invreserve
+     */
+    public static ArrayList<Invreserve> parseInvreserveFromString(String input) throws IOException {
+        return Invreserve_JsonHelper.parseFromJsonList(input);
     }
     /**
      *入库管理采购单*

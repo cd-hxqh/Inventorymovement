@@ -34,6 +34,35 @@ public class ImManager {
         }
 
     }
+
+
+    /**出库管理**/
+    public static String serWorkorderUrl(String search,int curpage, int showcount) {
+        if(search.equals("")){
+            return "{'appid':'"+Constants.WORKORDER_APPID+"','objectname':'"+Constants.WORKORDER_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+        }else{
+            return "{'appid':'"+Constants.WORKORDER_APPID+"','objectname':'"+Constants.WORKORDER_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'WONUM':'" + search + "'}}";
+        }
+
+    }
+
+    /**WPITEM**/
+    public static String serInvreserveUrl(String wonum, String search, int curpage, int showcount) {
+        if(search.equals("")){
+            return "{'appid':'"+Constants.WORKORDER_APPID+"','objectname':'"+Constants.INVRESERVE_NAME +"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'WONUM':'" + wonum + "'}}";
+        }else{
+            return "{'appid':'"+Constants.WORKORDER_APPID+"','objectname':'"+Constants.INVRESERVE_NAME +"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'WONUM':'" + wonum +  "','ITEMNUM':'"+search+"'}}";
+        }
+
+    }
+
+
+
+
+
+
+
+
     /**
      * 设置库存余量接口*
      */

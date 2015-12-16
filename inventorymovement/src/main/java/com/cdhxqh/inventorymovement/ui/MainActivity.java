@@ -43,6 +43,8 @@ import com.cdhxqh.inventorymovement.fragment.ItemFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemreqFragment;
 import com.cdhxqh.inventorymovement.fragment.LocationFragment;
 import com.cdhxqh.inventorymovement.fragment.PoFragment;
+import com.cdhxqh.inventorymovement.fragment.WorkorderFragment;
+import com.cdhxqh.inventorymovement.model.WorkOrder;
 import com.cdhxqh.inventorymovement.wight.CustomDialog;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
 
@@ -77,6 +79,10 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      * 主项目的fragment*
      */
     private Fragment newItemFragment;
+    /**入库管理**/
+    private PoFragment newPoFragemnt;
+    /**出库管理**/
+    private WorkorderFragment newWorkorderFragment;
     /**
      * 库存使用情况*
      */
@@ -88,8 +94,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      * 物资编码申请*
      */
     private ItemreqFragment newItemreqFragment;
-    /**入库管理**/
-    private PoFragment newPoFragemnt;
+
     /**库存转移**/
     private LocationFragment newLocationFragment;
 
@@ -198,6 +203,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                     newPoFragemnt.setArguments(bundle);
                 }
                 fragmentTransaction.replace(R.id.content_frame, newPoFragemnt).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
+            case 2://出库管理
+                titleTextView.setText(adapter.getTitle(position));
+                if (newWorkorderFragment == null) {
+                    newWorkorderFragment = new WorkorderFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newWorkorderFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newWorkorderFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
             case 3://库存盘点

@@ -1,0 +1,57 @@
+package com.cdhxqh.inventorymovement.model;
+
+import com.instagram.common.json.annotation.JsonField;
+import com.instagram.common.json.annotation.JsonType;
+
+/**
+ * Created by apple on 15/6/3.
+ * 出库Invreserve
+ */
+@JsonType
+public class Invreserve extends Entity {
+    private static final String TAG = "Invreserve";
+
+    @JsonField(fieldName = "location")
+    public String location; //库房
+
+    @JsonField(fieldName = "description")
+    public String description; //描述
+
+    @JsonField(fieldName = "itemnum")
+    public String itemnum; //物资编号
+
+    @JsonField(fieldName = "reservedqty")
+    public String reservedqty; //数量
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getItemnum() {
+        return itemnum;
+    }
+
+    public void setItemnum(String itemnum) {
+        this.itemnum = itemnum;
+    }
+
+    public String getReservedqty() {
+        return reservedqty;
+    }
+
+    public void setReservedqty(String reservedqty) {
+        this.reservedqty = reservedqty;
+    }
+}

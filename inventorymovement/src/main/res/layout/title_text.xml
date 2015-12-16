@@ -27,7 +27,7 @@
             android:gravity="center_vertical"
             android:text="@string/main_project"
             android:textColor="@color/white"
-            android:textSize="23dp" />
+            android:textSize="@dimen/dimens_18dp" />
 
         <ImageView
             android:id="@+id/menu_imageview_id"

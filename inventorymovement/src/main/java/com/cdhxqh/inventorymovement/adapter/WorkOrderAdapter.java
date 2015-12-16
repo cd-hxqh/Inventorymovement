@@ -13,25 +13,26 @@ import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Inventory;
-import com.cdhxqh.inventorymovement.ui.CInvbalancesActivity;
+import com.cdhxqh.inventorymovement.model.Itemreq;
+import com.cdhxqh.inventorymovement.model.WorkOrder;
+import com.cdhxqh.inventorymovement.ui.WorkOrderDetailsActivity;
 import com.cdhxqh.inventorymovement.ui.detailsUi.InvDetailsActivity;
+import com.cdhxqh.inventorymovement.ui.detailsUi.ItemreqDetailsActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by apple on 15/6/4.
- * 库存使用情况
+ * 出库管理
  */
-public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
+public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.ViewHolder> {
 
-    private static final String TAG = "InvAdapter";
+    private static final String TAG = "WorkOrderAdapter";
     Context mContext;
-    ArrayList<Inventory> mInventorys = new ArrayList<Inventory>();
+    ArrayList<WorkOrder> workOrders = new ArrayList<WorkOrder>();
 
-    private int mark; //库存情况/库存盘点
-    public InvAdapter(Context context,int mark) {
+    public WorkOrderAdapter(Context context) {
         mContext = context;
-        this.mark=mark;
     }
 
     @Override
@@ -43,24 +44,19 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Inventory inv = mInventorys.get(i);
+        final WorkOrder workOrder = workOrders.get(i);
 
-        viewHolder.itemNum.setText(inv.itemnum);
-        viewHolder.itemDesc.setText(inv.itemdesc);
+        viewHolder.itemNumTitle.setText(mContext.getString(R.string.item_num_title));
+        viewHolder.itemDescTitle.setText(mContext.getString(R.string.item_desc_title));
+        viewHolder.itemNum.setText(workOrder.wonum);
+        viewHolder.itemDesc.setText(workOrder.description);
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                if(mark==1){
-                    intent.setClass(mContext, InvDetailsActivity.class);
-                }else{
-                    intent.setClass(mContext, CInvbalancesActivity.class);
-                }
-
-
+                Intent intent = new Intent(mContext, WorkOrderDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("inventory", inv);
+                bundle.putSerializable("workOrder", workOrder);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }
@@ -71,17 +67,16 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mInventorys.size();
+        return workOrders.size();
     }
 
-    public void update(ArrayList<Inventory> data, boolean merge) {
-        if (merge && mInventorys.size() > 0) {
-            for (int i = 0; i < mInventorys.size(); i++) {
-                Log.i(TAG, "mItems=" + mInventorys.get(i).itemnum);
-                Inventory obj = mInventorys.get(i);
+    public void update(ArrayList<WorkOrder> data, boolean merge) {
+        if (merge && workOrders.size() > 0) {
+            for (int i = 0; i < workOrders.size(); i++) {
+                WorkOrder obj = workOrders.get(i);
                 boolean exist = false;
                 for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).itemnum == obj.itemnum) {
+                    if (data.get(j).wonum == obj.wonum) {
                         exist = true;
                         break;
                     }
@@ -90,16 +85,16 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
                 data.add(obj);
             }
         }
-        mInventorys = data;
+        workOrders = data;
 
         notifyDataSetChanged();
     }
 
-    public void adddate(ArrayList<Inventory> data){
+    public void adddate(ArrayList<WorkOrder> data){
         if(data.size()>0){
             for(int i = 0;i < data.size();i++){
-                if(!mInventorys.contains(data.get(i))){
-                    mInventorys.add(data.get(i));
+                if(!workOrders.contains(data.get(i))){
+                    workOrders.add(data.get(i));
                 }
             }
         }
@@ -111,11 +106,18 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
          * CardView*
          */
         public CardView cardView;
-
+        /**
+         * 编号标题*
+         */
+        public TextView itemNumTitle;
         /**
          * 编号*
          */
         public TextView itemNum;
+        /**
+         * 描述标题*
+         */
+        public TextView itemDescTitle;
         /**
          * 描述*
          */
@@ -124,7 +126,10 @@ public class InvAdapter extends RecyclerView.Adapter<InvAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             cardView = (CardView) view.findViewById(R.id.card_container);
+
+            itemNumTitle = (TextView) view.findViewById(R.id.item_num_title);
             itemNum = (TextView) view.findViewById(R.id.item_num_text);
+            itemDescTitle = (TextView) view.findViewById(R.id.item_desc_title);
             itemDesc = (TextView) view.findViewById(R.id.item_desc_text);
         }
     }
