@@ -29,7 +29,7 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
     String location;
     public ArrayList<Matrectrans> mItems = new ArrayList<Matrectrans>();
 
-    public MatrectransAdapter(InvbalancesActivity activity,String location) {
+    public MatrectransAdapter(InvbalancesActivity activity, String location) {
         this.activity = activity;
         this.location = location;
     }
@@ -47,7 +47,7 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
         Log.i(TAG, "item.itemnum=" + item.itemnum);
 
         viewHolder.itemNum_title.setText(R.string.item_num_text);
-        viewHolder.itemNum.setText(item.itemnum==null?"":item.itemnum);
+        viewHolder.itemNum.setText(item.itemnum == null ? "" : item.itemnum);
         viewHolder.itemDesc.setText(item.description);
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -92,29 +92,34 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
         notifyDataSetChanged();
     }
 
-    public void update(Matrectrans matrectrans){
-        for(int i = 0;i < mItems.size();i ++){
-            if(mItems.get(i).itemnum.equals(matrectrans.itemnum)){
-                mItems.set(i,matrectrans);
+    public void update(Matrectrans matrectrans) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).itemnum.equals(matrectrans.itemnum)) {
+                mItems.set(i, matrectrans);
             }
         }
         notifyDataSetChanged();
     }
 
-    public void adddate(ArrayList<Matrectrans> data){
-        if(data.size()>0){
-            for(int i = 0;i < data.size();i++){
-                if(!mItems.contains(data.get(i))){
-                    mItems.add(data.get(i));
+    public void adddate(ArrayList<Matrectrans> data) {
+        if (data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                if (mItems.size() > 0) {
+                    for (int j = 0; j < mItems.size(); j++) {
+                        if (mItems.get(j).itemnum.equals(data.get(i).itemnum)) {
+                            mItems.remove(j);
+                        }
+                    }
                 }
             }
+            mItems.addAll(data);
         }
         notifyDataSetChanged();
     }
 
-    public void remove(String itemnum){
-        for(int i = 0;i < mItems.size();i ++){
-            if(mItems.get(i).itemnum.equals(itemnum)){
+    public void remove(String itemnum) {
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i).itemnum.equals(itemnum)) {
                 mItems.remove(i);
             }
         }

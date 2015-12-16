@@ -22,8 +22,12 @@ public class Po extends Entity {
     public String ponum; //采购编号
     @JsonField(fieldName = "description")
     public String description; //描述
+    @JsonField(fieldName = "vendor")
+    public String vendor; //公司名称
     @JsonField(fieldName = "vendordesc")
     public String vendordesc; //公司名称
+    @JsonField(fieldName = "recorder")
+    public String recorder;//接收人
     @JsonField(fieldName = "status")
     public String status; //状态
     @JsonField(fieldName = "siteid")
@@ -58,6 +62,14 @@ public class Po extends Entity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
     public String getVendordesc() {

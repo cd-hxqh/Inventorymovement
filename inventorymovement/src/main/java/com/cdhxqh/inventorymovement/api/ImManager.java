@@ -46,6 +46,22 @@ public class ImManager {
 
     }
 
+    /**
+     * 设置入库管理*
+     */
+    public static String setPoUrl(String search,int curpage, int showcount) {
+        if (search.equals("")) {
+            return "{'appid':'" + Constants.RECEIPT_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+        }else {
+            return "{'appid':'" + Constants.RECEIPT_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'PONUM':'" + search + "'}}";
+        }
+    }
+    /**
+     * 设置入库物料管理*
+     */
+    public static String setPolineUrl(String ponum,int curpage, int showcount) {
+        return "{'appid':'" + Constants.RECEIPT_APPID + "','objectname':'" + Constants.POLINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'PONUM':'" + ponum + "'}}";
+    }
 
     /**
      * 库存使用情况搜索接口*
@@ -53,16 +69,6 @@ public class ImManager {
     public static String searchInventoryUrl(String search) {
         return "{'appid':'" + Constants.INV_APPID + "','objectname':'" + Constants.INVENTORY_NAME + "','option':'read','condition':{'ITEMNUM':'" + search + "'}}";
     }
-
-//    /**
-//     * 设置入库管理*
-//     */
-//    public static String serItemUrl(int curpage, int showcount) {
-//        return "{'appid':'ITEM','objectname':'ITEM','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
-//    }
-
-
-
     /**
      * 设置库存使用情况接口*
      */
@@ -97,7 +103,7 @@ public class ImManager {
         if (search.equals("")) {
             return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.LOCATIONS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'TYPE':'STOREROOM'}}";
         }else{
-            return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.LOCATIONS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'TYPE':'STOREROOM'}}";
+            return "{'appid':'" + Constants.LOCATIONS_APPID + "','objectname':'" + Constants.LOCATIONS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'TYPE':'STOREROOM','LOCATION':'"+search+"'}}";
         }
     }
 

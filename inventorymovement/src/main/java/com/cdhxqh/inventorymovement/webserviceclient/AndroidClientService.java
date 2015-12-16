@@ -72,7 +72,62 @@ public class AndroidClientService {
         return obj;
     }
 
+    /**
+     * 入库管理接收/退货
+     */
+    public String INV01RecByPO(String userid,String ponum){
+        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        soapEnvelope.implicitTypes = true;
+        soapEnvelope.dotNet = true;
+        SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV01RecByPO");
+        soapReq.addProperty("userid", userid);//用户名
+        soapReq.addProperty("ponum", ponum);//采购单编号
+        soapEnvelope.setOutputSoapObject(soapReq);
+        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        try {
+            httpTransport.call("urn:action", soapEnvelope);
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        String obj = null;
+        try {
+            obj = soapEnvelope.getResponse().toString();
+            String s = obj;
+        } catch (SoapFault soapFault) {
+            soapFault.printStackTrace();
+        }
+        return obj;
+    }
 
+    /**
+     * 入库管理接收/退货
+     */
+    public String INV02RecByPOLine(String userid,String ponum,String polinenum, int qty,String binnum){
+        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        soapEnvelope.implicitTypes = true;
+        soapEnvelope.dotNet = true;
+        SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV02RecByPOLine");
+        soapReq.addProperty("userid", userid);//用户名
+        soapReq.addProperty("ponum", ponum);//采购单编号
+        soapReq.addProperty("polinenum",polinenum);//行号
+        soapReq.addProperty("qty", qty);//数量
+        soapReq.addProperty("binnum", binnum);//货位号
+        soapEnvelope.setOutputSoapObject(soapReq);
+        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        try {
+            httpTransport.call("urn:action", soapEnvelope);
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        String obj = null;
+        try {
+            obj = soapEnvelope.getResponse().toString();
+            String s = obj;
+        } catch (SoapFault soapFault) {
+            soapFault.printStackTrace();
+        }
+        return obj;
+    }
 
 
     /**

@@ -49,6 +49,12 @@ public class Constants {
     //主项目的表名
     public static final String ITEM_NAME="ITEM";
 
+    //入库的appid
+    public static final String RECEIPT_APPID = "RECEIPT";
+    //入库的表名
+    public static final String PO_NAME = "PO";
+    //入库物料的表名
+    public static final String POLINE_NAME = "POLINE";
     /**库存盘点**/
     //库存盘点情况appid
     public static final String INVBALANCES_APPID="TRANSFER";

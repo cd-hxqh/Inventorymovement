@@ -36,6 +36,8 @@ import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 库存项目*
@@ -100,7 +102,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
      */
     private void initData() {
         location = getIntent().getStringExtra("location");
-        mark = getIntent().getIntExtra("mark",0);
+        mark = getIntent().getIntExtra("mark", 0);
     }
 
 
@@ -113,7 +115,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
         title_searchlayout = (RelativeLayout) findViewById(R.id.title_search_layout);
         editText = (EditText) findViewById(R.id.search_edittext_id);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
-        searchimg=(ImageView)findViewById(R.id.menu_imageview_id);
+        searchimg = (ImageView) findViewById(R.id.menu_imageview_id);
 
         chooseBtn = (Button) findViewById(R.id.invbalances_btn_id);
 
@@ -195,9 +197,9 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     private View.OnClickListener backImageOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(title_searchlayout.getVisibility()==View.VISIBLE){
+            if (title_searchlayout.getVisibility() == View.VISIBLE) {
                 title_searchlayout.setVisibility(View.GONE);
-            }else {
+            } else {
                 finish();
             }
         }
@@ -213,20 +215,38 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
             ArrayList<Matrectrans> mList = new ArrayList<Matrectrans>();
             Matrectrans matrectrans = null;
-            for (int i = 0; i < list.size(); i++) {
+            Iterator iter = list.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                Invbalances invbalances = (Invbalances) entry.getValue();
                 matrectrans = new Matrectrans();
-                matrectrans.setItemnum(list.get(i).itemnum);
-                matrectrans.setDescription(list.get(i).itemdesc);
-                matrectrans.setType(list.get(i).itemin20);
-                matrectrans.setCurbaltotal(list.get(i).curbal);
-                matrectrans.setFrombin(list.get(i).binnum);
-                if(mark == 1000){
+                matrectrans.setItemnum(invbalances.itemnum);
+                matrectrans.setDescription(invbalances.itemdesc);
+                matrectrans.setType(invbalances.itemin20);
+                matrectrans.setCurbaltotal(invbalances.curbal);
+                matrectrans.setFrombin(invbalances.binnum);
+                if (mark == 1000) {
                     matrectrans.setFromstoreloc(location);
-                }else if(mark == 1001){
+                } else if (mark == 1001) {
                     matrectrans.setTostoreloc(location);
                 }
                 mList.add(matrectrans);
             }
+//            for (int i = 0; i < list.size(); i++) {
+//                matrectrans = new Matrectrans();
+//                matrectrans.setItemnum(list.get(i).itemnum);
+//                matrectrans.setDescription(list.get(i).itemdesc);
+//                matrectrans.setType(list.get(i).itemin20);
+//                matrectrans.setCurbaltotal(list.get(i).curbal);
+//                matrectrans.setFrombin(list.get(i).binnum);
+//                if(mark == 1000){
+//                    matrectrans.setFromstoreloc(location);
+//                }else if(mark == 1001){
+//                    matrectrans.setTostoreloc(location);
+//                }
+//
+//                mList.add(matrectrans);
+//            }
             Intent intent = getIntent();
             intent.putExtra("matrectrans", mList);
             setResult(1000, intent);

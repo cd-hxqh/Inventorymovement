@@ -12,23 +12,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Po;
+import com.cdhxqh.inventorymovement.model.Poline;
+import com.cdhxqh.inventorymovement.ui.PoLineActivity;
+import com.cdhxqh.inventorymovement.ui.PolineDetailActivity;
 import com.cdhxqh.inventorymovement.ui.poui.PodetailsActivity;
 
 import java.util.ArrayList;
 
 /**
- * Created by apple on 15/6/4.
+ * Created by think on 15/12/16.
  */
-public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
+public class PolineAdapter extends RecyclerView.Adapter<PolineAdapter.ViewHolder> {
 
-    private static final String TAG = "PoAdapter";
-    Context mContext;
-    ArrayList<Po> mPos = new ArrayList<Po>();
+    private static final String TAG = "PolineAdapter";
+    PoLineActivity activity;
+    ArrayList<Poline> mPos = new ArrayList<Poline>();
 //    V2EXDataSource mDataSource = Application.getDataSource();
 
-    public PoAdapter(Context context) {
-        mContext = context;
+    public PolineAdapter(PoLineActivity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -39,20 +41,22 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Po po = mPos.get(i);
+        final Poline poline = mPos.get(i);
 
 
-        viewHolder.itemNum.setText(po.ponum);
-        viewHolder.itemDesc.setText(po.description);
+        viewHolder.itemNum.setText(poline.itemnum);
+        viewHolder.itemDesc.setText(poline.description);
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, PodetailsActivity.class);
+                Intent intent = new Intent(activity, PolineDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("po", po);
+                bundle.putSerializable("poline", poline);
+                bundle.putString("ponum",activity.ponum);
+                bundle.putInt("mark",activity.mark);
                 intent.putExtras(bundle);
-                mContext.startActivity(intent);
+                activity.startActivity(intent);
             }
         });
 
@@ -64,14 +68,13 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         return mPos.size();
     }
 
-    public void update(ArrayList<Po> data, boolean merge) {
+    public void update(ArrayList<Poline> data, boolean merge) {
         if (merge && mPos.size() > 0) {
             for (int i = 0; i < mPos.size(); i++) {
-                Log.i(TAG, "mItems=" + mPos.get(i).poid);
-                Po obj = mPos.get(i);
+                Poline obj = mPos.get(i);
                 boolean exist = false;
                 for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).poid == obj.poid) {
+                    if (data.get(j).itemnum == obj.itemnum) {
                         exist = true;
                         break;
                     }
@@ -85,7 +88,7 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void adddate(ArrayList<Po> data) {
+    public void adddate(ArrayList<Poline> data) {
         if (data.size() > 0) {
             for (int i = 0; i < data.size(); i++) {
                 if (!mPos.contains(data.get(i))) {
@@ -96,9 +99,9 @@ public class PoAdapter extends RecyclerView.Adapter<PoAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void update(Po po) {
+    public void update(Poline po) {
         for (int i = 0; i < mPos.size(); i++) {
-            if (mPos.get(i).ponum.equals(po.ponum)) {
+            if (mPos.get(i).itemnum.equals(po.itemnum)) {
                 mPos.set(i, po);
             }
         }

@@ -193,7 +193,7 @@ public class InvbalancesActivity extends BaseActivity {
         switch (resultCode) {
             case 1000:
                 ArrayList<Matrectrans> list = (ArrayList<Matrectrans>) data.getSerializableExtra("matrectrans");
-                matrectransAdapter.update(list, true);
+                matrectransAdapter.adddate(list);
                 break;
             case 2000:
                 Matrectrans matrectrans = (Matrectrans) data.getSerializableExtra("matrectrans");

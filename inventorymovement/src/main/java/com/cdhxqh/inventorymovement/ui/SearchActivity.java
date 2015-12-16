@@ -20,6 +20,8 @@ import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.InvAdapter;
 import com.cdhxqh.inventorymovement.adapter.ItemAdapter;
 import com.cdhxqh.inventorymovement.adapter.ItemreqAdapter;
+import com.cdhxqh.inventorymovement.adapter.LocationsAdapter;
+import com.cdhxqh.inventorymovement.adapter.PoAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.api.JsonUtils;
@@ -28,6 +30,8 @@ import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Itemreq;
+import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.model.Po;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
@@ -37,9 +41,11 @@ import java.util.ArrayList;
 public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "SearchActivity";
     private static final int ITEM_MARK = 0; //主项目标识
-    private static final int PO_MARK = 1; //主项目标识
+    private static final int PO_MARK = 1; //入库管理
+    private static final int CHECK_MARK = 3; //库存盘点
     private static final int LOCATION_MARK = 4; //库存转移
     private static final int INV_MARK = 6; //库存使用情况标识
+    private static final int ITEMREQ_MARK = 7; //物资编码申请
 
     private EditText editText; // 搜索
 
@@ -71,7 +77,17 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     /**
      * 入库管理
      */
+    PoAdapter poAdapter;
+
+    /**
+     * 物资编码申请
+     */
     ItemreqAdapter itemreqAdapter;
+
+    /**
+     *
+     */
+    LocationsAdapter locationsAdapter;
 
     /**
      * 库存使用情况*
@@ -115,11 +131,20 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
             itemAdapter = new ItemAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(itemAdapter);
         }else if(search_mark == PO_MARK){
+            poAdapter = new PoAdapter(SearchActivity.this);
+            mRecyclerView.setAdapter(itemreqAdapter);
+        }else if(search_mark == ITEMREQ_MARK){
             itemreqAdapter = new ItemreqAdapter(SearchActivity.this);
             mRecyclerView.setAdapter(itemreqAdapter);
+        }else if (search_mark == CHECK_MARK) {
+            invAdapter = new InvAdapter(SearchActivity.this,1);
+            mRecyclerView.setAdapter(invAdapter);
         }else if (search_mark == INV_MARK) {
             invAdapter = new InvAdapter(SearchActivity.this,0);
             mRecyclerView.setAdapter(invAdapter);
+        }else if(search_mark == LOCATION_MARK ){
+            locationsAdapter = new LocationsAdapter(SearchActivity.this,0);
+            mRecyclerView.setAdapter(locationsAdapter);
         }
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
@@ -198,10 +223,14 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     getItemList(search);
                 } else if(search_mark == PO_MARK){//入库管理
                     getPoList(search);
+                }else if (search_mark == CHECK_MARK) { //库存盘点
+                    getInvList(search,1);
                 }else if (search_mark == INV_MARK) { //库存使用情况
-                    getInvList(search);
+                    getInvList(search,0);
                 } else if (search_mark == LOCATION_MARK) { //库存转移
-
+                    getLocationsList(search);
+                }else if(search_mark == ITEMREQ_MARK){//物资编码申请
+                    getItemreqList(search);
                 }
                 return true;
 
@@ -262,7 +291,49 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
      */
 
     private void getPoList(String search) {
-        ImManager.getDataPagingInfo(SearchActivity.this, ImManager.serItemreqUrl(search,page, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(SearchActivity.this, ImManager.setPoUrl(search, page, 20), new HttpRequestHandler<Results>() {
+            @Override
+            public void onSuccess(Results results) {
+                Log.i(TAG, "data=" + results);
+            }
+
+            @Override
+            public void onSuccess(Results results, int totalPages, int currentPage) {
+                ArrayList<Po> items = null;
+                try {
+                    items = Ig_Json_Model.parsePoFromString(results.getResultlist());
+                    mSwipeLayout.setRefreshing(false);
+                    mSwipeLayout.setLoading(false);
+                    if (items == null || items.isEmpty()) {
+                        notLinearLayout.setVisibility(View.VISIBLE);
+                    } else{
+                        if(page == 1){
+                            poAdapter = new PoAdapter(SearchActivity.this);
+                            mRecyclerView.setAdapter(poAdapter);
+                        }
+                        if(page == totalPages) {
+                            poAdapter.adddate(items);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                mSwipeLayout.setRefreshing(false);
+                notLinearLayout.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * 物资编码申请*
+     */
+
+    private void getItemreqList(String search) {
+        ImManager.getDataPagingInfo(SearchActivity.this, ImManager.serItemreqUrl(search, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -295,9 +366,52 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
     /**
+     * 获取库存转移位置信息*
+     */
+
+    private void getLocationsList(String search) {
+        ImManager.getDataPagingInfo(SearchActivity.this, ImManager.serLocationsUrl(search, page, 20), new HttpRequestHandler<Results>() {
+            @Override
+            public void onSuccess(Results results) {
+                Log.i(TAG, "data=" + results);
+            }
+
+            @Override
+            public void onSuccess(Results results, int totalPages, int currentPage) {
+                ArrayList<Locations> items = null;
+                try {
+                    items = Ig_Json_Model.parseLocationsFromString(results.getResultlist());
+                    mSwipeLayout.setRefreshing(false);
+                    mSwipeLayout.setLoading(false);
+                    if (items == null || items.isEmpty()) {
+                        notLinearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        if (page == 1) {
+                            locationsAdapter = new LocationsAdapter(SearchActivity.this,0);
+                            mRecyclerView.setAdapter(locationsAdapter);
+                        }
+                        if (totalPages == page) {
+                            locationsAdapter.adddate(items);
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                mSwipeLayout.setRefreshing(false);
+                notLinearLayout.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+    /**
      * 库存使用情况*
      */
-    private void getInvList(String search) {
+    private void getInvList(String search, final int mark) {
         ImManager.getData(SearchActivity.this, ImManager.searchInventoryUrl(search), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
@@ -320,7 +434,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     } else {
 
                         if (page == 1) {
-                            invAdapter = new InvAdapter(SearchActivity.this,0);
+                            invAdapter = new InvAdapter(SearchActivity.this,mark);
                             mRecyclerView.setAdapter(invAdapter);
                         }
                         if (totalPages == page) {
@@ -347,19 +461,37 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     @Override
     public void onLoad() {
-        page = 1;
-        if (search_mark == ITEM_MARK) {
+        page ++;
+        if (search_mark == ITEM_MARK) { //主项目
             getItemList(search);
+        } else if(search_mark == PO_MARK){//入库管理
+            getPoList(search);
+        }else if (search_mark == CHECK_MARK) { //库存盘点
+            getInvList(search,1);
+        }else if (search_mark == INV_MARK) { //库存使用情况
+            getInvList(search,0);
+        } else if (search_mark == LOCATION_MARK) { //库存转移
+            getLocationsList(search);
+        }else if(search_mark == ITEMREQ_MARK){//物资编码申请
+            getItemreqList(search);
         }
     }
 
     @Override
     public void onRefresh() {
-        page++;
-        if (search_mark == ITEM_MARK && search != null) {
+        page = 1;
+        if (search_mark == ITEM_MARK) { //主项目
             getItemList(search);
-        } else {
-            mSwipeLayout.setRefreshing(false);
+        } else if(search_mark == PO_MARK){//入库管理
+            getPoList(search);
+        } else if (search_mark == CHECK_MARK) { //库存盘点
+            getInvList(search,1);
+        }else if (search_mark == INV_MARK) { //库存使用情况
+            getInvList(search,0);
+        } else if (search_mark == LOCATION_MARK) { //库存转移
+            getLocationsList(search);
+        }else if(search_mark == ITEMREQ_MARK){//物资编码申请
+            getItemreqList(search);
         }
     }
 }

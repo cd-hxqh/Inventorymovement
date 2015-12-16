@@ -93,6 +93,14 @@
             android:label="@string/material_receiving"
             android:parentActivityName=".ui.MainActivity" />
         <activity
+            android:name=".ui.PoLineActivity"
+            android:label="@string/material_list"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
+            android:name=".ui.PolineDetailActivity"
+            android:label="@string/material_details"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
             android:name=".ui.pictureui.PictureActivity"
             android:label="@string/title_activity_picture"
             android:parentActivityName=".ui.poui.PodetailsActivity" />

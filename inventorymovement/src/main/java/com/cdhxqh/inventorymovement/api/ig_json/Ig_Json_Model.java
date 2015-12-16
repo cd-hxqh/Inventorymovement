@@ -11,12 +11,16 @@ import com.cdhxqh.inventorymovement.api.ig_json.impl.Item_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreq_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Itemreqline_JsonHelper;
 import com.cdhxqh.inventorymovement.api.ig_json.impl.Locations_JsonHelper;
+import com.cdhxqh.inventorymovement.api.ig_json.impl.Po_JsonHelper;
+import com.cdhxqh.inventorymovement.api.ig_json.impl.Poline_JsonHelper;
 import com.cdhxqh.inventorymovement.model.Invbalances;
 import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.model.Locations;
+import com.cdhxqh.inventorymovement.model.Po;
+import com.cdhxqh.inventorymovement.model.Poline;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +37,18 @@ public class Ig_Json_Model {
      */
     public static ArrayList<Item> parseItemFromString(String input) throws IOException {
         return Item_JsonHelper.parseFromJsonList(input);
+    }
+    /**
+     *入库管理采购单*
+     */
+    public static ArrayList<Po> parsePoFromString(String input) throws IOException {
+        return Po_JsonHelper.parseFromJsonList(input);
+    }
+    /**
+     *入库管理物料单*
+     */
+    public static ArrayList<Poline> parsePolineFromString(String input) throws IOException {
+        return Poline_JsonHelper.parseFromJsonList(input);
     }
     /**
      * 库存使用情况
