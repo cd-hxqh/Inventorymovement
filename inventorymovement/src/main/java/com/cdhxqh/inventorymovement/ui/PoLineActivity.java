@@ -190,6 +190,7 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
     private View.OnClickListener inputOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            showProgressBar(R.string.submit_process_ing);
             new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... strings) {
