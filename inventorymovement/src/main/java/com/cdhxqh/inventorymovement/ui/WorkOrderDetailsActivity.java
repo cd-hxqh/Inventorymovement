@@ -46,7 +46,9 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
 
     private TextView statusTextView; //状态
 
-    /**WorkOrder**/
+    /**
+     * WorkOrder*
+     */
     private WorkOrder workOrder;
 
 
@@ -69,8 +71,7 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
     private InvreserveAdapter invreserveAdapter;
 
 
-
-
+    private String wonum="965361";
 
     private int page = 1;
 
@@ -108,7 +109,7 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        invreserveAdapter = new InvreserveAdapter(WorkOrderDetailsActivity.this);
+        invreserveAdapter = new InvreserveAdapter(WorkOrderDetailsActivity.this,wonum);
         mRecyclerView.setAdapter(invreserveAdapter);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
@@ -122,7 +123,8 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
 
         notLinearLayout = (LinearLayout) findViewById(R.id.have_not_data_id);
 
-        getInvreserveList(workOrder.wonum);
+//        getInvreserveList(workOrder.wonum);
+        getInvreserveList(wonum);
     }
 
 
@@ -151,12 +153,11 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
     };
 
 
-
     /**
      * 获取gInvreserve信息*
      */
 
-    private void getInvreserveList(String wonum) {
+    private void getInvreserveList(final String wonum) {
         ImManager.getDataPagingInfo(this, ImManager.serInvreserveUrl(wonum, "", page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
@@ -174,7 +175,7 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
                         notLinearLayout.setVisibility(View.VISIBLE);
                     } else {
                         if (page == 1) {
-                            invreserveAdapter = new InvreserveAdapter(WorkOrderDetailsActivity.this);
+                            invreserveAdapter = new InvreserveAdapter(WorkOrderDetailsActivity.this,wonum);
                             mRecyclerView.setAdapter(invreserveAdapter);
                         }
                         if (totalPages == page) {
@@ -194,8 +195,6 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
             }
         });
     }
-
-
 
 
     @Override

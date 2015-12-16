@@ -16,6 +16,7 @@ import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Invreserve;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.WorkOrder;
+import com.cdhxqh.inventorymovement.ui.InvreserveDetailActivity;
 import com.cdhxqh.inventorymovement.ui.detailsUi.InvDetailsActivity;
 import com.cdhxqh.inventorymovement.ui.detailsUi.ItemreqDetailsActivity;
 
@@ -30,9 +31,10 @@ public class InvreserveAdapter extends RecyclerView.Adapter<InvreserveAdapter.Vi
     private static final String TAG = "InvreserveAdapter";
     Context mContext;
     ArrayList<Invreserve> invreserves = new ArrayList<Invreserve>();
-
-    public InvreserveAdapter(Context context) {
+    private String wonum;
+    public InvreserveAdapter(Context context,String wonum) {
         mContext = context;
+        this.wonum=wonum;
     }
 
     @Override
@@ -54,9 +56,10 @@ public class InvreserveAdapter extends RecyclerView.Adapter<InvreserveAdapter.Vi
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ItemreqDetailsActivity.class);
+                Intent intent = new Intent(mContext, InvreserveDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("itemreq", invreserve);
+                bundle.putSerializable("invreserve", invreserve);
+                bundle.putString("wonum", wonum);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
             }

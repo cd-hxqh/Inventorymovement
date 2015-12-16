@@ -52,7 +52,7 @@ public class CheckFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     InvAdapter invAdapter;
 
-    private static final  int mark = 1;
+    private static final  int mark = 0;
 
 
     @Override

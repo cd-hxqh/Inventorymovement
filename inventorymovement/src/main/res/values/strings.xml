@@ -186,4 +186,7 @@
     <string name="workorder_onbehalfof_title">领用人:</string>
     <string name="workorder_status_title">状态:</string>
     <string name="workorder_detail_title">出库详情</string>
+    <string name="invreserve_location_title">库房:</string>
+    <string name="withdrawing_text">退库</string>
+    <string name="issue_text">发放</string>
 </resources>

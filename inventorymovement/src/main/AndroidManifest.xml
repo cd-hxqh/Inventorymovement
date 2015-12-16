@@ -153,6 +153,10 @@
             android:name=".ui.WorkOrderDetailsActivity"
             android:label="@string/workorder_detail_title" >
         </activity>
+        <activity
+            android:name=".ui.InvreserveDetailActivity"
+            android:label="@string/workorder_detail_title" >
+        </activity>
     </application>
 
 </manifest>

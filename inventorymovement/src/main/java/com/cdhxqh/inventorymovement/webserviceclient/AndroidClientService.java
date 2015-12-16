@@ -130,6 +130,46 @@ public class AndroidClientService {
     }
 
 
+
+    /**
+     * 库存出库
+     */
+    public String INV03Issue(String userid,String wonum,String itemnum,String qty,String storeroom,String binnum){
+
+        Log.i(TAG,"userid="+userid+",wonum="+wonum+",itemnum="+itemnum+",qty="+qty+",storeroom="+storeroom+",binnum="+binnum);
+        SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        soapEnvelope.implicitTypes = true;
+        soapEnvelope.dotNet = true;
+        SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV03Issue");
+        soapReq.addProperty("userid", userid);//用户名
+        soapReq.addProperty("wonum", wonum);//工单号
+        soapReq.addProperty("itemnum",itemnum);//物资编号
+        soapReq.addProperty("qty", qty);//数量
+        soapReq.addProperty("storeroom", storeroom);//库房
+        soapReq.addProperty("binnum", binnum);//货柜
+        soapEnvelope.setOutputSoapObject(soapReq);
+        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        try {
+            httpTransport.call("urn:action", soapEnvelope);
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        String obj = null;
+        try {
+            obj = soapEnvelope.getResponse().toString();
+            String s = obj;
+        } catch (SoapFault soapFault) {
+            soapFault.printStackTrace();
+        }
+        return obj;
+    }
+
+
+
+
+
+
+
     /**
      * 库存盘点
      */
@@ -158,10 +198,6 @@ public class AndroidClientService {
         }
         return obj;
     }
-
-
-
-
 
 
 
