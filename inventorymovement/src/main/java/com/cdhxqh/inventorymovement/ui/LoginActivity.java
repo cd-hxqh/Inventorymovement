@@ -19,6 +19,8 @@ import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.utils.AccountUtils;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 /**
  * Created by yugy on 14-2-26.
@@ -46,6 +48,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login);
         UmengUpdateAgent.setDefault();
         UmengUpdateAgent.update(this);
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
+//        UmengUpdateAgent.setUpdateListener(UpdateListener);
         imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
                 .getDeviceId();
         initView();
@@ -81,6 +85,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             isRemember = isChecked;
+        }
+    };
+
+    private UmengUpdateListener UpdateListener = new UmengUpdateListener() {
+        @Override
+        public void onUpdateReturned(int i, UpdateResponse updateResponse) {
+
         }
     };
 

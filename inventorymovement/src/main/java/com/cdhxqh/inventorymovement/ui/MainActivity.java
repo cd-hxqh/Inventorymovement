@@ -276,7 +276,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 drawer.closeDrawer(mDrawerList);
                 break;
 
-            case 9: //退出登陆
+            case 8: //退出登陆
                 showAlertDialog();
                 drawer.closeDrawer(mDrawerList);
                 break;

@@ -33,7 +33,7 @@
         <!-- umeng设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="556e9a8167e58e5184001342" />
+            android:value="56721058e0f55af71e004bdd" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />

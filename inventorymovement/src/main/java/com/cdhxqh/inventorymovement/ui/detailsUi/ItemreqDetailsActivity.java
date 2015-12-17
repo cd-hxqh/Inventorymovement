@@ -322,7 +322,8 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-//                mProgressDialog.cancel();
+                mProgressDialog.cancel();
+                Toast.makeText(ItemreqDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
               Log.i(TAG,"s="+s);
             }
         }.execute();
