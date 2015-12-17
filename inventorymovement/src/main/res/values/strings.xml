@@ -25,6 +25,9 @@
     <string name="confirm">确定</string>
     <string name="input">提交</string>
     <string name="input_all">全部提交</string>
+    <string name="search">查询</string>
+    <string name="result">扫描结果结果</string>
+    <string name="search_result">查询结果</string>
 
     <!-- <string name="login_user_hint">用户名</string> -->
     <!-- <string name="login_passwd_hint">密码</string> -->
@@ -169,6 +172,7 @@
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
     <string name="scanning_text">条码/二维码</string>
     <string name="title_activity_results_">Results_Activity</string>
+    <string name="title_activity_results_search">Results_searchActivity</string>
     <string name="title_activity_cinvbalances">CInvbalancesActivity</string>
 
 
