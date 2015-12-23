@@ -246,6 +246,7 @@ public class ImManager {
                 SafeHandler.onFailure(handler, cxt.getString(R.string.get_data_info_fail));
             }
 
+
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
                 Results result = JsonUtils.parsingResults(cxt, responseString);

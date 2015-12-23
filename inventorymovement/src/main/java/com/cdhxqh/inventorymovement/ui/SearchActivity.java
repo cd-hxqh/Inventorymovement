@@ -245,10 +245,6 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     getInvList(search,1);
                 } else if (search_mark == WORKORDER_MARK) {//出库管理
                     getWorkorderList(search);
-                } else if (search_mark == CHECK_MARK) { //库存盘点
-                    getInvList(search, 1);
-                } else if (search_mark == INV_MARK) { //库存使用情况
-                    getInvList(search, 0);
                 } else if (search_mark == LOCATION_MARK) { //库存转移
                     getLocationsList(search);
                 } else if (search_mark == ITEMREQ_MARK) {//物资编码申请
