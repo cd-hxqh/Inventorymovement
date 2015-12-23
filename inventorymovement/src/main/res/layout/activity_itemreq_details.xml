@@ -30,11 +30,11 @@
                 android:id="@+id/num_linearlayout_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/dimens_8dp"
-                android:paddingBottom="@dimen/dimens_8dp"
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimens_8dp"
+                android:paddingTop="@dimen/dimens_8dp">
 
                 <TextView
                     android:id="@+id/itemreq_itemreqnum_title"
@@ -68,10 +68,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_1_id"
                 android:layout_marginLeft="@dimen/dimen_5"
-                android:paddingTop="@dimen/dimens_8dp"
-                android:paddingBottom="@dimen/dimens_8dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimens_8dp"
+                android:paddingTop="@dimen/dimens_8dp">
 
                 <TextView
                     android:id="@+id/itemreq_description_title"
@@ -86,8 +86,8 @@
                     android:id="@+id/itemreq_description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/have_not_data"
                     android:gravity="center_vertical"
+                    android:hint="@string/have_not_data"
                     android:textColor="#222222"
                     android:textSize="@dimen/dimen_20sp" />
             </LinearLayout>
@@ -106,10 +106,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_2_id"
                 android:layout_marginLeft="@dimen/dimen_5"
-                android:paddingTop="@dimen/dimens_8dp"
-                android:paddingBottom="@dimen/dimens_8dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimens_8dp"
+                android:paddingTop="@dimen/dimens_8dp">
 
                 <TextView
                     android:id="@+id/itemreq_recorder_title"
@@ -141,10 +141,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_3_id"
                 android:layout_marginLeft="@dimen/dimen_5"
-                android:paddingTop="@dimen/dimens_8dp"
-                android:paddingBottom="@dimen/dimens_8dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimens_8dp"
+                android:paddingTop="@dimen/dimens_8dp">
 
                 <TextView
                     android:id="@+id/itemreq_recorderdate_title"
@@ -161,6 +161,38 @@
                     android:hint="@string/have_not_data"
                     android:textColor="#222222"
                     android:textSize="@dimen/dimen_20sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_4_id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/recorderdate_linearlayout_id"
+                android:background="@drawable/line"></View>
+
+            <LinearLayout
+                android:id="@+id/isfinish_linearlayout_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_4_id"
+                android:layout_marginLeft="@dimen/dimen_5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimens_8dp"
+                android:paddingTop="@dimen/dimens_8dp">
+
+                <TextView
+                    android:id="@+id/itemreq_isfinish_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/isfinish_title"
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimen_20sp" />
+
+                <CheckBox
+                    android:id="@+id/isfinish_checkbox_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
 

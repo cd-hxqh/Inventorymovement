@@ -101,17 +101,6 @@ public class ItemreqFragment extends Fragment implements SwipeRefreshLayout.OnRe
         getItemList();
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == RESULT_ADD_TOPIC) {
-//            if (resultCode == Activity.RESULT_OK || data != null) {
-//                final Item item = (Item) data.getParcelableExtra("create_result");
-//                invAdapter.update(new ArrayList<Inventory>() {{
-//                    add(item);
-//                }}, true);
-//            }
-//        }
-//    }
 
 
     /**
@@ -122,11 +111,12 @@ public class ItemreqFragment extends Fragment implements SwipeRefreshLayout.OnRe
         ImManager.getDataPagingInfo(getActivity(), ImManager.serItemreqUrl(page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
-                Log.i(TAG, "data=" + results);
+
             }
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
+                Log.i(TAG,"results="+results.getResultlist());
                 ArrayList<Itemreq> items = null;
                 try {
                     items = Ig_Json_Model.parseItemreqFromString(results.getResultlist());

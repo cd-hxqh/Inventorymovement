@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -57,6 +58,7 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
 
     private TextView recorderdateTextView; //录入时间
 
+    private CheckBox isfinishCheckBox; //已经生产编码
 
     private Itemreq itemreq;
 
@@ -130,6 +132,7 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
         descriptionTextView = (TextView) findViewById(R.id.itemreq_description_text);
         recorderdescTextView = (TextView) findViewById(R.id.itemreq_recorder_text);
         recorderdateTextView = (TextView) findViewById(R.id.itemreq_recorderdate_text);
+        isfinishCheckBox = (CheckBox) findViewById(R.id.isfinish_checkbox_id);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
@@ -167,6 +170,12 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
             descriptionTextView.setText(itemreq.description);
             recorderdescTextView.setText(itemreq.recorderdesc);
             recorderdateTextView.setText(itemreq.recorderdate);
+
+            if(itemreq.isfinish.equals("0")){
+                isfinishCheckBox.setChecked(false);
+            }else{
+                isfinishCheckBox.setChecked(true);
+            }
         }
 
 
