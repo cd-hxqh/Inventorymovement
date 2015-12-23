@@ -142,8 +142,10 @@ public class InvreserveDetailActivity extends BaseActivity {
             @Override
             protected String doInBackground(String... strings) {
                 String result = null;
-                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
-                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString());
+//                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
+//                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString());
+                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), "151216002",
+                        "139218", qtyText.getText().toString(), invreserve.location, binnumText.getText().toString());
 
                 Log.i(TAG, "data=" + data);
                 try {

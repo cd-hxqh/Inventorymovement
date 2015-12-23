@@ -360,7 +360,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark==3){
+        }else if(mark==3){ //跳转至库存盘点
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);

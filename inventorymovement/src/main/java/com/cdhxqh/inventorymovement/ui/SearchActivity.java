@@ -224,9 +224,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                 } else if(search_mark == PO_MARK){//入库管理
                     getPoList(search);
                 }else if (search_mark == CHECK_MARK) { //库存盘点
-                    getInvList(search,1);
-                }else if (search_mark == INV_MARK) { //库存使用情况
                     getInvList(search,0);
+                }else if (search_mark == INV_MARK) { //库存使用情况
+                    getInvList(search,1);
                 } else if (search_mark == LOCATION_MARK) { //库存转移
                     getLocationsList(search);
                 }else if(search_mark == ITEMREQ_MARK){//物资编码申请
@@ -422,6 +422,8 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
+
+                Log.i(TAG,"results="+results.getResultlist()+"totalPages="+totalPages);
                 ArrayList<Inventory> items = null;
                 try {
                     items = Ig_Json_Model.parseInventoryFromString(results.getResultlist());
@@ -439,9 +441,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                             invAdapter = new InvAdapter(SearchActivity.this,mark);
                             mRecyclerView.setAdapter(invAdapter);
                         }
-                        if (totalPages == page) {
+//                        if (totalPages == page) {
                             invAdapter.adddate(items);
-                        }
+//                        }
                     }
 
                 } catch (IOException e) {
