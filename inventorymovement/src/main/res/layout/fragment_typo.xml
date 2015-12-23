@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_topics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"></android.support.v7.widget.RecyclerView>
+
+    </com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/have_not_data_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="请输入库位号"
+            android:textColor="@color/dark_gray"
+            android:textSize="@dimen/dimen_20" />
+        <Button
+            android:id="@+id/button_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打印条码"
+            android:background="@drawable/login_button"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</FrameLayout>

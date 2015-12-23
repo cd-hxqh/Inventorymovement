@@ -43,6 +43,7 @@ import com.cdhxqh.inventorymovement.fragment.ItemFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemreqFragment;
 import com.cdhxqh.inventorymovement.fragment.LocationFragment;
 import com.cdhxqh.inventorymovement.fragment.PoFragment;
+import com.cdhxqh.inventorymovement.fragment.TypoFragment;
 import com.cdhxqh.inventorymovement.fragment.WorkorderFragment;
 import com.cdhxqh.inventorymovement.model.WorkOrder;
 import com.cdhxqh.inventorymovement.wight.CustomDialog;
@@ -97,6 +98,9 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     /**库存转移**/
     private LocationFragment newLocationFragment;
+
+    /**条码打印**/
+    private TypoFragment newTypoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,6 +242,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 fragmentTransaction.replace(R.id.content_frame, newLocationFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
+            case 5://打印条码
+                titleTextView.setText(adapter.getTitle(position));
+                if (newTypoFragment == null) {
+                    newTypoFragment = new TypoFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", adapter.getTitle(position));
+                    newTypoFragment.setArguments(bundle);
+                }
+                fragmentTransaction.replace(R.id.content_frame, newTypoFragment).commit();
+                drawer.closeDrawer(mDrawerList);
+                break;
             case 6://库存使用情况
                 titleTextView.setText(adapter.getTitle(position));
                 if (newInVFragment == null) {
@@ -261,7 +276,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 drawer.closeDrawer(mDrawerList);
                 break;
 
-            case 9: //退出登陆
+            case 8: //退出登陆
                 showAlertDialog();
                 drawer.closeDrawer(mDrawerList);
                 break;
@@ -356,6 +371,11 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
         }else if(mark == 1){
+            Intent intent = new Intent();
+            intent.putExtra("search_mark", mark);
+            intent.setClass(MainActivity.this, SearchActivity.class);
+            startActivityForResult(intent, 0);
+        }else if(mark==2){
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);

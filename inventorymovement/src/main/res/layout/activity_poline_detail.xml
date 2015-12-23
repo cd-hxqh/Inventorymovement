@@ -101,7 +101,6 @@
                 android:layout_below="@+id/desc_linearlayout_id"
                 android:background="@drawable/line"></View>
             <LinearLayout
-                android:id="@+id/desc_linearlayout_id"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_40dp"
                 android:layout_below="@+id/view_1_id"
@@ -277,7 +276,6 @@
                 android:background="@drawable/line"></View>
 
                 <LinearLayout
-                    android:id="@+id/enterby_linearlayout_id"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_40dp"
                     android:layout_below="@+id/issueunit_linearlayout_id"

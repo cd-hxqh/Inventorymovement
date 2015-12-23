@@ -48,6 +48,8 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
 
+    private int mark;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,8 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
         });
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+
+        mark = getIntent().getIntExtra("mark",0);
     }
 
     @Override
@@ -126,10 +130,11 @@ public class MipcaActivityCapture extends BaseActivity implements Callback {
             Intent resultIntent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putString("result", resultString);
+            bundle.putInt("mark",mark);
             Log.i("MipcaActivityCapture", "resultString=" + resultString);
             resultIntent.putExtras(bundle);
-            resultIntent.setClass(MipcaActivityCapture.this,Results_Activity.class);
-//            this.setResult(RESULT_OK, resultIntent);
+            resultIntent.setClass(MipcaActivityCapture.this, Results_Activity.class);
+            this.setResult(RESULT_OK, resultIntent);
             startActivityForResult(resultIntent,RESULT_OK);
         }
         MipcaActivityCapture.this.finish();

@@ -11,6 +11,7 @@
     /** permission **/
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -33,7 +34,7 @@
         <!-- umeng设置 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="556e9a8167e58e5184001342" />
+            android:value="56721058e0f55af71e004bdd" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
@@ -141,6 +142,9 @@
         <activity
             android:name=".ui.MipcaActivityCapture"
             android:label="@string/title_activity_results_" />
+        <activity
+            android:name=".ui.Results_searchActivity"
+            android:label="@string/title_activity_results_search" />
         <activity
             android:name=".ui.CInvbalancesActivity"
             android:label="@string/title_activity_cinvbalances" >

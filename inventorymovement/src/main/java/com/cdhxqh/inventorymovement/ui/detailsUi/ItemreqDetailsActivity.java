@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,14 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.adapter.InvAdapter;
 import com.cdhxqh.inventorymovement.adapter.ItemreqLineAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
-import com.cdhxqh.inventorymovement.api.JsonUtils;
 import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
-import com.cdhxqh.inventorymovement.model.Inventory;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
@@ -322,7 +318,8 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-//                mProgressDialog.cancel();
+                mProgressDialog.cancel();
+                Toast.makeText(ItemreqDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
               Log.i(TAG,"s="+s);
             }
         }.execute();

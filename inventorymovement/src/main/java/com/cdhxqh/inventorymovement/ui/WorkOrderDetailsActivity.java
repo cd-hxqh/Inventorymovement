@@ -71,7 +71,7 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
     private InvreserveAdapter invreserveAdapter;
 
 
-    private String wonum="965361";
+//    private String wonum="965361";
 
     private int page = 1;
 
@@ -109,7 +109,7 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
         mRecyclerView = (RecyclerView) findViewById(R.id.list_topics);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        invreserveAdapter = new InvreserveAdapter(WorkOrderDetailsActivity.this,wonum);
+        invreserveAdapter = new InvreserveAdapter(WorkOrderDetailsActivity.this,workOrder.wonum);
         mRecyclerView.setAdapter(invreserveAdapter);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setColor(R.color.holo_blue_bright,
@@ -123,8 +123,8 @@ public class WorkOrderDetailsActivity extends BaseActivity implements SwipeRefre
 
         notLinearLayout = (LinearLayout) findViewById(R.id.have_not_data_id);
 
-//        getInvreserveList(workOrder.wonum);
-        getInvreserveList(wonum);
+        getInvreserveList(workOrder.wonum);
+//        getInvreserveList(wonum);
     }
 
 

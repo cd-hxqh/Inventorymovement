@@ -284,7 +284,7 @@ public class AndroidClientService {
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
-        SoapObject soapReq = new SoapObject(NAMESPACE, "INV08CreateItem");
+        SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV08CreateItem");
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("itemreqid", itemnum);//物质编号
         soapEnvelope.setOutputSoapObject(soapReq);
