@@ -224,7 +224,6 @@ public class ImManager {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
 
-                Log.i(TAG,"responseString="+responseString);
                 Results result = JsonUtils.parsingResults1(cxt, responseString);
 
                 SafeHandler.onSuccess(handler, result, result.getCurpage(), result.getShowcount());
@@ -238,7 +237,6 @@ public class ImManager {
      * 解析返回的结果--分页*
      */
     public static void getDataPagingInfo(final Context cxt, String data, final HttpRequestHandler<Results> handler) {
-        Log.i(TAG, "data=" + data);
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("data", data);
@@ -250,7 +248,6 @@ public class ImManager {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
-                Log.i(TAG, "statusCode");
                 Results result = JsonUtils.parsingResults(cxt, responseString);
 
                 SafeHandler.onSuccess(handler, result, result.getCurpage(), result.getShowcount());

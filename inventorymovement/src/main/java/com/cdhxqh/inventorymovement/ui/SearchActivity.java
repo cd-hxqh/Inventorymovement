@@ -245,7 +245,6 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
      */
 
     private void getItemList(String search) {
-        Log.i(TAG, "search=" + search);
         ImManager.getDataPagingInfo(SearchActivity.this, ImManager.serItemUrl(search, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
