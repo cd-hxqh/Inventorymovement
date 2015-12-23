@@ -33,8 +33,8 @@ public class LocationsDetailActivity extends BaseActivity {
     private TextView siteidText;  //地点
 
 
-    private Button removedBtn; //移出
-    private Button moveBtn; //移入
+    private Button removedBtn; //转移
+//    private Button moveBtn; //移入
 
 
     /**Locations**/
@@ -71,7 +71,7 @@ public class LocationsDetailActivity extends BaseActivity {
 
 
         removedBtn=(Button)findViewById(R.id.locations_removed_btn_id);
-        moveBtn=(Button)findViewById(R.id.locations_move_btn_id);
+//        moveBtn=(Button)findViewById(R.id.locations_move_btn_id);
     }
 
     /**设置事件监听**/
@@ -87,7 +87,7 @@ public class LocationsDetailActivity extends BaseActivity {
 
 
         removedBtn.setOnClickListener(new IntentClickListener(REMOVED_MARK));
-        moveBtn.setOnClickListener(new IntentClickListener(MOVED_MARK));
+//        moveBtn.setOnClickListener(new IntentClickListener(MOVED_MARK));
     }
 
 
@@ -114,13 +114,4 @@ public class LocationsDetailActivity extends BaseActivity {
         }
     }
 
-//    private View.OnClickListener onClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            Intent intent=new Intent(LocationsDetailActivity.this,InvbalancesActivity.class);
-//            intent.putExtra("location",locations.getLocation());
-//            intent.putExtra("mark",REMOVED_MARK);
-//            startActivityForResult(intent,0);
-//        }
-//    };
 }

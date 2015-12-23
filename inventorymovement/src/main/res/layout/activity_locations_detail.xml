@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/white"
-                    android:text="@string/locations_removed_btn"
+                    android:text="@string/transfer_text"
                     android:background="@drawable/login_button"/>
 
                 <Button
@@ -142,6 +142,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/white"
                     android:text="@string/locations_move_btn"
+                    android:visibility="gone"
                     android:background="@drawable/login_button"/>
 
 

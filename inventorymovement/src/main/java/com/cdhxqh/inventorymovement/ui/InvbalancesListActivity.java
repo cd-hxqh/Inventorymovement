@@ -59,7 +59,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     /**
      * 搜索值*
      */
-    private String search;
+    private String search="";
 
     private Button chooseBtn; //选择
     /**
@@ -158,7 +158,7 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
                 R.color.holo_orange_light,
                 R.color.holo_red_light);
         mSwipeLayout.setRefreshing(true);
-        mSwipeLayout.setLoading(false);
+        mSwipeLayout.setLoading(true);
 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setOnLoadListener(this);
@@ -232,21 +232,6 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
                 }
                 mList.add(matrectrans);
             }
-//            for (int i = 0; i < list.size(); i++) {
-//                matrectrans = new Matrectrans();
-//                matrectrans.setItemnum(list.get(i).itemnum);
-//                matrectrans.setDescription(list.get(i).itemdesc);
-//                matrectrans.setType(list.get(i).itemin20);
-//                matrectrans.setCurbaltotal(list.get(i).curbal);
-//                matrectrans.setFrombin(list.get(i).binnum);
-//                if(mark == 1000){
-//                    matrectrans.setFromstoreloc(location);
-//                }else if(mark == 1001){
-//                    matrectrans.setTostoreloc(location);
-//                }
-//
-//                mList.add(matrectrans);
-//            }
             Intent intent = getIntent();
             intent.putExtra("matrectrans", mList);
             setResult(1000, intent);
@@ -263,7 +248,6 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
         ImManager.getDataPagingInfo(InvbalancesListActivity.this, ImManager.serInvbalancesUrl(location, seach, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
-                Log.i(TAG, "data=" + results);
             }
 
             @Override
@@ -282,7 +266,6 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
 
                     } else {
-                        Log.i(TAG, "page=" + page + ",totalPages=" + totalPages + ",currentPage=" + currentPage);
                         if (page == 1) {
                             invbalancesAdapter = new InvbalancesAdapter(InvbalancesListActivity.this);
                             mRecyclerView.setAdapter(invbalancesAdapter);
@@ -315,6 +298,8 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
     @Override
     public void onLoad() {
         page++;
+        Log.i(TAG,"location="+location+",search="+search);
+
         getItemList(location, search);
     }
 

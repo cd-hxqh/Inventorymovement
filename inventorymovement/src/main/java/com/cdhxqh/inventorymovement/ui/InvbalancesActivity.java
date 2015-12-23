@@ -67,7 +67,6 @@ public class InvbalancesActivity extends BaseActivity {
     private void geiIntentData() {
         location = getIntent().getStringExtra("location");
         mark = getIntent().getIntExtra("mark", 0);
-        Log.i(TAG, "location=" + location + "mark=" + mark);
     }
 
     /**
@@ -84,11 +83,12 @@ public class InvbalancesActivity extends BaseActivity {
     }
 
     private void initView() {
-        if (mark == 1000) {
-            titleTextView.setText(R.string.invbalances_remove);
-        } else if (mark == 1001) {
-            titleTextView.setText(R.string.invbalances_move);
-        }
+//        if (mark == 1000) {
+//            titleTextView.setText(R.string.invbalances_remove);
+//        } else if (mark == 1001) {
+//            titleTextView.setText(R.string.invbalances_move);
+//        }
+        titleTextView.setText(R.string.transfer_text);
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -116,7 +116,6 @@ public class ItemreqFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                Log.i(TAG,"results="+results.getResultlist());
                 ArrayList<Itemreq> items = null;
                 try {
                     items = Ig_Json_Model.parseItemreqFromString(results.getResultlist());

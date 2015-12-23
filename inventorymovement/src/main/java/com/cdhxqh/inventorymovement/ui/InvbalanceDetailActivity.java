@@ -31,6 +31,7 @@ public class InvbalanceDetailActivity extends BaseActivity {
     private TextView locationText; //库房
     private TextView siteidText; //地点
     private TextView binnumText; //货柜
+    private TextView lotnumText; //批次
 
     /**Invbalances**/
     private Invbalances invbalances;
@@ -67,6 +68,7 @@ public class InvbalanceDetailActivity extends BaseActivity {
         locationText=(TextView)findViewById(R.id.invbalance_location_text);
         siteidText=(TextView)findViewById(R.id.invbalance_siteid_text);
         binnumText=(TextView)findViewById(R.id.invbalance_binnum_text);
+        lotnumText=(TextView)findViewById(R.id.invbalance_lotnum_text);
 
     }
 
@@ -87,6 +89,7 @@ public class InvbalanceDetailActivity extends BaseActivity {
             locationText.setText(invbalances.getLocation()==null?"":invbalances.getLocation());
             siteidText.setText(invbalances.getSiteid()==null?"":invbalances.getSiteid());
             binnumText.setText(invbalances.getBinnum()==null?"":invbalances.getBinnum());
+            lotnumText.setText(invbalances.getLotnum()==null?"":invbalances.getLotnum());
         }
 
     }
