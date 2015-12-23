@@ -109,7 +109,7 @@ public class ImManager {
      * 设置物资编码申请接口*
      */
     public static String serItemreqUrl(int curpage, int showcount) {
-        return "{'appid':'" + Constants.ITEMREQ_APPID + "','objectname':'" + Constants.ITEMREQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read'}";
+        return "{'appid':'" + Constants.ITEMREQ_APPID + "','objectname':'" + Constants.ITEMREQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','orderby':'RECORDERDATE DESC'}";
     }
 
     public static String serItemreqUrl(String search,int curpage, int showcount) {
