@@ -23,9 +23,9 @@ public class Constants {
 
     //webservice上传接口
     //远程
-//    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
-    //本地
     public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
+    //本地
+//    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/wsdl/MOBILESERVICE.wsdl";
 
     public static String getWsUrl(Context context) {
         return webserviceURL;

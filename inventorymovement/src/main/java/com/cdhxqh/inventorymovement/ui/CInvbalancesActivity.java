@@ -144,6 +144,7 @@ public class CInvbalancesActivity extends BaseActivity implements SwipeRefreshLa
                 title_searchlayout.setVisibility(View.VISIBLE);
             }
         });
+        editText.setHint(getString(R.string.invbalances_pici_hint));
         editText.setOnEditorActionListener(editTextOnEditorActionListener);
 
 

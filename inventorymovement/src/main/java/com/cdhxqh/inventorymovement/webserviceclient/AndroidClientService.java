@@ -19,7 +19,7 @@ import java.io.IOException;
 public class AndroidClientService {
     private static final String TAG = "AndroidClientService";
     public String NAMESPACE = "http://www.ibm.com/maximo";
-    public String url = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
+    public String url =null;
     public int timeOut = 1200000;
 
     public AndroidClientService() {
@@ -173,7 +173,8 @@ public class AndroidClientService {
     /**
      * 库存盘点
      */
-    public String INV04Invadj(String userid,String storeroom,String itemnum,String qty){
+    public String INV04Invadj(String userid, String storeroom, String itemnum, String binnum, String lotnum, String qty){
+
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
@@ -181,6 +182,8 @@ public class AndroidClientService {
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("storeroom", storeroom);//库房
         soapReq.addProperty("itemnum",itemnum);//物资编号
+        soapReq.addProperty("binnum",binnum);//物资编号
+        soapReq.addProperty("lotnum",lotnum);//货柜批次
         soapReq.addProperty("qty", qty);//数量
         soapEnvelope.setOutputSoapObject(soapReq);
         HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);

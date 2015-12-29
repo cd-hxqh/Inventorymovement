@@ -70,7 +70,7 @@ public class ImManager {
         if(search.equals("")){
             return "{'appid':'"+Constants.INVBALANCES_APPID+"','objectname':'"+Constants.INVBALANCESS_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'ITEMNUM':'" + loaction + "'}}";
         }else{
-            return "{'appid':'"+Constants.INVBALANCES_APPID+"','objectname':'"+Constants.INVBALANCESS_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'ITEMNUM':'" + loaction + "','BINNUM':'"+search+"'}}";
+            return "{'appid':'"+Constants.INVBALANCES_APPID+"','objectname':'"+Constants.INVBALANCESS_NAME+"','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','condition':{'ITEMNUM':'" + loaction + "','LOTNUM':'"+search+"'}}";
         }
 
     }

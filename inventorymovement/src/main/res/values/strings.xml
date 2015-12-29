@@ -195,4 +195,5 @@
     <string name="issue_text">发放</string>
     <string name="isfinish_title">已经生产编码 ?</string>
     <string name="transfer_text">转移</string>
+    <string name="invbalances_pici_hint">请输入批次进行选择...</string>
 </resources>

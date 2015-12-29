@@ -138,8 +138,7 @@ public class CInvbalancesDetailActivity extends BaseActivity {
             protected String doInBackground(String... strings) {
                 String result = null;
                 String data = getBaseApplication().getWsService().INV04Invadj(getBaseApplication().getUsername(), location,
-                        invbalances.itemnum, curbalText.getText().toString());
-
+                        invbalances.itemnum, invbalances.binnum, invbalances.lotnum, curbalText.getText().toString());
                 try {
                     JSONObject jsonObject = new JSONObject(data);
                     result = jsonObject.getString("msg");
