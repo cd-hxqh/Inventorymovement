@@ -45,6 +45,8 @@ public class MatrectransActivity extends BaseActivity {
     public TextView tobin;//目标库位号
     public RelativeLayout tobinlayout;
 
+    private ImageView tobinImageView;
+
     private ImageView img;
 
     public Button confirm;//确定
@@ -91,6 +93,7 @@ public class MatrectransActivity extends BaseActivity {
         tostoreloc = (TextView) findViewById(R.id.matrectrans_tostoreloc);
         tostoreloclayout = (RelativeLayout) findViewById(R.id.tostoreloc_linearlayout_id);
         tobin = (TextView) findViewById(R.id.matrectrans_tobin);
+        tobinImageView = (ImageView) findViewById(R.id.matrectrans_tobin_choose);
         tobinlayout = (RelativeLayout) findViewById(R.id.tobin_linearlayout_id);
         confirm = (Button) findViewById(R.id.confirm_button_id);
 
@@ -127,7 +130,8 @@ public class MatrectransActivity extends BaseActivity {
 
         frombinlayout.setOnClickListener(frombinClicklistener);
         tostoreloclayout.setOnClickListener(tostorelocClicklistener);
-        tobinlayout.setOnClickListener(tobinClicklisener);
+//        tobinlayout.setOnClickListener(tobinClicklisener);
+        tobinImageView.setOnClickListener(tobinClicklisener);
     }
 
     private View.OnClickListener frombinClicklistener = new View.OnClickListener() {

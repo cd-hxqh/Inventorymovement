@@ -28,7 +28,16 @@ public class Invbalances extends Entity {
     public String lotnum; //批次
     @JsonField(fieldName = "siteid")
     public String siteid; //地点
+    @JsonField(fieldName = "invtype")
+    public String invtype; //库存类别
 
+    public String getInvtype() {
+        return invtype;
+    }
+
+    public void setInvtype(String invtype) {
+        this.invtype = invtype;
+    }
 
     public String getBinnum() {
         return binnum;

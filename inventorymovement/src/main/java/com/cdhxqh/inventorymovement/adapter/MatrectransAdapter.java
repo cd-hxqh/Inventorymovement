@@ -44,7 +44,6 @@ public class MatrectransAdapter extends RecyclerView.Adapter<MatrectransAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final Matrectrans item = mItems.get(i);
 
-        Log.i(TAG, "item.itemnum=" + item.itemnum);
 
         viewHolder.itemNum_title.setText(R.string.item_num_text);
         viewHolder.itemNum.setText(item.itemnum == null ? "" : item.itemnum);

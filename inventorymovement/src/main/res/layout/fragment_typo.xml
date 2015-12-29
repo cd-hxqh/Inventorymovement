@@ -24,10 +24,10 @@
         android:id="@+id/have_not_data_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="70dp"
-        android:paddingRight="70dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -36,12 +36,14 @@
             android:hint="请输入库位号"
             android:textColor="@color/dark_gray"
             android:textSize="@dimen/dimen_20" />
+
         <Button
             android:id="@+id/button_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="打印条码"
             android:background="@drawable/login_button"
-            android:textStyle="bold"/>
+            android:text="打印条码"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 </FrameLayout>

@@ -96,6 +96,10 @@ public final class Invbalances_JsonHelper
             instance.siteid = jp.getValueAsString();
             return true;
         }
+        else if ("INVTYPE".equals(fieldName)) {
+            instance.invtype = jp.getValueAsString();
+            return true;
+        }
 
         return false;
     }

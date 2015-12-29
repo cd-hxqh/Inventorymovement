@@ -244,6 +244,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 5://打印条码
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.GONE);
                 if (newTypoFragment == null) {
                     newTypoFragment = new TypoFragment();
                     Bundle bundle = new Bundle();
@@ -390,7 +391,11 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark == 6){
+        }else if(mark==5){ //跳转至库存转移界面
+            searchButton.setVisibility(View.GONE);
+        }
+
+        else if(mark == 6){
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);

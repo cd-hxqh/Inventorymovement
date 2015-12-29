@@ -71,10 +71,6 @@ public class CInvbalancesDetailActivity extends BaseActivity {
     private void initData() {
         invbalances = (Invbalances) getIntent().getSerializableExtra("invbalances");
         location = getIntent().getStringExtra("location");
-
-
-        Log.i(TAG, "location=" + location);
-
     }
 
 
@@ -109,6 +105,7 @@ public class CInvbalancesDetailActivity extends BaseActivity {
             binnumText.setText(invbalances.getBinnum() == null ? "" : invbalances.getBinnum());
             lotnumText.setText(invbalances.getLotnum() == null ? "" : invbalances.getLotnum());
             curbalText.setText(invbalances.getCurbal() == null ? "" : invbalances.getCurbal());
+            invtypeText.setText(invbalances.getInvtype() == null ? "" : invbalances.getInvtype());
         }
         confirmBtn.setOnClickListener(confirmBtnOnClickListener);
     }
@@ -143,7 +140,6 @@ public class CInvbalancesDetailActivity extends BaseActivity {
                 String data = getBaseApplication().getWsService().INV04Invadj(getBaseApplication().getUsername(), location,
                         invbalances.itemnum, curbalText.getText().toString());
 
-                Log.i(TAG, "data=" + data);
                 try {
                     JSONObject jsonObject = new JSONObject(data);
                     result = jsonObject.getString("msg");
@@ -158,8 +154,7 @@ public class CInvbalancesDetailActivity extends BaseActivity {
                 super.onPostExecute(s);
                 mProgressDialog.cancel();
 
-                Log.i(TAG,"s="+s);
-                MessageUtils.showMiddleToast(CInvbalancesDetailActivity.this,s);
+                MessageUtils.showMiddleToast(CInvbalancesDetailActivity.this, s);
                 finish();
             }
         }.execute();
