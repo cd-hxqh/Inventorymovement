@@ -78,6 +78,9 @@ public final class Invreserve_JsonHelper
         } else if ("RESERVEDQTY".equals(fieldName)) {
             instance.reservedqty = jp.getValueAsString();
             return true;
+        }else if ("BINNUM".equals(fieldName)) {
+            instance.binnum = jp.getValueAsString();
+            return true;
         }
 
         return false;

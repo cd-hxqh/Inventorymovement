@@ -9,7 +9,6 @@ import com.instagram.common.json.annotation.JsonType;
  */
 @JsonType
 public class Invreserve extends Entity {
-    private static final String TAG = "Invreserve";
 
     @JsonField(fieldName = "location")
     public String location; //库房
@@ -22,6 +21,16 @@ public class Invreserve extends Entity {
 
     @JsonField(fieldName = "reservedqty")
     public String reservedqty; //数量
+    @JsonField(fieldName = "binnum")
+    public String binnum; //货柜
+
+    public String getBinnum() {
+        return binnum;
+    }
+
+    public void setBinnum(String binnum) {
+        this.binnum = binnum;
+    }
 
     public String getLocation() {
         return location;

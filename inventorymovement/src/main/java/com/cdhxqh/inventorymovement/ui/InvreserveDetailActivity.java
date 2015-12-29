@@ -1,6 +1,7 @@
 package com.cdhxqh.inventorymovement.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Invbalances;
@@ -41,6 +43,8 @@ public class InvreserveDetailActivity extends BaseActivity {
     private EditText qtyText; //当前余量
     private TextView locationText; //库房
     private TextView binnumText; //货柜
+    private TextView lotnumText; //批次
+    private ImageView chooseImageView; //选择
 
     /**
      * Invreserve*
@@ -72,7 +76,6 @@ public class InvreserveDetailActivity extends BaseActivity {
         invreserve = (Invreserve) getIntent().getSerializableExtra("invreserve");
         wonum = getIntent().getStringExtra("wonum");
 
-        Log.i(TAG, "wonum=" + wonum);
 
     }
 
@@ -89,7 +92,8 @@ public class InvreserveDetailActivity extends BaseActivity {
         qtyText = (EditText) findViewById(R.id.invreserve_qty_text);
         locationText = (TextView) findViewById(R.id.invreserve_location_text);
         binnumText = (EditText) findViewById(R.id.invreserve_binnum_text);
-
+        lotnumText = (TextView) findViewById(R.id.invreserve_lotnum_text);
+        chooseImageView = (ImageView) findViewById(R.id.invreserve_binnum_choose);
 
         issueBtn = (Button) findViewById(R.id.invreserve_issue_btn_id);
         withdrawingBtn = (Button) findViewById(R.id.invreserve_withdrawing_btn_id);
@@ -109,11 +113,25 @@ public class InvreserveDetailActivity extends BaseActivity {
             desctionText.setText(invreserve.getDescription() == null ? "" : invreserve.getDescription());
             qtyText.setText(invreserve.getReservedqty() == null ? "" : invreserve.getReservedqty());
             locationText.setText(invreserve.getLocation() == null ? "" : invreserve.getLocation());
-//            binnumText.setText(invreserve.getBaseApplication == null ? "" : invreserve.getCurbal());
+            binnumText.setText(invreserve.getBinnum() == null ? "" : invreserve.getBinnum());
         }
+        chooseImageView.setOnClickListener(chooseImageViewOnClickListener);
         issueBtn.setOnClickListener(confirmBtnOnClickListener);
         withdrawingBtn.setOnClickListener(confirmBtnOnClickListener);
     }
+
+
+    private View.OnClickListener chooseImageViewOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(InvreserveDetailActivity.this, BinChooseActivity.class);
+            intent.putExtra("location", invreserve.getLocation());
+            intent.putExtra("itemnum", invreserve.getItemnum());
+            intent.putExtra("requestCode", 3);
+            startActivityForResult(intent, 3);
+        }
+    };
+
 
     private View.OnClickListener backOnClickListener = new View.OnClickListener() {
         @Override
@@ -126,7 +144,13 @@ public class InvreserveDetailActivity extends BaseActivity {
     private View.OnClickListener confirmBtnOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            switch (view.getId()) {
+                case R.id.invreserve_issue_btn_id:
+                    break;
+                case R.id.invreserve_withdrawing_btn_id:
+                    qtyText.setText("-" + qtyText.getText().toString());
+                    break;
+            }
             mProgressDialog = ProgressDialog.show(InvreserveDetailActivity.this, null,
                     "正在提交中...", true, true);
             confirmData();
@@ -142,10 +166,8 @@ public class InvreserveDetailActivity extends BaseActivity {
             @Override
             protected String doInBackground(String... strings) {
                 String result = null;
-//                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
-//                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString());
-                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), "151216002",
-                        "139218", qtyText.getText().toString(), invreserve.location, binnumText.getText().toString());
+                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
+                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString(),lotnumText.getText().toString());
 
                 Log.i(TAG, "data=" + data);
                 try {
@@ -162,10 +184,22 @@ public class InvreserveDetailActivity extends BaseActivity {
                 super.onPostExecute(s);
                 mProgressDialog.cancel();
 
-                Log.i(TAG, "s=" + s);
                 MessageUtils.showMiddleToast(InvreserveDetailActivity.this, s);
                 finish();
             }
         }.execute();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case 3:
+                String s3 = data.getStringExtra("binnum");
+                String lotnum = data.getStringExtra("tolot");
+                binnumText.setText(s3);
+                lotnumText.setText(lotnum);
+                break;
+        }
     }
 }

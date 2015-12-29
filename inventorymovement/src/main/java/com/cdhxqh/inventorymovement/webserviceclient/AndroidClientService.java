@@ -134,9 +134,9 @@ public class AndroidClientService {
     /**
      * 库存出库
      */
-    public String INV03Issue(String userid, String wonum, String itemnum, String qty, String storeroom, String binnum) {
+    public String INV03Issue(String userid, String wonum, String itemnum, String qty, String storeroom, String binnum,String lotnum) {
 
-        Log.i(TAG, "userid=" + userid + ",wonum=" + wonum + ",itemnum=" + itemnum + ",qty=" + qty + ",storeroom=" + storeroom + ",binnum=" + binnum);
+        Log.i(TAG, "userid=" + userid + ",wonum=" + wonum + ",itemnum=" + itemnum + ",qty=" + qty + ",storeroom=" + storeroom + ",binnum=" + binnum+",lotnum="+lotnum);
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
@@ -147,6 +147,7 @@ public class AndroidClientService {
         soapReq.addProperty("qty", qty);//数量
         soapReq.addProperty("storeroom", storeroom);//库房
         soapReq.addProperty("binnum", binnum);//货柜
+        soapReq.addProperty("lotnum", lotnum);//批次
         soapEnvelope.setOutputSoapObject(soapReq);
         HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
