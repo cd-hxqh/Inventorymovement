@@ -151,6 +151,10 @@ public class InvreserveDetailActivity extends BaseActivity {
                     qtyText.setText("-" + qtyText.getText().toString());
                     break;
             }
+            if (Integer.parseInt(qtyText.getText().toString()) <= Integer.parseInt(invreserve.getReservedqty())) {
+                Toast.makeText(InvreserveDetailActivity.this, "数量必须小于等于当前余量", Toast.LENGTH_SHORT).show();
+                return;
+            }
             mProgressDialog = ProgressDialog.show(InvreserveDetailActivity.this, null,
                     "正在提交中...", true, true);
             confirmData();
@@ -167,7 +171,7 @@ public class InvreserveDetailActivity extends BaseActivity {
             protected String doInBackground(String... strings) {
                 String result = null;
                 String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
-                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString(),lotnumText.getText().toString());
+                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString(), lotnumText.getText().toString());
 
                 Log.i(TAG, "data=" + data);
                 try {
