@@ -58,6 +58,7 @@ public class BinAdapter extends RecyclerView.Adapter<BinAdapter.ViewHolder> {
                 Intent intent = activity.getIntent();
                 Bundle bundle = new Bundle();
                 bundle.putString("binnum", item.binnum);
+                bundle.putString("tolot", item.lotnum);
                 intent.putExtras(bundle);
                 if (activity.requestCode == 1) {
                     activity.setResult(1, intent);

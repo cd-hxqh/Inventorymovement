@@ -30,6 +30,8 @@ public class Invbalances extends Entity {
     public String siteid; //地点
     @JsonField(fieldName = "invtype")
     public String invtype; //库存类别
+    @JsonField(fieldName = "unitcost")
+    public String unitcost; //单位成本
 
     public String getInvtype() {
         return invtype;

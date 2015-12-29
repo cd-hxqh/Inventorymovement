@@ -30,7 +30,27 @@ public class Matrectrans extends Entity {
     public String tostoreloc;//目标仓库
     @JsonField(fieldName = "tobin")
     public String tobin;//目标库位号
+    @JsonField(fieldName = "fromlot")
+    public String fromlot;//原批次
+    @JsonField(fieldName = "tolot")
+    public String tolot;//目标批次
 
+
+    public String getFromlot() {
+        return fromlot;
+    }
+
+    public void setFromlot(String fromlot) {
+        this.fromlot = fromlot;
+    }
+
+    public String getTolot() {
+        return tolot;
+    }
+
+    public void setTolot(String tolot) {
+        this.tolot = tolot;
+    }
 
     public String getItemnum() {
         return itemnum;

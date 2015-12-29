@@ -139,8 +139,10 @@ public class InvbalancesActivity extends BaseActivity {
                             String result = null;
                             String data = getBaseApplication().getWsService().INV05Invtrans1(getBaseApplication().getUsername(),
                                     matrectranses.get(finalI).itemnum, matrectranses.get(finalI).receiptquantity,
-                                    matrectranses.get(finalI).fromstoreloc, matrectranses.get(finalI).frombin, matrectranses.get(finalI).tostoreloc,
-                                    matrectranses.get(finalI).tobin);
+                                    matrectranses.get(finalI).fromstoreloc, matrectranses.get(finalI).frombin, matrectranses.get(finalI).fromlot, matrectranses.get(finalI).tostoreloc,
+                                    matrectranses.get(finalI).tobin, matrectranses.get(finalI).tolot);
+
+                            Log.i(TAG,"data="+data);
                             try {
                                 JSONObject jsonObject = new JSONObject(data);
                                 result = jsonObject.getString("msg");
@@ -159,10 +161,11 @@ public class InvbalancesActivity extends BaseActivity {
                             } else {
                                 Toast.makeText(InvbalancesActivity.this, matrectranses.get(finalI).itemnum +
                                         "提交失败", Toast.LENGTH_SHORT).show();
+
                             }
-                            if (finalI == matrectranses.size()) {
-                                colseProgressBar();
-                            }
+//                            if (finalI == matrectranses.size()) {
+                            colseProgressBar();
+//                            }
                         }
                     }.execute();
                 }

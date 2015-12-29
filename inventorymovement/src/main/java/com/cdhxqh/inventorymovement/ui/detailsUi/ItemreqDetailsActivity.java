@@ -312,9 +312,8 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
             protected String doInBackground(String... strings) {
                 String result = null;
                 String data = getBaseApplication().getWsService().INV08CreateItem(getBaseApplication().getUsername(),
-                        itemreq.itemreqnum);
+                        itemreq.itemreqid);
 
-                Log.i(TAG,"data="+data);
                 try {
                     JSONObject jsonObject = new JSONObject(data);
                     result = jsonObject.getString("msg");

@@ -196,4 +196,6 @@
     <string name="isfinish_title">已经生产编码 ?</string>
     <string name="transfer_text">转移</string>
     <string name="invbalances_pici_hint">请输入批次进行选择...</string>
+    <string name="matrectrans_fromlot_title">原批次:</string>
+    <string name="matrectrans_tolot_title">目标批次:</string>
 </resources>

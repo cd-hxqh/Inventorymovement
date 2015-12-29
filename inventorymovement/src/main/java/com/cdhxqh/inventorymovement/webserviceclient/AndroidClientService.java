@@ -19,7 +19,7 @@ import java.io.IOException;
 public class AndroidClientService {
     private static final String TAG = "AndroidClientService";
     public String NAMESPACE = "http://www.ibm.com/maximo";
-    public String url =null;
+    public String url = null;
     public int timeOut = 1200000;
 
     public AndroidClientService() {
@@ -39,23 +39,24 @@ public class AndroidClientService {
 
     /**
      * ��ӹ�������
+     *
      * @param username
      * @param itemnum
      * @param desc
      * @param model
      * @return
      */
-    public String UpdateItem(String username,String itemnum,String desc,String model){
+    public String UpdateItem(String username, String itemnum, String desc, String model) {
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV07UpdateItem");
         soapReq.addProperty("userid", username);
-        soapReq.addProperty("itemnum",itemnum);
-        soapReq.addProperty("desc",desc);
-        soapReq.addProperty("model",model);
+        soapReq.addProperty("itemnum", itemnum);
+        soapReq.addProperty("desc", desc);
+        soapReq.addProperty("model", model);
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException e) {
@@ -75,7 +76,7 @@ public class AndroidClientService {
     /**
      * 入库管理接收/退货
      */
-    public String INV01RecByPO(String userid,String ponum){
+    public String INV01RecByPO(String userid, String ponum) {
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
@@ -83,7 +84,7 @@ public class AndroidClientService {
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("ponum", ponum);//采购单编号
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
@@ -102,18 +103,18 @@ public class AndroidClientService {
     /**
      * 入库管理接收/退货
      */
-    public String INV02RecByPOLine(String userid,String ponum,String polinenum, int qty,String binnum){
+    public String INV02RecByPOLine(String userid, String ponum, String polinenum, int qty, String binnum) {
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV02RecByPOLine");
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("ponum", ponum);//采购单编号
-        soapReq.addProperty("polinenum",polinenum);//行号
+        soapReq.addProperty("polinenum", polinenum);//行号
         soapReq.addProperty("qty", qty);//数量
         soapReq.addProperty("binnum", binnum);//货位号
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
@@ -130,25 +131,24 @@ public class AndroidClientService {
     }
 
 
-
     /**
      * 库存出库
      */
-    public String INV03Issue(String userid,String wonum,String itemnum,String qty,String storeroom,String binnum){
+    public String INV03Issue(String userid, String wonum, String itemnum, String qty, String storeroom, String binnum) {
 
-        Log.i(TAG,"userid="+userid+",wonum="+wonum+",itemnum="+itemnum+",qty="+qty+",storeroom="+storeroom+",binnum="+binnum);
+        Log.i(TAG, "userid=" + userid + ",wonum=" + wonum + ",itemnum=" + itemnum + ",qty=" + qty + ",storeroom=" + storeroom + ",binnum=" + binnum);
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV03Issue");
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("wonum", wonum);//工单号
-        soapReq.addProperty("itemnum",itemnum);//物资编号
+        soapReq.addProperty("itemnum", itemnum);//物资编号
         soapReq.addProperty("qty", qty);//数量
         soapReq.addProperty("storeroom", storeroom);//库房
         soapReq.addProperty("binnum", binnum);//货柜
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
@@ -165,15 +165,10 @@ public class AndroidClientService {
     }
 
 
-
-
-
-
-
     /**
      * 库存盘点
      */
-    public String INV04Invadj(String userid, String storeroom, String itemnum, String binnum, String lotnum, String qty){
+    public String INV04Invadj(String userid, String storeroom, String itemnum, String binnum, String lotnum, String qty) {
 
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
@@ -181,12 +176,12 @@ public class AndroidClientService {
         SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV04Invadj");
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("storeroom", storeroom);//库房
-        soapReq.addProperty("itemnum",itemnum);//物资编号
-        soapReq.addProperty("binnum",binnum);//物资编号
-        soapReq.addProperty("lotnum",lotnum);//货柜批次
+        soapReq.addProperty("itemnum", itemnum);//物资编号
+        soapReq.addProperty("binnum", binnum);//物资编号
+        soapReq.addProperty("lotnum", lotnum);//货柜批次
         soapReq.addProperty("qty", qty);//数量
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
@@ -203,33 +198,27 @@ public class AndroidClientService {
     }
 
 
-
-
-
-
-
-
-
-
-
     /**
      * 库存移出
      */
-    public String INV05Invtrans1(String userid,String itemnum,String qty,String storeroom1,String binnum1,
-            String storeroom2,String binnum2){
+    public String INV05Invtrans1(String userid, String itemnum, String qty, String storeroom1, String binnum1, String lotnum1, String storeroom2, String binnum2, String lotnum2) {
+        Log.i(TAG,"userid="+userid+",itemnum="+itemnum+",qty="+qty+",storeroom1="+storeroom1+",binnum1="+binnum1+",lotnum1="+lotnum1+",storeroom2="+storeroom2+",binnum2="+binnum2+",lotnum2="+lotnum2);
+
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
         SoapObject soapReq = new SoapObject(NAMESPACE, "mobileserviceINV05Invtrans");
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("itemnum", itemnum);//物质编号
-        soapReq.addProperty("qty",qty);//数量
+        soapReq.addProperty("qty", qty);//数量
         soapReq.addProperty("storeroom1", storeroom1);//出库房
         soapReq.addProperty("binnum1", binnum1);//出货柜号
-        soapReq.addProperty("storeroom2",storeroom2);//入库房
+        soapReq.addProperty("lotnum1", lotnum1);// 移出批次
+        soapReq.addProperty("storeroom2", storeroom2);//入库房
         soapReq.addProperty("binnum2", binnum2);//入货柜号
+        soapReq.addProperty("lotnum2", lotnum2);//移入批次
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
@@ -277,13 +266,11 @@ public class AndroidClientService {
 //    }
 
 
-
     /**
      * 生成物资编码
      */
-    public String INV08CreateItem(String userid,String itemnum){
+    public String INV08CreateItem(String userid, String itemnum) {
 
-        Log.i(TAG,"userid="+userid+",itemnum="+itemnum);
         SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         soapEnvelope.implicitTypes = true;
         soapEnvelope.dotNet = true;
@@ -291,7 +278,7 @@ public class AndroidClientService {
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("itemreqid", itemnum);//物质编号
         soapEnvelope.setOutputSoapObject(soapReq);
-        HttpTransportSE httpTransport = new HttpTransportSE(url,timeOut);
+        HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException e) {

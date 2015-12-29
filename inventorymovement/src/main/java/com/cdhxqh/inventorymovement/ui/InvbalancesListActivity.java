@@ -139,7 +139,6 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
         searchimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                titlelayout.setVisibility(View.GONE);
                 title_searchlayout.setVisibility(View.VISIBLE);
             }
         });
@@ -220,11 +219,13 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
                 Map.Entry entry = (Map.Entry) iter.next();
                 Invbalances invbalances = (Invbalances) entry.getValue();
                 matrectrans = new Matrectrans();
-                matrectrans.setItemnum(invbalances.itemnum);
-                matrectrans.setDescription(invbalances.itemdesc);
-                matrectrans.setType(invbalances.itemin20);
-                matrectrans.setCurbaltotal(invbalances.curbal);
-                matrectrans.setFrombin(invbalances.binnum);
+                matrectrans.setItemnum(invbalances.itemnum); //项目
+                matrectrans.setDescription(invbalances.itemdesc); //描述
+                matrectrans.setType(invbalances.itemin20); //型号
+                matrectrans.setCurbaltotal(invbalances.curbal); //余量
+                matrectrans.setFrombin(invbalances.binnum); //货柜
+                matrectrans.setLinecost(invbalances.unitcost); //行成本
+                matrectrans.setFromlot(invbalances.lotnum); //原批次
                 if (mark == 1000) {
                     matrectrans.setFromstoreloc(location);
                 } else if (mark == 1001) {
@@ -252,6 +253,8 @@ public class InvbalancesListActivity extends BaseActivity implements SwipeRefres
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
+
+                Log.i(TAG,"results="+results.getResultlist());
                 ArrayList<Invbalances> items = null;
                 try {
                     items = Ig_Json_Model.parseInvbalancesFromString(results.getResultlist());

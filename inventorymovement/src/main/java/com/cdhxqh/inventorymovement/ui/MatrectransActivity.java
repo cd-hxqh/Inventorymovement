@@ -36,14 +36,16 @@ public class MatrectransActivity extends BaseActivity {
     public TextView type;//型号
     public EditText receiptquantity;//数量
     public TextView curbaltotal;//仓库当前余量
-    public TextView linecost;//行成本
     public TextView frombin;//原库位号
+    public TextView fromlot;//原批次
     public RelativeLayout frombinlayout;
     private TextView tostoreloc_title;
     public TextView tostoreloc;//目标仓库/原仓库
     public RelativeLayout tostoreloclayout;
     public TextView tobin;//目标库位号
     public RelativeLayout tobinlayout;
+
+    public TextView tolotText; //目标批次
 
     private ImageView tobinImageView;
 
@@ -86,8 +88,8 @@ public class MatrectransActivity extends BaseActivity {
         type = (TextView) findViewById(R.id.matrectrans_type);
         receiptquantity = (EditText) findViewById(R.id.matrectrans_receiptquantity);
         curbaltotal = (TextView) findViewById(R.id.matrectrans_curbaltotal);
-        linecost = (TextView) findViewById(R.id.matrectrans_linecost);
         frombin = (TextView) findViewById(R.id.matrectrans_frombin);
+        fromlot = (TextView) findViewById(R.id.matrectrans_fromlot);
         frombinlayout = (RelativeLayout) findViewById(R.id.frombin_linearlayout_id);
         tostoreloc_title = (TextView) findViewById(R.id.matrectrans_tostoreloc_title);
         tostoreloc = (TextView) findViewById(R.id.matrectrans_tostoreloc);
@@ -95,6 +97,8 @@ public class MatrectransActivity extends BaseActivity {
         tobin = (TextView) findViewById(R.id.matrectrans_tobin);
         tobinImageView = (ImageView) findViewById(R.id.matrectrans_tobin_choose);
         tobinlayout = (RelativeLayout) findViewById(R.id.tobin_linearlayout_id);
+
+        tolotText=(TextView)findViewById(R.id.matrectrans_tolot);
         confirm = (Button) findViewById(R.id.confirm_button_id);
 
         img = (ImageView) findViewById(R.id.matrectrans_tostoreloc_img);
@@ -123,8 +127,8 @@ public class MatrectransActivity extends BaseActivity {
         type.setText(matrectrans.type);
         receiptquantity.setText(matrectrans.receiptquantity);
         curbaltotal.setText(matrectrans.curbaltotal);
-        linecost.setText(matrectrans.linecost);
         frombin.setText(matrectrans.frombin);
+        fromlot.setText(matrectrans.fromlot);
         tobin.setText(matrectrans.tobin);
         confirm.setOnClickListener(confirmClicklistener);
 
@@ -181,7 +185,7 @@ public class MatrectransActivity extends BaseActivity {
                 Toast.makeText(MatrectransActivity.this,"请输入数量",Toast.LENGTH_SHORT).show();
                 return;
             }else if(Integer.parseInt(receiptquantity.getText().toString())>Integer.parseInt(curbaltotal.getText().toString())){
-                Toast.makeText(MatrectransActivity.this,"请输入正确数量",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MatrectransActivity.this,"数量必须小于等于当前余量",Toast.LENGTH_SHORT).show();
                 return;
             }
             if (frombin.getText().toString().equals("")||tostoreloc.getText().toString().equals("")
@@ -214,8 +218,11 @@ public class MatrectransActivity extends BaseActivity {
                 break;
             case 3:
                 String s3 = data.getStringExtra("binnum");
+                String tolot = data.getStringExtra("tolot");
                 tobin.setText(s3);
+                tolotText.setText(tolot);
                 matrectrans.tobin = s3;
+                matrectrans.tolot = tolot;
                 break;
         }
     }
