@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
         android:text="@string/work_flow"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:visibility="gone" />
 
 </LinearLayout>

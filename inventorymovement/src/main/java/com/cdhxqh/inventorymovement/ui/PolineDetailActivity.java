@@ -2,6 +2,7 @@ package com.cdhxqh.inventorymovement.ui;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
+import com.cdhxqh.inventorymovement.constants.Constants;
 import com.cdhxqh.inventorymovement.model.Invbalances;
 import com.cdhxqh.inventorymovement.model.Poline;
+import com.cdhxqh.inventorymovement.utils.MessageUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +23,8 @@ import org.json.JSONObject;
  * 入库管理物料详情*
  */
 public class PolineDetailActivity extends BaseActivity {
+
+    private static final String TAG="PolineDetailActivity";
     private TextView titleTextView; // 标题
 
     private ImageView backImage; //返回
@@ -40,9 +45,14 @@ public class PolineDetailActivity extends BaseActivity {
     private TextView orderqtyText; //总数量
     private TextView orderunitText; //单位
     private TextView storelocText; //仓库
-    private EditText binnumText;//货位
+    private EditText binnumText;//货位号
+    private TextView tolotText;//批次
 
     private Button input;//提交
+
+
+    private String type; //选择类型
+    private String tolot; //批次
 
 
     @Override
@@ -78,6 +88,7 @@ public class PolineDetailActivity extends BaseActivity {
         orderunitText = (TextView) findViewById(R.id.poline_orderunit);
         storelocText = (TextView) findViewById(R.id.poline_storeloc);
         binnumText = (EditText) findViewById(R.id.poline_binnum);
+        tolotText = (TextView) findViewById(R.id.lotnum_text);
 
         input = (Button) findViewById(R.id.input_button_id);
     }
@@ -92,8 +103,10 @@ public class PolineDetailActivity extends BaseActivity {
 
         if (mark == 1000) {
             qty_title.setText(R.string.poline_recorde_num);
+            type = Constants.RECEIPT;
         } else if (mark == 1001) {
             qty_title.setText(R.string.poline_return_num);
+            type = Constants.RETURN;
         }
         itemnumText.setText(poline.itemnum);
         polinenumText.setText(poline.polinenum);
@@ -102,6 +115,8 @@ public class PolineDetailActivity extends BaseActivity {
         orderqtyText.setText(poline.orderqty);
         orderunitText.setText(poline.orderunit);
         storelocText.setText(poline.storeloc);
+        binnumText.setText(poline.tobin);
+        tolotText.setText(poline.tolot);
 
         input.setOnClickListener(inputOnClickListener);
     }
@@ -122,26 +137,36 @@ public class PolineDetailActivity extends BaseActivity {
                 new AsyncTask<String, String, String>() {
                     @Override
                     protected String doInBackground(String... strings) {
-                        String result = null;
-                        String data = getBaseApplication().getWsService().INV02RecByPOLine(getBaseApplication().getUsername(),
-                                ponum, poline.polinenum, mark == 1000 ? number : -number, binnumText.getText().toString());
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            result = jsonObject.getString("msg");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+
+                        String data = getBaseApplication().getWsService().INV02RecByPOLine(type, getBaseApplication().getUsername(),
+                                ponum, poline.polinenum, mark == 1000 ? number : -number, binnumText.getText().toString(), poline.tolot);
+                        Log.i(TAG,"data="+data);
+                        if (data == null) {
+                            return "";
                         }
-                        return result;
+                        return data;
                     }
 
                     @Override
                     protected void onPostExecute(String o) {
                         super.onPostExecute(o);
-                        Toast.makeText(PolineDetailActivity.this, o, Toast.LENGTH_SHORT).show();
                         colseProgressBar();
-                        if (o.equals("操作成功！")) {
+
+                        if (o.equals("")) {
+                            MessageUtils.showMiddleToast(PolineDetailActivity.this, "操作失败");
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(o);
+                            String result = jsonObject.getString("msg");
+                            MessageUtils.showMiddleToast(PolineDetailActivity.this, result);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            MessageUtils.showMiddleToast(PolineDetailActivity.this, "操作失败");
                             PolineDetailActivity.this.finish();
                         }
+                        PolineDetailActivity.this.finish();
                     }
                 }.execute();
             }

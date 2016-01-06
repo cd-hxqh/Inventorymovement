@@ -62,6 +62,10 @@ public class InvreserveDetailActivity extends BaseActivity {
      */
     private ProgressDialog mProgressDialog;
 
+    private String negative; //退库时的数量
+
+    private int mark=0; //判断是发放还是退库
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,18 +150,22 @@ public class InvreserveDetailActivity extends BaseActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.invreserve_issue_btn_id:
+                    negative= qtyText.getText().toString();
+                    mark=0;
                     break;
                 case R.id.invreserve_withdrawing_btn_id:
-                    qtyText.setText("-" + qtyText.getText().toString());
+                    mark=1;
+                    negative= qtyText.getText().toString();
                     break;
             }
-            if (Integer.parseInt(qtyText.getText().toString()) <= Integer.parseInt(invreserve.getReservedqty())) {
-                Toast.makeText(InvreserveDetailActivity.this, "数量必须小于等于当前余量", Toast.LENGTH_SHORT).show();
-                return;
+
+            if ( Integer.parseInt(negative)>= Integer.parseInt(invreserve.reservedqty)) {
+                MessageUtils.showMiddleToast(InvreserveDetailActivity.this, "数量必须小于等于当前余量");
+            } else {
+                mProgressDialog = ProgressDialog.show(InvreserveDetailActivity.this, null,
+                        "正在提交中...", true, true);
+                confirmData();
             }
-            mProgressDialog = ProgressDialog.show(InvreserveDetailActivity.this, null,
-                    "正在提交中...", true, true);
-            confirmData();
         }
     };
 
@@ -170,9 +178,14 @@ public class InvreserveDetailActivity extends BaseActivity {
             @Override
             protected String doInBackground(String... strings) {
                 String result = null;
-                String data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
-                        invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString(), lotnumText.getText().toString());
-
+                String data=null;
+                if(mark==0) {
+                     data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
+                            invreserve.itemnum, qtyText.getText().toString(), invreserve.location, binnumText.getText().toString(), lotnumText.getText().toString());
+                }else{
+                    data = getBaseApplication().getWsService().INV03Issue(getBaseApplication().getUsername(), wonum,
+                            invreserve.itemnum, "-"+qtyText.getText().toString(), invreserve.location, binnumText.getText().toString(), lotnumText.getText().toString());
+                }
                 Log.i(TAG, "data=" + data);
                 try {
                     JSONObject jsonObject = new JSONObject(data);

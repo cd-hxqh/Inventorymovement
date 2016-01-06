@@ -85,6 +85,13 @@ public final class Poline_JsonHelper
         }else if ("STORELOC".equals(fieldName)) {
             instance.storeloc = jp.getValueAsString();
             return true;
+        }else if ("TOBIN".equals(fieldName)) {
+            instance.tobin = jp.getValueAsString();
+            return true;
+        }
+        else if ("TOLOT".equals(fieldName)) {
+            instance.tolot = jp.getValueAsString();
+            return true;
         }
 
         return false;

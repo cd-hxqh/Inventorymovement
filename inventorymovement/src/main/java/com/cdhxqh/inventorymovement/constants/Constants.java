@@ -126,4 +126,9 @@ public class Constants {
     public static final String USERNAMEERROR = "USER-E-100";//用户名密码错误
 
     public static final String GETDATASUCCESS = "GLOBAL-S-0";//获取数据成功
+
+
+    /**入库管理的发放与接收**/
+    public static final String RECEIPT = "RECEIPT";//接收
+    public static final String RETURN = "RETURN";//退货
 }

@@ -22,6 +22,34 @@ public class Poline extends Entity {
     public String orderunit; //订购单位
     @JsonField(fieldName = "storeloc")
     public String storeloc; //发放单位
+    @JsonField(fieldName = "tobin")
+    public String tobin; //库位号
+    @JsonField(fieldName = "tolot")
+    public String tolot; //批次
+
+    public String getPolinenum() {
+        return polinenum;
+    }
+
+    public void setPolinenum(String polinenum) {
+        this.polinenum = polinenum;
+    }
+
+    public String getTobin() {
+        return tobin;
+    }
+
+    public void setTobin(String tobin) {
+        this.tobin = tobin;
+    }
+
+    public String getTolot() {
+        return tolot;
+    }
+
+    public void setTolot(String tolot) {
+        this.tolot = tolot;
+    }
 
     public String getItemnum() {
         return itemnum;

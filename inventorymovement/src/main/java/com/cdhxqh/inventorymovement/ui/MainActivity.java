@@ -80,15 +80,21 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      * 主项目的fragment*
      */
     private Fragment newItemFragment;
-    /**入库管理**/
+    /**
+     * 入库管理*
+     */
     private PoFragment newPoFragemnt;
-    /**出库管理**/
+    /**
+     * 出库管理*
+     */
     private WorkorderFragment newWorkorderFragment;
     /**
      * 库存使用情况*
      */
     private InVFragment newInVFragment;
-    /**库存盘点**/
+    /**
+     * 库存盘点*
+     */
     private CheckFragment newCheckFragment;
 
     /**
@@ -96,10 +102,14 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      */
     private ItemreqFragment newItemreqFragment;
 
-    /**库存转移**/
+    /**
+     * 库存转移*
+     */
     private LocationFragment newLocationFragment;
 
-    /**条码打印**/
+    /**
+     * 条码打印*
+     */
     private TypoFragment newTypoFragment;
 
     @Override
@@ -189,6 +199,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         switch (position) {
             case 0://主项目
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newItemFragment == null) {
                     newItemFragment = new ItemFragment();
                     Bundle bundle = new Bundle();
@@ -200,6 +211,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 1://入库管理
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newPoFragemnt == null) {
                     newPoFragemnt = new PoFragment();
                     Bundle bundle = new Bundle();
@@ -211,6 +223,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 2://出库管理
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newWorkorderFragment == null) {
                     newWorkorderFragment = new WorkorderFragment();
                     Bundle bundle = new Bundle();
@@ -222,6 +235,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 3://库存盘点
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newCheckFragment == null) {
                     newCheckFragment = new CheckFragment();
                     Bundle bundle = new Bundle();
@@ -233,6 +247,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 4://库存转移
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newPoFragemnt == null) {
                     newLocationFragment = new LocationFragment();
                     Bundle bundle = new Bundle();
@@ -256,6 +271,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 6://库存使用情况
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newInVFragment == null) {
                     newInVFragment = new InVFragment();
                     Bundle bundle = new Bundle();
@@ -267,6 +283,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 break;
             case 7://物资编码申请
                 titleTextView.setText(adapter.getTitle(position));
+                searchButton.setVisibility(View.VISIBLE);
                 if (newItemreqFragment == null) {
                     newItemreqFragment = new ItemreqFragment();
                     Bundle bundle = new Bundle();
@@ -279,6 +296,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
             case 8: //退出登陆
                 showAlertDialog();
+                searchButton.setVisibility(View.GONE);
                 drawer.closeDrawer(mDrawerList);
                 break;
             default:
@@ -326,10 +344,6 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
 
-
-
-
-
     /**
      * 默认显示主项目的*
      */
@@ -371,36 +385,34 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark == 1){
+        } else if (mark == 1) {
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark==2){
+        } else if (mark == 2) {
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark==3){ //跳转至库存盘点
+        } else if (mark == 3) { //跳转至库存盘点
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark==4){ //跳转至库存转移界面
+        } else if (mark == 4) { //跳转至库存转移界面
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark==5){ //跳转至库存转移界面
+        } else if (mark == 5) { //跳转至库存转移界面
             searchButton.setVisibility(View.GONE);
-        }
-
-        else if(mark == 6){
+        } else if (mark == 6) {
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);
             startActivityForResult(intent, 0);
-        }else if(mark == 7){
+        } else if (mark == 7) {
             Intent intent = new Intent();
             intent.putExtra("search_mark", mark);
             intent.setClass(MainActivity.this, SearchActivity.class);

@@ -201,7 +201,6 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
      */
 
     private void getItemList(String itemreqnum) {
-        Log.i(TAG, "itemreqnum=" + itemreqnum);
         ImManager.getDataPagingInfo(this, ImManager.serItemreqLineUrl(page, 20, itemreqnum), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
@@ -312,7 +311,7 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
             protected String doInBackground(String... strings) {
                 String result = null;
                 String data = getBaseApplication().getWsService().INV08CreateItem(getBaseApplication().getUsername(),
-                        itemreq.itemreqid);
+                        itemreq.itemreqnum);
 
                 try {
                     JSONObject jsonObject = new JSONObject(data);

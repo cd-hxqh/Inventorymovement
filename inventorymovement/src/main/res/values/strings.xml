@@ -71,7 +71,7 @@
     <string name="poline_orderqty">总数量:</string>
     <string name="poline_orderunit">单位:</string>
     <string name="poline_storeloc">仓库号:</string>
-    <string name="poline_binnum">货位号:</string>
+    <string name="poline_binnum">库位号:</string>
     <string name="material_receiving">物料接收</string>
     <string name="material_list">物料列表</string>
     <string name="material_details">物料列表</string>
