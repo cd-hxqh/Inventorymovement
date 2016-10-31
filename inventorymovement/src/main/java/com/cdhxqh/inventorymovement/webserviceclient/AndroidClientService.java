@@ -58,6 +58,7 @@ public class AndroidClientService {
         soapReq.addProperty("desc", desc);
         soapReq.addProperty("model", model);
         soapEnvelope.setOutputSoapObject(soapReq);
+        Log.i(TAG,"url="+url);
         HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
@@ -86,11 +87,14 @@ public class AndroidClientService {
         soapReq.addProperty("userid", userid);//用户名
         soapReq.addProperty("ponum", ponum);//采购单编号
         soapEnvelope.setOutputSoapObject(soapReq);
+        Log.i(TAG,"url="+url);
         HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
+            return "";
+
         }
         String obj = null;
         try {
@@ -195,6 +199,7 @@ public class AndroidClientService {
             httpTransport.call("urn:action", soapEnvelope);
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
+            return "";
         }
         String obj = null;
         try {
@@ -227,6 +232,7 @@ public class AndroidClientService {
         soapReq.addProperty("binnum2", binnum2);//入货柜号
         soapReq.addProperty("lotnum2", lotnum2);//移入批次
         soapEnvelope.setOutputSoapObject(soapReq);
+        Log.i(TAG,"url="+url);
         HttpTransportSE httpTransport = new HttpTransportSE(url, timeOut);
         try {
             httpTransport.call("urn:action", soapEnvelope);

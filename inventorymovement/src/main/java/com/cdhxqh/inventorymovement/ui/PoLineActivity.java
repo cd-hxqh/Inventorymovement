@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.PolineAdapter;
@@ -18,7 +17,6 @@ import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
 import com.cdhxqh.inventorymovement.bean.Results;
-import com.cdhxqh.inventorymovement.model.Po;
 import com.cdhxqh.inventorymovement.model.Poline;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
@@ -33,7 +31,7 @@ import java.util.ArrayList;
  * Created by think on 2015/12/16.
  * 入库接收物料页面
  */
-public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
+public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "PoLineActivity";
 
     private TextView titleTextView; // 标题
@@ -139,7 +137,7 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
      */
 
     private void getPoLineList() {
-        ImManager.getDataPagingInfo(PoLineActivity.this, ImManager.setPolineUrl(ponum,page, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(PoLineActivity.this, ImManager.setPolineUrl(ponum, page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -187,6 +185,9 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
         });
     }
 
+    /**
+     * 入库管理
+     **/
     private View.OnClickListener inputOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -194,27 +195,33 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
             new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... strings) {
-                    String result = null;
                     String data = getBaseApplication().getWsService().INV01RecByPO(getBaseApplication().getUsername(),
                             ponum);
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        result = jsonObject.getString("msg");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    return result;
+
+                    return data;
                 }
 
                 @Override
-                protected void onPostExecute(String o) {
-                    super.onPostExecute(o);
-                    Toast.makeText(PoLineActivity.this, o, Toast.LENGTH_SHORT).show();
+                protected void onPostExecute(String data) {
+                    super.onPostExecute(data);
+                    Log.i(TAG, "data=" + data);
                     colseProgressBar();
-                    if (o.equals("操作成功！")) {
-                        polineAdapter = new PolineAdapter(PoLineActivity.this);
-                        mRecyclerView.setAdapter(polineAdapter);
+                    try {
+                        if (!data.equals("")) {
+                            JSONObject jsonObject = new JSONObject(data);
+                            String result = jsonObject.getString("msg");
+                            if (result.equals("操作成功！")) {
+                                MessageUtils.showMiddleToast(PoLineActivity.this, result);
+                                polineAdapter = new PolineAdapter(PoLineActivity.this);
+                                mRecyclerView.setAdapter(polineAdapter);
+                            } else {
+                                MessageUtils.showMiddleToast(PoLineActivity.this, result);
+                            }
+                        }
+                    } catch (JSONException e) {
                     }
+
+
                 }
             }.execute();
         }

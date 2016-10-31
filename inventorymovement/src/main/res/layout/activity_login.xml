@@ -6,7 +6,7 @@
     android:baselineAligned="true"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.cdhxqh.inventorymovement.ui.LoginActivity">
+    >
 
 
     <LinearLayout

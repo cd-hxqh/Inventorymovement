@@ -11,21 +11,18 @@ public class Constants {
     /**
      * 基础接口*
      */
-    public static final String HTTP_API_URL = "http://182.92.8.94:7002/maximo/mobile/";
+//    public static final String HTTP_API_URL = "http://182.92.8.94:7002/maximo/mobile/";
+    public static final String HTTP_API_URL = "http://10.28.15.14:7003/maximo/mobile/";
 
-    /**
-     * 本地接口*
-     */
-//    public static final String HTTP_API_URL = "http://192.168.1.125:7008/maximo/mobile/";
 
     //登陆URL
     public static final String SIGN_IN_URL = HTTP_API_URL + "system/login";
 
     //webservice上传接口
     //远程
-    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
+    public static final String webserviceURL = "http://10.28.15.14:7003/meaweb/services/MOBILESERVICE";
     //本地
-//    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/wsdl/MOBILESERVICE.wsdl";
+//    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
 
     public static String getWsUrl(Context context) {
         return webserviceURL;
@@ -78,7 +75,9 @@ public class Constants {
     public static final String PO_NAME = "PO";
     //入库物料的表名
     public static final String POLINE_NAME = "POLINE";
-    /**库存盘点**/
+    /**
+     * 库存盘点*
+     */
     //库存盘点情况appid
     public static final String INVBALANCES_APPID = "TRANSFER";
 
@@ -128,7 +127,9 @@ public class Constants {
     public static final String GETDATASUCCESS = "GLOBAL-S-0";//获取数据成功
 
 
-    /**入库管理的发放与接收**/
+    /**
+     * 入库管理的发放与接收*
+     */
     public static final String RECEIPT = "RECEIPT";//接收
     public static final String RETURN = "RETURN";//退货
 }

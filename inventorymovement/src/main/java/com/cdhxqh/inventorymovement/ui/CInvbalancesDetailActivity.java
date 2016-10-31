@@ -136,25 +136,32 @@ public class CInvbalancesDetailActivity extends BaseActivity {
         new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... strings) {
-                String result = null;
                 String data = getBaseApplication().getWsService().INV04Invadj(getBaseApplication().getUsername(), location,
                         invbalances.itemnum, invbalances.binnum, invbalances.lotnum, curbalText.getText().toString());
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    result = jsonObject.getString("msg");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return result;
+
+                return data;
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 mProgressDialog.cancel();
+                try {
+                    if(!s.equals("")) {
+                        JSONObject jsonObject = new JSONObject(s);
+                        s = jsonObject.getString("msg");
+                        MessageUtils.showMiddleToast(CInvbalancesDetailActivity.this, s);
 
-                MessageUtils.showMiddleToast(CInvbalancesDetailActivity.this, s);
-                finish();
+                    }
+                    finish();
+                } catch (JSONException e) {
+                    MessageUtils.showMiddleToast(CInvbalancesDetailActivity.this, "盘点失败");
+                }
+
+
+
+
+
             }
         }.execute();
     }
