@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/body_text_2_inverse"
     android:orientation="vertical"
-    tools:context="com.cdhxqh.inventorymovement.ui.InvbalancesListActivity">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -69,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/btn_ok_selector"
+            android:background="@drawable/login_button"
             android:text="@string/confirm_text"
             android:textColor="@color/white" />
     </RelativeLayout>

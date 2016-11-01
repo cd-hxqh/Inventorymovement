@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.cdhxqh.inventorymovement.ui.CInvbalancesActivity">
+    android:background="@color/body_text_2_inverse"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"

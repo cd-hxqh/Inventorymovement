@@ -3,21 +3,18 @@ package com.cdhxqh.inventorymovement.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.model.Invbalances;
-import com.cdhxqh.inventorymovement.model.Locations;
 import com.cdhxqh.inventorymovement.ui.InvbalanceDetailActivity;
-import com.cdhxqh.inventorymovement.ui.LocationsDetailActivity;
-import com.cdhxqh.inventorymovement.utils.MessageUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,7 +133,7 @@ public class InvbalancesAdapter extends RecyclerView.Adapter<InvbalancesAdapter.
         /**
          * CardView*
          */
-        public CardView cardView;
+        public RelativeLayout cardView;
         /**
          * 编号-title*
          */
@@ -162,7 +159,7 @@ public class InvbalancesAdapter extends RecyclerView.Adapter<InvbalancesAdapter.
 
         public ViewHolder(View view) {
             super(view);
-            cardView = (CardView) view.findViewById(R.id.card_container);
+            cardView = (RelativeLayout) view.findViewById(R.id.card_container);
             itemNumTitle = (TextView) view.findViewById(R.id.item_num_title);
             itemNum = (TextView) view.findViewById(R.id.item_num_text);
             itemDescTitle = (TextView) view.findViewById(R.id.item_desc_title);

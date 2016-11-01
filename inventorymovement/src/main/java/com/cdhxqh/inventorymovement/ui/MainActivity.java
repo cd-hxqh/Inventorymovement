@@ -15,16 +15,14 @@
  */
 package com.cdhxqh.inventorymovement.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -43,13 +41,9 @@ import com.cdhxqh.inventorymovement.fragment.ItemFragment;
 import com.cdhxqh.inventorymovement.fragment.ItemreqFragment;
 import com.cdhxqh.inventorymovement.fragment.LocationFragment;
 import com.cdhxqh.inventorymovement.fragment.PoFragment;
-import com.cdhxqh.inventorymovement.fragment.TypoFragment;
 import com.cdhxqh.inventorymovement.fragment.WorkorderFragment;
-import com.cdhxqh.inventorymovement.model.WorkOrder;
 import com.cdhxqh.inventorymovement.wight.CustomDialog;
 import com.cdhxqh.inventorymovement.wight.DrawerArrowDrawable;
-
-import static android.view.Gravity.START;
 
 public class MainActivity extends BaseActivity implements OnItemClickListener {
     private static final String TAG = "DrawerArrowSample";
@@ -107,10 +101,10 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      */
     private LocationFragment newLocationFragment;
 
-    /**
-     * 条码打印*
-     */
-    private TypoFragment newTypoFragment;
+//    /**
+//     * 条码打印*
+//     */
+//    private TypoFragment newTypoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,10 +155,10 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (drawer.isDrawerVisible(START)) {
-                    drawer.closeDrawer(START);
+                if (drawer.isDrawerVisible(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
                 } else {
-                    drawer.openDrawer(START);
+                    drawer.openDrawer(GravityCompat.START);
                 }
             }
         });
@@ -257,19 +251,19 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 fragmentTransaction.replace(R.id.content_frame, newLocationFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
-            case 5://打印条码
-                titleTextView.setText(adapter.getTitle(position));
-                searchButton.setVisibility(View.GONE);
-                if (newTypoFragment == null) {
-                    newTypoFragment = new TypoFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("text", adapter.getTitle(position));
-                    newTypoFragment.setArguments(bundle);
-                }
-                fragmentTransaction.replace(R.id.content_frame, newTypoFragment).commit();
-                drawer.closeDrawer(mDrawerList);
-                break;
-            case 6://库存使用情况
+//            case 5://打印条码
+//                titleTextView.setText(adapter.getTitle(position));
+//                searchButton.setVisibility(View.GONE);
+//                if (newTypoFragment == null) {
+//                    newTypoFragment = new TypoFragment();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("text", adapter.getTitle(position));
+//                    newTypoFragment.setArguments(bundle);
+//                }
+//                fragmentTransaction.replace(R.id.content_frame, newTypoFragment).commit();
+//                drawer.closeDrawer(mDrawerList);
+//                break;
+            case 5://库存使用情况
                 titleTextView.setText(adapter.getTitle(position));
                 searchButton.setVisibility(View.VISIBLE);
                 if (newInVFragment == null) {
@@ -281,7 +275,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 fragmentTransaction.replace(R.id.content_frame, newInVFragment).commit();
                 drawer.closeDrawer(mDrawerList);
                 break;
-            case 7://物资编码申请
+            case 6://物资编码申请
                 titleTextView.setText(adapter.getTitle(position));
                 searchButton.setVisibility(View.VISIBLE);
                 if (newItemreqFragment == null) {

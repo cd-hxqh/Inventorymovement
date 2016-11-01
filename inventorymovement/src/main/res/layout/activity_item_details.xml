@@ -2,30 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.cdhxqh.inventorymovement.ui.detailsUi.ItemDetailsActivity">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/title_id"
         layout="@layout/title_text"></include>
 
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:id="@+id/card_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:foreground="?android:selectableItemBackground"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_5">
 
-        <RelativeLayout
+        <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/dimen_5"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/num_linearlayout_id"
@@ -41,25 +39,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_num_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/item_num_text_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dimen_5"
                     android:layout_toRightOf="@+id/item_num_title"
                     android:hint="@string/have_not_data"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_1_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/num_linearlayout_id"
-                android:background="@drawable/line"></View>
+                android:background="@drawable/line" />
 
             <LinearLayout
                 android:id="@+id/desc_linearlayout_id"
@@ -76,33 +73,36 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_desc_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <EditText
                     android:id="@+id/item_desc_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/sb__transparent"
                     android:hint="@string/have_not_data"
-                    android:textColor="#222222"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
 
             <View
                 android:id="@+id/view_2_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/desc_linearlayout_id"
                 android:background="@drawable/line"></View>
 
             <LinearLayout
                 android:id="@+id/in20_linearlayout_id"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_40dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/view_2_id"
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dimens_10"
+                android:paddingTop="@dimen/dimens_10">
 
                 <TextView
                     android:id="@+id/item_in20_title"
@@ -110,21 +110,22 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_in20_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <EditText
                     android:id="@+id/item_in20_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/sb__transparent"
                     android:hint="@string/have_not_data"
-                    android:textColor="#222222"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_3_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/in20_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -143,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_orderunit_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/item_orderunit_text"
@@ -153,13 +154,13 @@
                     android:layout_toRightOf="@+id/item_num_title"
                     android:hint="@string/have_not_data"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_4_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/orderunit_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -178,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_issueunit_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/item_issueunit_text"
@@ -188,13 +189,13 @@
                     android:layout_toRightOf="@+id/item_num_title"
                     android:hint="@string/have_not_data"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_5_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/issueunit_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -213,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_enterby_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/item_enterby_text"
@@ -223,13 +224,13 @@
                     android:layout_toRightOf="@+id/item_num_title"
                     android:hint="@string/have_not_data"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_6_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/enterby_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -248,7 +249,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/ietm_enterdate_text"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/item_enterdate_text"
@@ -258,13 +259,13 @@
                     android:layout_toRightOf="@+id/item_num_title"
                     android:hint="@string/have_not_data"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_7_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/enterdate_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -275,8 +276,8 @@
                 android:layout_below="@+id/view_7_id"
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/item_picture_title"
@@ -284,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/item_picture_title"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <ImageView
                     android:id="@+id/image_camera_id"
@@ -302,8 +303,8 @@
 
             <View
                 android:id="@+id/view_8_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/picture_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -312,39 +313,30 @@
                 android:id="@+id/id_recyclerview_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_gravity="bottom"
                 android:layout_below="@+id/view_8_id"
+                android:layout_gravity="bottom"
                 android:layout_marginTop="2dp"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                android:visibility="gone">
 
             </android.support.v7.widget.RecyclerView>
 
 
-            <View
-                android:id="@+id/view_9_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/swipe_container"
-                android:background="@drawable/line"></View>
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/submit_button_id"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="50dp"
-                android:layout_marginLeft="@dimen/dimen_20"
-                android:layout_marginRight="@dimen/dimen_20"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/login_button"
-                android:text="@string/submit_button_text"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
+        <Button
+            android:id="@+id/submit_button_id"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/login_button"
+            android:text="@string/submit_button_text"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
 
-    </android.support.v7.widget.CardView>
+    </RelativeLayout>
 
 
 </LinearLayout>

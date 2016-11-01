@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/body_text_2_inverse"
     android:orientation="vertical">
 
 
@@ -13,9 +14,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_topics"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
     </com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout>
 
@@ -32,6 +31,6 @@
             android:layout_gravity="center"
             android:text="@string/have_not_data_txt"
             android:textColor="@color/dark_gray"
-            android:textSize="@dimen/dimen_20" />
+            android:textSize="@dimen/dimens_16dp" />
     </LinearLayout>
 </FrameLayout>

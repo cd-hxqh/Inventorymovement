@@ -3,21 +3,16 @@ package com.cdhxqh.inventorymovement.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Inventory;
-import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.WorkOrder;
 import com.cdhxqh.inventorymovement.ui.WorkOrderDetailsActivity;
-import com.cdhxqh.inventorymovement.ui.detailsUi.InvDetailsActivity;
-import com.cdhxqh.inventorymovement.ui.detailsUi.ItemreqDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -90,10 +85,10 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
         notifyDataSetChanged();
     }
 
-    public void adddate(ArrayList<WorkOrder> data){
-        if(data.size()>0){
-            for(int i = 0;i < data.size();i++){
-                if(!workOrders.contains(data.get(i))){
+    public void adddate(ArrayList<WorkOrder> data) {
+        if (data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                if (!workOrders.contains(data.get(i))) {
                     workOrders.add(data.get(i));
                 }
             }
@@ -105,7 +100,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
         /**
          * CardView*
          */
-        public CardView cardView;
+        public RelativeLayout cardView;
         /**
          * 编号标题*
          */
@@ -125,7 +120,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
 
         public ViewHolder(View view) {
             super(view);
-            cardView = (CardView) view.findViewById(R.id.card_container);
+            cardView = (RelativeLayout) view.findViewById(R.id.card_container);
 
             itemNumTitle = (TextView) view.findViewById(R.id.item_num_title);
             itemNum = (TextView) view.findViewById(R.id.item_num_text);

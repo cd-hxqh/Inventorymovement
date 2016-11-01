@@ -11,8 +11,8 @@ public class Constants {
     /**
      * 基础接口*
      */
-//    public static final String HTTP_API_URL = "http://182.92.8.94:7002/maximo/mobile/";
-    public static final String HTTP_API_URL = "http://10.28.15.14:7003/maximo/mobile/";
+    public static final String HTTP_API_URL = "http://182.92.8.94:7002/maximo/mobile/";
+//    public static final String HTTP_API_URL = "http://10.28.15.14:7003/maximo/mobile/";
 
 
     //登陆URL
@@ -20,9 +20,9 @@ public class Constants {
 
     //webservice上传接口
     //远程
-    public static final String webserviceURL = "http://10.28.15.14:7003/meaweb/services/MOBILESERVICE";
+//    public static final String webserviceURL = "http://10.28.15.14:7003/meaweb/services/MOBILESERVICE";
     //本地
-//    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
+    public static final String webserviceURL = "http://182.92.8.94:7002/meaweb/services/MOBILESERVICE";
 
     public static String getWsUrl(Context context) {
         return webserviceURL;

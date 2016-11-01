@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context="com.cdhxqh.inventorymovement.ui.detailsUi.ItemDetailsActivity">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/title_id"
@@ -31,8 +31,8 @@
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/dimens_8dp"
-                android:paddingTop="@dimen/dimens_8dp">
+                android:paddingBottom="@dimen/dimens_10"
+                android:paddingTop="@dimen/dimens_10">
 
                 <TextView
                     android:id="@+id/itemreq_itemreqnum_title"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/workorder_wonum_title"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/workorder_wonum_text"
@@ -50,13 +50,13 @@
                     android:layout_toRightOf="@+id/item_num_title"
                     android:hint="@string/have_not_data"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_1_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/num_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -68,17 +68,16 @@
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/dimens_8dp"
-                android:paddingTop="@dimen/dimens_8dp">
+                android:paddingBottom="@dimen/dimens_10"
+                android:paddingTop="@dimen/dimens_10">
 
                 <TextView
                     android:id="@+id/itemreq_description_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/workorder_desction_title"
-
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/workorder_desction_text"
@@ -86,15 +85,15 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:hint="@string/have_not_data"
-                    android:textColor="#222222"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
 
             <View
                 android:id="@+id/view_2_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/description_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -106,8 +105,8 @@
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/dimens_8dp"
-                android:paddingTop="@dimen/dimens_8dp">
+                android:paddingBottom="@dimen/dimens_10"
+                android:paddingTop="@dimen/dimens_10">
 
                 <TextView
                     android:id="@+id/itemreq_recorder_title"
@@ -115,21 +114,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/workorder_onbehalfof_title"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/workorder_onbehalfof_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/have_not_data"
-                    android:textColor="#222222"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
                 android:id="@+id/view_3_id"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/recorder_linearlayout_id"
                 android:background="@drawable/line"></View>
 
@@ -141,8 +140,8 @@
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/dimens_8dp"
-                android:paddingTop="@dimen/dimens_8dp">
+                android:paddingBottom="@dimen/dimens_10"
+                android:paddingTop="@dimen/dimens_10">
 
                 <TextView
                     android:id="@+id/itemreq_recorderdate_title"
@@ -150,20 +149,20 @@
                     android:layout_height="wrap_content"
                     android:text="@string/workorder_status_title"
                     android:textColor="@color/body_text_1"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimens_16dp" />
 
                 <TextView
                     android:id="@+id/workorder_status_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/have_not_data"
-                    android:textColor="#222222"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textColor="@color/body_text_1"
+                    android:textSize="@dimen/dimens_16dp" />
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_line"
                 android:layout_below="@+id/recorderdate_linearlayout_id"
                 android:background="@drawable/line"></View>
         </RelativeLayout>

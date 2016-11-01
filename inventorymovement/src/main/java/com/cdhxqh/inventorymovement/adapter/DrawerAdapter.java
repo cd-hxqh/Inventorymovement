@@ -23,7 +23,7 @@ public class DrawerAdapter extends BaseAdapter {
             R.drawable.ic_out_store,
             R.drawable.ic_c_store,
             R.drawable.ic_t_store,
-            R.drawable.ic_code_print,
+//            R.drawable.ic_code_print,
             R.drawable.ic_usage,
             R.drawable.ic_encoding,
             R.drawable.ic_exit

@@ -20,6 +20,7 @@ import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
 import com.cdhxqh.inventorymovement.ui.pictureui.PictureActivity;
 import com.cdhxqh.inventorymovement.utils.InputUtils;
+import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.webserviceclient.AndroidClientService;
 
 import org.json.JSONException;
@@ -105,8 +106,8 @@ public class ItemDetailsActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
 
-        cameraImageView=(ImageView)findViewById(R.id.image_camera_id);
-        fileImageView=(ImageView)findViewById(R.id.image_create_id);
+        cameraImageView = (ImageView) findViewById(R.id.image_camera_id);
+        fileImageView = (ImageView) findViewById(R.id.image_create_id);
 
 
     }
@@ -206,33 +207,37 @@ public class ItemDetailsActivity extends BaseActivity {
             InputUtils.popSoftkeyboard(ItemDetailsActivity.this, descTextView, false);
 
             InputUtils.popSoftkeyboard(ItemDetailsActivity.this, in20TextView, false);
+
             showProgressBar(R.string.submit_process_ing);
             new AsyncTask<String, String, String>() {
                 @Override
                 protected String doInBackground(String... strings) {
-                    String result = null;
                     String data = getBaseApplication().getWsService().UpdateItem(getBaseApplication().getUsername(),
-                            item.itemnum,descTextView.getText().toString(),in20TextView.getText().toString());
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        result = jsonObject.getString("msg");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    return result;
+                            item.itemnum, descTextView.getText().toString(), in20TextView.getText().toString());
+                    Log.i(TAG, "data=" + data);
+                    return data;
                 }
 
                 @Override
-                protected void onPostExecute(String s) {
-                    super.onPostExecute(s);
+                protected void onPostExecute(String data) {
+                    super.onPostExecute(data);
                     colseProgressBar();
-                    if(s.equals("操作成功！")){
-                        Toast.makeText(ItemDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
-                        finish();
-                    }else if (s!=null||s.equals("")){
-                        Toast.makeText(ItemDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
-                        finish();
+
+                    try {
+                        if (!data.equals("")) {
+                            JSONObject jsonObject = new JSONObject(data);
+                            String result = jsonObject.getString("msg");
+                            MessageUtils.showMiddleToast(ItemDetailsActivity.this, result);
+                            finish();
+                        } else {
+                            MessageUtils.showMiddleToast(ItemDetailsActivity.this, "操作失败");
+                        }
+
+                    } catch (JSONException e) {
+                        MessageUtils.showMiddleToast(ItemDetailsActivity.this, "操作失败");
                     }
+
+
                 }
             }.execute();
 
@@ -240,11 +245,13 @@ public class ItemDetailsActivity extends BaseActivity {
     };
 
 
-    /**图片选择器**/
-    private View.OnClickListener fileImageViewOnClickListener =new View.OnClickListener() {
+    /**
+     * 图片选择器
+     **/
+    private View.OnClickListener fileImageViewOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent=new Intent();
+            Intent intent = new Intent();
             intent.setClass(ItemDetailsActivity.this, PictureActivity.class);
             startActivity(intent);
 //            Intent intent=new Intent(Intent.ACTION_GET_CONTENT);

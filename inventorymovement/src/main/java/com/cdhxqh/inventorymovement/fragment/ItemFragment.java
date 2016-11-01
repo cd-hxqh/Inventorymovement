@@ -1,32 +1,25 @@
 package com.cdhxqh.inventorymovement.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.ItemAdapter;
 import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
-import com.cdhxqh.inventorymovement.api.JsonUtils;
 import com.cdhxqh.inventorymovement.api.ig_json.Ig_Json_Model;
-import com.cdhxqh.inventorymovement.api.ig_json.impl.Item_JsonHelper;
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Item;
-import com.cdhxqh.inventorymovement.ui.BaseActivity;
-import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import java.io.IOException;
@@ -35,7 +28,7 @@ import java.util.ArrayList;
 /**
  * 主项目列表*
  */
-public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener{
+public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
     private static final String TAG = "ItemFragment";
     private static final int RESULT_ADD_TOPIC = 100;
     /**
@@ -80,7 +73,10 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void findByIdView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_topics);
         mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.scrollToPosition(0);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         itemAdapter = new ItemAdapter(getActivity());
         mRecyclerView.setAdapter(itemAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -123,7 +119,7 @@ public class ItemFragment extends Fragment implements SwipeRefreshLayout.OnRefre
      */
 
     private void getItemList() {
-        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemUrl("",page, 20), new HttpRequestHandler<Results>() {
+        ImManager.getDataPagingInfo(getActivity(), ImManager.serItemUrl("", page, 20), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
