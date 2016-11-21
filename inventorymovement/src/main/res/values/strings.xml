@@ -169,8 +169,8 @@
     <string name="invbalance_binnum_title">货柜:</string>
 
     <!-- 二微码扫描 -->
-    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
-    <string name="scanning_text">条码/二维码</string>
+    <string name="scan_text">将条码放入框内, 即可自动扫描</string>
+    <string name="scanning_text">条码扫描</string>
     <string name="title_activity_results_">Results_Activity</string>
     <string name="title_activity_results_search">Results_searchActivity</string>
     <string name="title_activity_cinvbalances">CInvbalancesActivity</string>

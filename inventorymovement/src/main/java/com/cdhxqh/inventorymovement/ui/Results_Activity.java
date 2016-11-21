@@ -3,14 +3,10 @@ package com.cdhxqh.inventorymovement.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
 
@@ -65,21 +61,22 @@ public class Results_Activity extends Activity {
                 finish();
             }
         });
-        if(isJson(result)){
-            try {
-                JSONObject object = new JSONObject(result);
-                if(!object.has("num")||!object.has("desc")){
-                    Toast.makeText(Results_Activity.this,"查询结果无效",Toast.LENGTH_SHORT).show();
-                }else {
-                    num.setText(object.getString("num"));
-                    desc.setText(object.getString("desc"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Toast.makeText(Results_Activity.this,"查询结果无效",Toast.LENGTH_SHORT).show();
-        }
+        num.setText(result);
+//        if(isJson(result)){
+//            try {
+//                JSONObject object = new JSONObject(result);
+//                if(!object.has("num")||!object.has("desc")){
+//                    Toast.makeText(Results_Activity.this,"查询结果无效",Toast.LENGTH_SHORT).show();
+//                }else {
+//                    num.setText(object.getString("num"));
+//                    desc.setText(object.getString("desc"));
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }else {
+//            Toast.makeText(Results_Activity.this,"查询结果无效",Toast.LENGTH_SHORT).show();
+//        }
 
         search.setOnClickListener(searchOnClickListener);
     }

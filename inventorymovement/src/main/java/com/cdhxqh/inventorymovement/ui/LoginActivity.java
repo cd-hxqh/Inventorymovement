@@ -17,9 +17,7 @@ import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
 import com.cdhxqh.inventorymovement.api.ImManager;
 import com.cdhxqh.inventorymovement.utils.AccountUtils;
 import com.cdhxqh.inventorymovement.utils.MessageUtils;
-import com.umeng.update.UmengUpdateAgent;
-import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateResponse;
+import com.tencent.bugly.Bugly;
 
 /**
  * Created by yugy on 14-2-26.
@@ -45,9 +43,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        UmengUpdateAgent.setDefault();
-        UmengUpdateAgent.update(this);
-        UmengUpdateAgent.setUpdateOnlyWifi(false);
+        Bugly.init(getApplicationContext(), "3f4463a656", true);
         imei = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE))
                 .getDeviceId();
         initView();
@@ -86,12 +82,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     };
 
-    private UmengUpdateListener UpdateListener = new UmengUpdateListener() {
-        @Override
-        public void onUpdateReturned(int i, UpdateResponse updateResponse) {
-
-        }
-    };
 
     @Override
     public void onClick(View v) {

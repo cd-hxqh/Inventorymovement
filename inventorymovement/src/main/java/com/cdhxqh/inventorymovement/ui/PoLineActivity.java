@@ -151,11 +151,7 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
                     mSwipeLayout.setRefreshing(false);
                     mSwipeLayout.setLoading(false);
                     if (items == null || items.isEmpty()) {
-                        if (polineAdapter.getItemCount() != 0) {
-                            MessageUtils.showMiddleToast(PoLineActivity.this, getString(R.string.loading_data_fail));
-                        } else {
-                            notLinearLayout.setVisibility(View.VISIBLE);
-                        }
+                        notLinearLayout.setVisibility(View.VISIBLE);
                     } else {
                         if (page == 1) {
                             polineAdapter = new PolineAdapter(PoLineActivity.this);
@@ -167,7 +163,7 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
                     }
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    notLinearLayout.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -204,7 +200,6 @@ public class PoLineActivity extends BaseActivity implements SwipeRefreshLayout.O
                 @Override
                 protected void onPostExecute(String data) {
                     super.onPostExecute(data);
-                    Log.i(TAG, "data=" + data);
                     colseProgressBar();
                     try {
                         if (!data.equals("")) {

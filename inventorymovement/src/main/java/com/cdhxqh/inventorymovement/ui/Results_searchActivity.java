@@ -1,16 +1,10 @@
 package com.cdhxqh.inventorymovement.ui;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -147,13 +141,13 @@ public class Results_searchActivity extends BaseActivity implements SwipeRefresh
             mRecyclerView.setAdapter(itemreqAdapter);
             getItemreqList(search);
         } else if (search_mark == CHECK_MARK) {//库存盘点
-            invAdapter = new InvAdapter(Results_searchActivity.this, 1);
-            mRecyclerView.setAdapter(invAdapter);
-            getInvList(search, 1);
-        } else if (search_mark == INV_MARK) {//库存使用情况
             invAdapter = new InvAdapter(Results_searchActivity.this, 0);
             mRecyclerView.setAdapter(invAdapter);
             getInvList(search, 0);
+        } else if (search_mark == INV_MARK) {//库存使用情况
+            invAdapter = new InvAdapter(Results_searchActivity.this, 1);
+            mRecyclerView.setAdapter(invAdapter);
+            getInvList(search, 1);
         } else if (search_mark == LOCATION_MARK) {//库存转移
             locationsAdapter = new LocationsAdapter(Results_searchActivity.this, 0);
             mRecyclerView.setAdapter(locationsAdapter);
@@ -417,7 +411,7 @@ public class Results_searchActivity extends BaseActivity implements SwipeRefresh
     /**
      * 库存使用情况*
      */
-    private void getInvList(String search, final int mark) {
+    private void getInvList(String search,  final int mark) {
         ImManager.getData(Results_searchActivity.this, ImManager.searchInventoryUrl(search), new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
@@ -426,6 +420,7 @@ public class Results_searchActivity extends BaseActivity implements SwipeRefresh
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
+                Log.i(TAG, "data=" + results.getResultlist());
                 ArrayList<Inventory> items = null;
                 try {
                     items = Ig_Json_Model.parseInventoryFromString(results.getResultlist());
@@ -475,9 +470,9 @@ public class Results_searchActivity extends BaseActivity implements SwipeRefresh
         } else if (search_mark == WORKORDER_MARK) {//出库管理
             getWorkorderList(search);
         } else if (search_mark == CHECK_MARK) { //库存盘点
-            getInvList(search, 1);
-        } else if (search_mark == INV_MARK) { //库存使用情况
             getInvList(search, 0);
+        } else if (search_mark == INV_MARK) { //库存使用情况
+            getInvList(search, 1);
         } else if (search_mark == LOCATION_MARK) { //库存转移
             getLocationsList(search);
         } else if (search_mark == ITEMREQ_MARK) {//物资编码申请

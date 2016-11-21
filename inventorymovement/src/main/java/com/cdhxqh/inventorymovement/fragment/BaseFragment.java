@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.cdhxqh.inventorymovement.model.MemberModel;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
 import com.cdhxqh.inventorymovement.utils.AccountUtils;
-import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -45,13 +44,11 @@ public class BaseFragment extends Fragment implements AccountUtils.OnAccountList
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(this.toString());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(this.toString());
     }
 
     @Override

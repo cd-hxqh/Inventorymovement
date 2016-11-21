@@ -5,12 +5,7 @@ import android.util.Log;
 
 import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.constants.Constants;
-import com.cdhxqh.inventorymovement.model.Inventory;
-import com.cdhxqh.inventorymovement.model.Item;
 import com.cdhxqh.inventorymovement.model.Itemreq;
-import com.cdhxqh.inventorymovement.model.Itemreqline;
-import com.cdhxqh.inventorymovement.model.MemberModel;
-import com.cdhxqh.inventorymovement.utils.AccountUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,8 +91,9 @@ public class JsonUtils {
             String jsonString = json.getString("errcode");
             if (jsonString.equals(Constants.GETDATASUCCESS)) {
                 result = json.getString("result");
-                Log.i(TAG,"result="+result);
+                Log.i(TAG, "result=" + result);
                 results = new Results();
+                results.setCurpage(1);
                 results.setResultlist(result);
             }
 
@@ -110,14 +106,6 @@ public class JsonUtils {
         }
 
     }
-
-
-
-
-
-
-
-
 
 
     /**
@@ -155,10 +143,6 @@ public class JsonUtils {
         }
 
     }
-
-
-
-
 
 
 }

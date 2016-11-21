@@ -2,23 +2,16 @@ package com.cdhxqh.inventorymovement.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.api.HttpRequestHandler;
-import com.cdhxqh.inventorymovement.api.ImManager;
-import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Matrectrans;
-
-import java.util.ArrayList;
 
 /**
  * Created by think on 2015/12/12.
@@ -47,9 +40,6 @@ public class MatrectransActivity extends BaseActivity {
 
     public TextView tolotText; //目标批次
 
-    private ImageView tobinImageView;
-
-    private ImageView img;
 
     public Button confirm;//确定
 
@@ -68,18 +58,18 @@ public class MatrectransActivity extends BaseActivity {
     }
 
     /**
-     *获取界面数据
+     * 获取界面数据
      */
     private void geiIntentData() {
         matrectrans = (Matrectrans) getIntent().getSerializableExtra("matrectrans");
         location = getIntent().getStringExtra("location");
-        mark = getIntent().getIntExtra("mark",0);
+        mark = getIntent().getIntExtra("mark", 0);
     }
 
     /**
      * 初始化界面控件
      */
-    private void findViewById(){
+    private void findViewById() {
         titleTextView = (TextView) findViewById(R.id.drawer_text);
         backImage = (ImageView) findViewById(R.id.drawer_indicator);
 
@@ -95,13 +85,11 @@ public class MatrectransActivity extends BaseActivity {
         tostoreloc = (TextView) findViewById(R.id.matrectrans_tostoreloc);
         tostoreloclayout = (RelativeLayout) findViewById(R.id.tostoreloc_linearlayout_id);
         tobin = (TextView) findViewById(R.id.matrectrans_tobin);
-        tobinImageView = (ImageView) findViewById(R.id.matrectrans_tobin_choose);
         tobinlayout = (RelativeLayout) findViewById(R.id.tobin_linearlayout_id);
 
-        tolotText=(TextView)findViewById(R.id.matrectrans_tolot);
+        tolotText = (TextView) findViewById(R.id.matrectrans_tolot);
         confirm = (Button) findViewById(R.id.confirm_button_id);
 
-        img = (ImageView) findViewById(R.id.matrectrans_tostoreloc_img);
     }
 
     private void initView() {
@@ -113,14 +101,13 @@ public class MatrectransActivity extends BaseActivity {
             }
         });
 
-        if(mark == 1000){
+        if (mark == 1000) {
             tostoreloc.setText(matrectrans.fromstoreloc);
             matrectrans.tostoreloc = location;
-        }else if(mark == 1001){
+        } else if (mark == 1001) {
             tostoreloc_title.setText(R.string.matrectrans_fromstoreloc);
             tostoreloc.setText(matrectrans.tostoreloc);
             matrectrans.fromstoreloc = location;
-            img.setVisibility(View.GONE);
         }
         itemnum.setText(matrectrans.itemnum);
         description.setText(matrectrans.description);
@@ -135,25 +122,25 @@ public class MatrectransActivity extends BaseActivity {
         frombinlayout.setOnClickListener(frombinClicklistener);
         tostoreloclayout.setOnClickListener(tostorelocClicklistener);
 //        tobinlayout.setOnClickListener(tobinClicklisener);
-        tobinImageView.setOnClickListener(tobinClicklisener);
+        tostoreloc.setOnClickListener(tobinClicklisener);
     }
 
     private View.OnClickListener frombinClicklistener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(MatrectransActivity.this,BinChooseActivity.class);
-            intent.putExtra("location",location);
-            intent.putExtra("itemnum",matrectrans.getItemnum());
+            Intent intent = new Intent(MatrectransActivity.this, BinChooseActivity.class);
+            intent.putExtra("location", location);
+            intent.putExtra("itemnum", matrectrans.getItemnum());
             intent.putExtra("requestCode", 1);
-            intent.putExtra("mark",mark);
-            startActivityForResult(intent,1);
+            intent.putExtra("mark", mark);
+            startActivityForResult(intent, 1);
         }
     };
 
     private View.OnClickListener tostorelocClicklistener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(mark == 1000) {
+            if (mark == 1000) {
                 Intent intent = new Intent(MatrectransActivity.this, StorelocChooseActivity.class);
                 startActivityForResult(intent, 2);
             }
@@ -163,12 +150,12 @@ public class MatrectransActivity extends BaseActivity {
     private View.OnClickListener tobinClicklisener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(MatrectransActivity.this,BinChooseActivity.class);
-            intent.putExtra("location",tostoreloc.getText());
-            intent.putExtra("itemnum",matrectrans.getItemnum());
+            Intent intent = new Intent(MatrectransActivity.this, BinChooseActivity.class);
+            intent.putExtra("location", tostoreloc.getText());
+            intent.putExtra("itemnum", matrectrans.getItemnum());
             intent.putExtra("requestCode", 3);
-            intent.putExtra("mark",mark);
-            startActivityForResult(intent,3);
+            intent.putExtra("mark", mark);
+            startActivityForResult(intent, 3);
         }
     };
 
@@ -176,28 +163,28 @@ public class MatrectransActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             matrectrans.receiptquantity = receiptquantity.getText().toString();
-            if(mark == 1000){
+            if (mark == 1000) {
                 matrectrans.fromstoreloc = location;
-            }else if(mark == 1001){
+            } else if (mark == 1001) {
                 matrectrans.tostoreloc = location;
             }
-            if(receiptquantity.getText().toString().equals("")||receiptquantity.getText().toString()==null){
-                Toast.makeText(MatrectransActivity.this,"请输入数量",Toast.LENGTH_SHORT).show();
+            if (receiptquantity.getText().toString().equals("") || receiptquantity.getText().toString() == null) {
+                Toast.makeText(MatrectransActivity.this, "请输入数量", Toast.LENGTH_SHORT).show();
                 return;
-            }else if(Integer.parseInt(receiptquantity.getText().toString())>Integer.parseInt(curbaltotal.getText().toString())){
-                Toast.makeText(MatrectransActivity.this,"数量必须小于等于当前余量",Toast.LENGTH_SHORT).show();
+            } else if (Integer.parseInt(receiptquantity.getText().toString()) > Integer.parseInt(curbaltotal.getText().toString())) {
+                Toast.makeText(MatrectransActivity.this, "数量必须小于等于当前余量", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (frombin.getText().toString().equals("")||tostoreloc.getText().toString().equals("")
-                    ||tobin.getText().toString().equals("")){
-                Toast.makeText(MatrectransActivity.this,"请填写完整信息",Toast.LENGTH_SHORT).show();
+            if (frombin.getText().toString().equals("") || tostoreloc.getText().toString().equals("")
+                    || tobin.getText().toString().equals("")) {
+                Toast.makeText(MatrectransActivity.this, "请填写完整信息", Toast.LENGTH_SHORT).show();
                 return;
-            }else {
+            } else {
                 Intent intent = getIntent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("matrectrans",matrectrans);
+                bundle.putSerializable("matrectrans", matrectrans);
                 intent.putExtras(bundle);
-                setResult(2000,intent);
+                setResult(2000, intent);
                 finish();
             }
         }
@@ -205,7 +192,7 @@ public class MatrectransActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode){
+        switch (resultCode) {
             case 1:
                 String s = data.getStringExtra("binnum");
                 frombin.setText(s);

@@ -9,12 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cdhxqh.inventorymovement.R;
 import com.cdhxqh.inventorymovement.adapter.ItemreqLineAdapter;
@@ -25,6 +25,7 @@ import com.cdhxqh.inventorymovement.bean.Results;
 import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
 import com.cdhxqh.inventorymovement.ui.BaseActivity;
+import com.cdhxqh.inventorymovement.utils.MessageUtils;
 import com.cdhxqh.inventorymovement.wight.SwipeRefreshLayout;
 
 import org.json.JSONException;
@@ -102,6 +103,9 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
 
     private int page = 1;
 
+
+    private PopupWindow popupWindow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,9 +175,9 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
             recorderdescTextView.setText(itemreq.recorderdesc);
             recorderdateTextView.setText(itemreq.recorderdate);
 
-            if(itemreq.isfinish.equals("0")){
+            if (itemreq.isfinish.equals("0")) {
                 isfinishCheckBox.setChecked(false);
-            }else{
+            } else {
                 isfinishCheckBox.setChecked(true);
             }
         }
@@ -247,13 +251,12 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
                 R.layout.pop_window, null);
 
 
-        final PopupWindow popupWindow = new PopupWindow(contentView,
+        popupWindow = new PopupWindow(contentView,
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         genTextView = (TextView) contentView.findViewById(R.id.item_generate_id);
-        flowTextView = (TextView) contentView.findViewById(R.id.item_work_flow_id);
         genTextView.setOnClickListener(genTextViewOnClickListener);
-        flowTextView.setOnClickListener(flowTextViewOnClickListener);
         popupWindow.setTouchable(true);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.setTouchInterceptor(new View.OnTouchListener() {
 
@@ -263,13 +266,9 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
                 Log.i("mengdd", "onTouch : ");
 
                 return false;
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
             }
         });
 
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        // 我觉得这里是API的一个bug
         popupWindow.setBackgroundDrawable(getResources().getDrawable(
                 R.drawable.popup_background_mtrl_mult));
 
@@ -292,42 +291,38 @@ public class ItemreqDetailsActivity extends BaseActivity implements SwipeRefresh
 
 
     /**
-     * 工作流*
-     */
-    private View.OnClickListener flowTextViewOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-
-
-    /**
      * 生成物资编码*
      */
     private void genNumber() {
         new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... strings) {
-                String result = null;
                 String data = getBaseApplication().getWsService().INV08CreateItem(getBaseApplication().getUsername(),
                         itemreq.itemreqnum);
 
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    result = jsonObject.getString("msg");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return result;
+
+                return data;
             }
 
             @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
+            protected void onPostExecute(String data) {
+                super.onPostExecute(data);
                 mProgressDialog.cancel();
-                Toast.makeText(ItemreqDetailsActivity.this,s,Toast.LENGTH_SHORT).show();
-              Log.i(TAG,"s="+s);
+                popupWindow.dismiss();
+
+                try {
+                    if (!data.equals("")) {
+                        JSONObject jsonObject = new JSONObject(data);
+                        String result = jsonObject.getString("msg");
+                        MessageUtils.showMiddleToast(ItemreqDetailsActivity.this, result);
+                    } else {
+                        MessageUtils.showMiddleToast(ItemreqDetailsActivity.this, "失败");
+                    }
+                } catch (JSONException e) {
+                    MessageUtils.showMiddleToast(ItemreqDetailsActivity.this, "失败");
+                }
+
+
             }
         }.execute();
     }

@@ -1,21 +1,16 @@
 package com.cdhxqh.inventorymovement.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cdhxqh.inventorymovement.R;
-import com.cdhxqh.inventorymovement.model.Inventory;
-import com.cdhxqh.inventorymovement.model.Itemreq;
 import com.cdhxqh.inventorymovement.model.Itemreqline;
-import com.cdhxqh.inventorymovement.ui.detailsUi.ItemreqDetailsActivity;
 
 import java.util.ArrayList;
 
@@ -47,8 +42,6 @@ public class ItemreqLineAdapter extends RecyclerView.Adapter<ItemreqLineAdapter.
         viewHolder.itemNum.setText(itemreqline.itemnum);
         viewHolder.maternameTitle.setText(itemreqline.matername);
         viewHolder.xhText.setText(itemreqline.xh);
-
-
 
 
     }
@@ -83,7 +76,7 @@ public class ItemreqLineAdapter extends RecyclerView.Adapter<ItemreqLineAdapter.
         /**
          * CardView*
          */
-        public CardView cardView;
+        public LinearLayout cardView;
         /**
          * 物资编号*
          */
@@ -99,7 +92,7 @@ public class ItemreqLineAdapter extends RecyclerView.Adapter<ItemreqLineAdapter.
 
         public ViewHolder(View view) {
             super(view);
-            cardView = (CardView) view.findViewById(R.id.card_container);
+            cardView = (LinearLayout) view.findViewById(R.id.card_container);
 
             itemNum = (TextView) view.findViewById(R.id.itemreq_num_text);
             maternameTitle = (TextView) view.findViewById(R.id.itemreq_matername_text);
@@ -108,10 +101,10 @@ public class ItemreqLineAdapter extends RecyclerView.Adapter<ItemreqLineAdapter.
     }
 
 
-    public void adddate(ArrayList<Itemreqline> data){
-        if(data.size()>0){
-            for(int i = 0;i < data.size();i++){
-                if(!mItemreqlines.contains(data.get(i))){
+    public void adddate(ArrayList<Itemreqline> data) {
+        if (data.size() > 0) {
+            for (int i = 0; i < data.size(); i++) {
+                if (!mItemreqlines.contains(data.get(i))) {
                     mItemreqlines.add(data.get(i));
                 }
             }

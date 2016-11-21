@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private void setEvent() {
         drawerArrowDrawable = new DrawerArrowDrawable(resources);
         drawerArrowDrawable.setStrokeColor(resources
-                .getColor(R.color.light_gray));
+                .getColor(R.color.white));
         imageView.setImageDrawable(drawerArrowDrawable);
 
         drawer.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
@@ -288,7 +288,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 drawer.closeDrawer(mDrawerList);
                 break;
 
-            case 8: //退出登陆
+            case 7: //退出登陆
                 showAlertDialog();
                 searchButton.setVisibility(View.GONE);
                 drawer.closeDrawer(mDrawerList);
